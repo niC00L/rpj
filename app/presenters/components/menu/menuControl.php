@@ -12,13 +12,13 @@ class MenuControl extends Control {
 	public function __construct(\Nette\Database\Context $database) {
 		parent::__construct();
 		$this->database = $database;
-	}
+	} 
 	
 	public function render() {
 		$template = $this->template;
 		$template->setFile(__DIR__ . '/menuDefault.latte');
-		$pages = $this->database->table('pages');
-		$categories = $this->database->table('pages_category');
+		$this->template->pages = $this->database->table('pages');
+		$this->template->categories = $this->database->table('pages_category');
 		$template->render();
 	}
 

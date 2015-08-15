@@ -11,7 +11,7 @@ use Nette,
 abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
 	/** @var Nette\Database\Context */
-	private $database;
+	protected $database;
 
 	public function __construct(\Nette\Database\Context $database) {
 		parent::__construct();

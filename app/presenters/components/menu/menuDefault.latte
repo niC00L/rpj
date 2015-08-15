@@ -4,9 +4,10 @@
 	<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
 		<ul class="right hide-on-med-and-down">						
 			<li><a href="{plink Homepage:}">Home</a></li>
-			{foreach $pages as $page}
-			<li><a href="{plink Post:show $page->address}">{$page->title}</a></li>
-			{/foreach}
+				{foreach $pages as $page}
+					{breakIf $iterator->getCounter() == 3}
+				<li><a href="{plink Post:show $page->address}">{$page->title}</a></li>
+				{/foreach}
 			<li><a href="{plink Post:createPost}" n:if="$user->loggedIn">Novy prispevok</a></li>
 				{if $user->loggedIn}
 				<li><a href="{plink Sign:out}">Odhlásit</a></li>
