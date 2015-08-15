@@ -1,30 +1,45 @@
 {**
  * @param string   $basePath web base path
  * @param array    $flashes  flash messages
- *}
+*}
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
+	<head>
+		<meta charset="utf-8">
+		<title>{ifset title}{include title|striptags} | {/ifset}Rainbow dust</title>		
+		<link rel="shortcut icon" href="{$basePath}/favicon.ico">		
 
-	<title>{ifset title}{include title|striptags} | {/ifset}Nette Sandbox</title>
+		<!--Styles-->
+		<link rel="stylesheet" href="{$basePath}/css/materialize.css">
+		<link rel="stylesheet" href="{$basePath}/css/main.css">
 
-	<link rel="stylesheet" href="{$basePath}/css/style.css">
-	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
-	<meta name="viewport" content="width=device-width">
-	{block head}{/block}
-</head>
+		<link rel="stylesheet" href="{$basePath}/css/style.css">
+		<link rel="stylesheet" href="{$basePath}/css/tickets.css">
 
-<body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-	{include content}
+		{block head}{/block}
+	</head>
 
-	{block scripts}
-	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-	<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
-	<script src="{$basePath}/js/main.js"></script>
-	{/block}
-</body>
+	<body>
+		{control menu}
+		
+		<i class="material-icons dp48">info_outline</i>
+		<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>	
+
+		<div class="container">
+			{include content}
+		</div>
+
+		{block scripts}
+		<script src="//code.jquery.com/jquery-latest.min.js"></script>		
+		<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
+		<script src="{$basePath}/js/materialize/bin/materialize.min.js"></script>
+
+		<script src="{$basePath}/js/main.js"></script>
+		<script src="{$basePath}/js/tickets.js"></script>
+		{/block}		
+
+	</body>
 </html>

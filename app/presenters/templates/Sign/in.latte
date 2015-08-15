@@ -1,6 +1,25 @@
 {block content}
 <h1 n:block=title>Sign in</h1>
 
-{control signInForm}
+{form signInForm}	
+	<div class="row">
+		<div class="input-field col s12">
+			<label for="username">Meno</label>
+			{input username}
+		</div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12">
+			<label for="password">Heslo</label>
+			{input password}
+		</div>
+		<p>
+			<label for="remember">Zapamatat prihlasenie</label>
+			{input remember}
+		</p>
+		<div class="input-field">
+			{input send}
+		</div>
+	{/form}
 
-{* or use {include '../components/form.latte', form => signInForm} *}
+	{* or use {include '../components/form.latte', form => signInForm} *}
