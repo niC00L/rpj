@@ -9,13 +9,13 @@ class PostPresenter extends BasePresenter {
 
 	public function renderShow($address) {
 		$this->template->setFile( __DIR__ . '/templates/Post/showPost.latte'); 
-		$post = $this->template->post = $this->database->table('pages')->where('address',$address)->fetch();
+		$post = $this->template->post = $this->database->table('page')->where('address',$address)->fetch();
 		$this['postForm']->setDefaults($post->toArray());
 	}
 
 	public function renderCategory() {
 		$this->template->setFile( __DIR__ . '/templates/Post/showCategory.latte'); 
-		$category = $this->template->category = $this->database->table('pages_category')->where('address',$address)->fetch();
+		$category = $this->template->category = $this->database->table('page_ctg')->where('address',$address)->fetch();
 	}
 
 	protected function createComponentPostForm() {
@@ -39,13 +39,13 @@ class PostPresenter extends BasePresenter {
 
 	public function postFormSucceeded($form, $values) {
 		$address = $this->getParameter('address');
-		$postId = $this->database->table('pages')->where('address',$address)->fetch()->id;
+		$postId = $this->database->table('page')->where('address',$address)->fetch()->id;
 		
 		if ($postId) {
-			$post = $this->database->table('pages')->get($postId);
+			$post = $this->database->table('page')->get($postId);
 			$post->update($values);
 		} else {
-			$post = $this->database->table('pages')->insert($values);
+			$post = $this->database->table('page')->insert($values);
 		}
 
 		$this->flashMessage('Uspesne publikovane.', 'success');
