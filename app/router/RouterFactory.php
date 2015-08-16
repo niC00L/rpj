@@ -21,6 +21,7 @@ class RouterFactory
 	{
 		$router = new RouteList();
 		$router[] = new Route('<address>', 'Post:show');
+		$router[] = new Route('category/<address>', 'Post:category');
 		$router[] = new Route('<presenter>/<action>', 'Homepage:default');
 		return $router;
 	}
