@@ -3,28 +3,23 @@
 <nav class="light-blue lighten-1" role="navigation">
 	<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
 		<ul class="right hide-on-med-and-down">						
-			<li><a href="{plink Homepage:}">Home</a></li>
-				{foreach $pages as $page}
-					{breakIf $iterator->getCounter() == 3}
-				<li><a href="{plink Post:show $page->address}">{$page->title}</a></li>
-				{/foreach}
-			<li><a href="{plink Post:createPost}" n:if="$user->loggedIn">Novy prispevok</a></li>
-				{if $user->loggedIn}
-				<li><a href="{plink Sign:out}">Odhlásit</a></li>
-				{else}
-				<li><a href="{plink Sign:in}">Přihlásit</a></li>
-				{/if}
-		</ul>
+			{foreach $links as $link}
 
-		<ul id="nav-mobile" class="side-nav">
-			<li><a href="{plink Homepage:}">Home</a></li>
-			<li><a href="{plink Post:create}" n:if="$user->loggedIn">Novy prispevok</a></li>
-				{if $user->loggedIn}
-				<li><a href="{plink Sign:out}">Odhlásit</a></li>
-				{else}
-				<li><a href="{plink Sign:in}">Přihlásit</a></li>
-				{/if}
+				{if $link->type == 'Homepage'}
+					<li><a class="{$link->class}" href="{plink Homepage:}">{$link->title}</a></li>
+
+				{elseif $link->type == 'Post'}
+					<li><a  class="{$link->class}"href="{plink $link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
+
+				{elseif $link->type == 'Sign'}
+					{if $user->loggedIn}
+						<li><a class="{$link->class}" href="{plink Sign:out}">Odhlásit</a></li>
+						{else}
+						<li><a class="{$link->class}" href="{plink Sign:in}">Prihlásit</a></li>
+						{/if}					
+					{/if}
+
+			{/foreach}
 		</ul>
-		<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 	</div>
 </nav>

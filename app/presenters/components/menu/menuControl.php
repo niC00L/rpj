@@ -17,8 +17,7 @@ class MenuControl extends Control {
 	public function render() {
 		$template = $this->template;
 		$template->setFile(__DIR__ . '/menuDefault.latte');
-		$this->template->pages = $this->database->table('pages');
-		$this->template->categories = $this->database->table('pages_category');
+		$this->template->links = $this->database->table('ctrl_menu')->order('order');
 		$template->render();
 	}
 
