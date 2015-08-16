@@ -1,40 +1,11 @@
 {block content}
 
-<p><a n:href="Homepage:default"> Spat </a></p>
+<h1> {$category->name} </h1>
+<p> {$category->description} </p>	
 
-{if $user->loggedIn}
-	{form postForm}	
-		<div class="row">
-			<div class="input-field col s12">
-				<label for="address">Adresa</label>
-				{input address}
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12">
-				<label for="title">Titulok</label>
-				{input title}
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12">
-				<label for="text">Text</label>
-				{input text}
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field">
-				{input send}
-			</div>
-		</div>
-	{/form}
+{foreach $posts as $post}
+	<a n:href="Post:show $post->address"><h2>{$post->title}</h2></a>
+	<blockquote>{$post->description}</blockquote>
+{/foreach}
 
-{else}
-	<h1> {$page->title} </h1>
-	<p> {$page->text} </p>	
-{/if}
-
-
-<strong> {$page->create_date}</strong>
-
-<!--<a n:href="Post:edit $page->id" n:if="$user->loggedIn">Upravit</a>-->
+{/block}

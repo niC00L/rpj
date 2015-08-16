@@ -13,9 +13,12 @@ class PostPresenter extends BasePresenter {
 		$this['postForm']->setDefaults($post->toArray());
 	}
 
-	public function renderCategory() {
+	public function renderCategory($address) {
 		$this->template->setFile( __DIR__ . '/templates/Post/showCategory.latte'); 
 		$category = $this->template->category = $this->database->table('page_ctg')->where('address',$address)->fetch();
+		$ctg_id = $postId = $this->database->table('page_ctg')->fetch()->id;
+		$posts = $this->template->posts = $this->database->table('page')->where('ctg_id', $ctg_id)->fetchAll();
+//		dump($posts);
 	}
 
 	protected function createComponentPostForm() {
