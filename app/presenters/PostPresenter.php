@@ -16,8 +16,9 @@ class PostPresenter extends BasePresenter {
 	public function renderCategory($address) {
 		$this->template->setFile(__DIR__ . '/templates/Post/showCategory.latte');
 		$category = $this->template->category = $this->database->table('page_ctg')->where('address', $address)->fetch();
-		$ctg_id = $postId = $this->database->table('page_ctg')->fetch()->id;
-		$posts = $this->template->posts = $this->database->table('page')->where('ctg_id', $ctg_id)->fetchAll();
+		$ctg_id = $this->database->table('page_ctg')->where('address', $address)->fetch()->id;
+		$page_id = $this->database->table('page_ctg_sort')->group('page_id')->having($ctg_id)->where('ctg_id', $ctg_id)->fetchAll();
+		$posts = $this->template->posts = $this->database->table('page')->where('id', $page_id)->fetchAll();
 		$this['postForm']->setDefaults($category->toArray());
 	}
 
