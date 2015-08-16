@@ -14,12 +14,11 @@
 			{input password}
 		</div>
 		<p>
-			<label for="remember">Zapamatat prihlasenie</label>
-			{input remember}
-		</p>
-		<div class="input-field">
-			{input send}
-		</div>
+		{!$form['remember']->getControlPart().$form['remember']->getLabelPart()}
+	</p>
+	<div class="input-field">
+		{input send}
+	</div>
 	{/form}
 
-	{* or use {include '../components/form.latte', form => signInForm} *}
+		{* or use {include '../components/form.latte', form => signInForm} *}
