@@ -1,0 +1,12 @@
+{* Latte template *}
+
+{block content}
+{control menuForm}
+
+<script>
+    $(function () {
+        $('#frm-menuForm-type').change(function () {
+            console.log($(this).val());
+        });
+    });
+</script>
