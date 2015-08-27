@@ -5,41 +5,55 @@
 
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>{ifset title}{include title|striptags} | {/ifset}Rainbow dust</title>		
-		<link rel="shortcut icon" href="{$basePath}/favicon.ico">		
+    <head>
+        <meta charset="utf-8">
+        <title>{ifset title}{include title|striptags} | {/ifset}Rainbow dust</title>		
+        <link rel="shortcut icon" href="{$basePath}/favicon.ico">		
 
-		<!--Styles-->
-		<link rel="stylesheet" href="{$basePath}/css/materialize.css">
-		<link rel="stylesheet" href="{$basePath}/css/main.css">
+        <!--Styles-->
+        <link rel="stylesheet" href="{$basePath}/css/materialize.css">
+        <link rel="stylesheet" href="{$basePath}/css/main.css">
 
-		<link rel="stylesheet" href="{$basePath}/css/style.css">
-		<link rel="stylesheet" href="{$basePath}/css/tickets.css">
+        <link rel="stylesheet" href="{$basePath}/css/style.css">
+        <link rel="stylesheet" href="{$basePath}/css/tickets.css">
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script src="//code.jquery.com/jquery-latest.min.js"></script>	
 
-		{block head}{/block}
-	</head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-	<body>
-		{control menu}
-		
-		<i class="material-icons dp48">info_outline</i>
-		<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>	
+        <style>
+            [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+                position: relative;
+                left: 0;
+                visibility: visible;
+            }
+        </style>
 
-		<div class="container">
-			{include content}
-		</div>
+        {block head}{/block}
+    </head>
 
-		{block scripts}
-		<script src="//code.jquery.com/jquery-latest.min.js"></script>		
-		<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
-		<script src="{$basePath}/js/materialize/bin/materialize.min.js"></script>
+    <body>
+        {control menu}
 
-		<script src="{$basePath}/js/main.js"></script>
-		<script src="{$basePath}/js/tickets.js"></script>
-		{/block}		
+        <i class="material-icons dp48">info_outline</i>
+        {foreach $flashes as $flash}
+            <script>
+                $(function () {
+                    Materialize.toast({$flash->message}, 4000)
+                });
+            </script>
+        {/foreach}
+        <div class="container">                  
+            {include content}
+        </div>
 
-	</body>
+        {block scripts}
+        <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
+        <script src="{$basePath}/js/materialize/bin/materialize.min.js"></script>
+
+        <script src="{$basePath}/js/main.js"></script>
+        <script src="{$basePath}/js/tickets.js"></script>
+        {/block}		
+
+    </body>
 </html>

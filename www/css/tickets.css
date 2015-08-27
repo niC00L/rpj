@@ -1,6 +1,7 @@
 #tickets {
 	display: inline-block;
-	width: 190px;
+	width: 220px;
+	min-height:75px;
 	padding-left: 15px;
 	padding-top: 10px;
 	padding-right: 15px;
