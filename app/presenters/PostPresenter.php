@@ -10,20 +10,32 @@ class PostPresenter extends BasePresenter {
     public function renderShow($address) {
         $this->template->setFile(__DIR__ . '/templates/Post/showPost.latte');
 
-        $post = $this->template->post = $this->database->table('page')->where('address', $address)->fetch();
-        $this['postForm']->setDefaults($post->toArray());
+        $post = $this->template->post = $this->database->table('post')->where('address', $address)->where('status', 1)->fetch();
+        if (!$post) {
+            $this->flashMessage('Prispevok bol odstraneny', 'danger');
+            $this->redirect('Homepage:');
+        } else {
+            $this['postForm']->setDefaults($post->toArray());
+            $this['postFormDelete']->setDefaults($post->toArray());
+        }
     }
 
     public function renderCategory($address) {
         $this->template->setFile(__DIR__ . '/templates/Post/showCategory.latte');
 
-        $category = $this->template->category = $this->database->table('page_ctg')->where('address', $address)->fetch();
-        $ctg_id = $this->database->table('page_ctg')->where('address', $address)->fetch()->id;
+        $category = $this->template->category = $this->database->table('post_ctg')->where('address', $address)->fetch();
+        $ctg_id = $this->database->table('post_ctg')->where('address', $address)->where('status', 1)->fetch();
+        if (!$ctg_id) {
+            $this->flashMessage('Kategoria bola odstranena', 'danger');
+            $this->redirect('Homepage:');
+        } else {
 
-        $page_id = $this->database->table('page_ctg_sort')->where('ctg_id', $ctg_id)->select('page_id');
-        $posts = $this->template->posts = $this->database->table('page')->where('id', $page_id)->fetchAll();
+            $post_id = $this->database->table('post_ctg_sort')->where('ctg_id', $ctg_id)->select('post_id');
+            $posts = $this->template->posts = $this->database->table('post')->where('id', $post_id)->fetchAll();
 
-        $this['postForm']->setDefaults($category->toArray());
+            $this['postForm']->setDefaults($category->toArray());
+            $this['postFormDelete']->setDefaults($category->toArray());
+        }
     }
 
     protected function createComponentPostForm() {
@@ -31,13 +43,13 @@ class PostPresenter extends BasePresenter {
 //	ak sa zobrazuje clanok vyberie sa ktore checkboxy maju byt zaskrtnute
         if ($this->getAction() == 'show') {
             $address = $this->getParameter('address');
-            $id = $this->database->table('page')->where('address', $address)->fetch()->id;            
+            $id = $this->database->table('post')->where('address', $address)->where('status', 1)->fetch()->id;
 
-            $ctgs_in = $this->database->table('page_ctg_sort')->where('page_id', $id);            
+            $ctgs_in = $this->database->table('post_ctg_sort')->where('post_id', $id);
         }
-        
+
 //      vyberu sa vsetky checkboxy
-        $ctgs = $this->database->table('page_ctg')->fetchAll();
+        $ctgs = $this->database->table('post_ctg')->where('status', 1)->fetchAll();
 
 //        vytvori sa formular
         $form = new Form;
@@ -71,11 +83,21 @@ class PostPresenter extends BasePresenter {
         $form->onSuccess[] = array($this, 'postFormSucceeded');
         return $form;
     }
+    
+    protected function createComponentPostFormDelete() {
+        $form = new Form;
+        $form->addHidden('id', 'Id:');
+        $form->addSubmit('delete', 'Delete')
+                ->setAttribute('class', 'btn');
+
+        $form->onSuccess[] = array($this, 'postFormDeleteSucceeded');
+        return $form;
+    }
 
     public function postFormSucceeded($form, $values) {
         $address = $this->getParameter('address');
 
-//	Vyradi checkboxy z values aby sa nezapisovali do tabulky pages
+//	Vyradi checkboxy z values aby sa nezapisovali do tabulky post
         $ctg_sort = array();
         foreach ($values as $key => $value) {
             if (Nette\Utils\Strings::startsWith($key, 'category_')) {
@@ -91,33 +113,32 @@ class PostPresenter extends BasePresenter {
 
         if ($address) {
             if ($this->getAction() == 'show') {
-                $table = 'page';
+                $table = 'post';
             } elseif ($this->getAction() == 'category') {
-                $table = 'page_ctg';
+                $table = 'post_ctg';
             }
 
             $id = $this->database->table($table)->where('address', $address)->fetch()->id;
 
 //	zapisanie/pridanie obsahu stranky
-            $post = $this->database->table($table)->get($id);
-            $post->update($values);
+            $this->database->table($table)->get($id)->update($values);
         } else {
             if ($this->getAction() == 'createPost') {
-                $table = 'page';
+                $table = 'post';
             } elseif ($this->getAction() == 'createCategory') {
-                $table = 'page_ctg';
+                $table = 'post_ctg';
             }
-            $post = $this->database->table($table)->insert($values);
+            $this->database->table($table)->insert($values);
         }
 
 //	zapisanie clankov v kategoriach do spolocnej tabulky
         if ($this->getAction() == 'show') {
-            $this->database->table('page_ctg_sort')->where('page_id', $id)->delete();
-        }                
-        
+            $this->database->table('post_ctg_sort')->where('post_id', $id)->delete();
+        }
+
         foreach ($ctg_sort as $ctg_id) {
-            $this->database->table('page_ctg_sort')->insert(array(
-                'page_id' => $post['id'],
+            $this->database->table('post_ctg_sort')->insert(array(
+                'post_id' => $post['id'],
                 'ctg_id' => $ctg_id
             ));
         }
@@ -125,6 +146,24 @@ class PostPresenter extends BasePresenter {
 
         $this->flashMessage('Uspesne publikovane.', 'success');
         $this->redirect('this', ['address' => $values['address']]);
+    }
+    
+    public function postFormDeleteSucceeded($form, $values) {
+        $id = $values['id'];
+
+        if ($this->getAction() == 'show') {
+            $address = $this->database->table('post')->where('id',$id)->fetch()->address;
+            $this->database->table('post')->where('id',$id)->update(array('status'=> 0));
+        }
+        elseif ($this->getAction() == 'category') {
+            $address = $this->database->table('post_ctg')->where('id',$id)->fetch()->address;
+            $this->database->table('post_ctg')->where('id', $id)->update(array('status'=> 0));
+        }
+        
+        $this->database->table('ctrl_menu')->where('address',$address)->delete();
+        
+        $this->flashMessage('Prispevok odstraneny.', 'success');
+        $this->redirect('Homepage:');
     }
 
 }
