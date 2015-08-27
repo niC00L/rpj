@@ -4,12 +4,13 @@
 	<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
 		<ul class="right hide-on-med-and-down">						
 			{foreach $links as $link}
-
+                            
 				{if $link->type == 'Homepage'}
-					<li><a class="{$link->class}" href="{plink Homepage:}">{$link->title}</a></li>
+					<li><a class="{$link->class}" href="{plink Homepage: }">{$link->title}</a></li>
 
-				{elseif $link->type == 'Post'}
-					<li><a  class="{$link->class}"href="{plink $link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
+                                        
+				{elseif Nette\Utils\Strings::startsWith($link->type, 'Post')}
+					<li><a  class="{$link->class}"href="{plink $link->type $link->address}">{$link->title}</a></li>					
 
 				{elseif $link->type == 'Sign'}
 					{if $user->loggedIn}
