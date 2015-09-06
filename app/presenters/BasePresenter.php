@@ -28,7 +28,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	}
 
 	public function createComponentMenu() {
-		return new Components\Menu\MenuControl($this->database);
+		return new \App\Components\Menu\MenuControl($this->database);
 	}
 
 	public function beforeRender() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenters\Components\Menu;
+namespace App\Components\Menu;
 
 use Nette\Application\UI\Control;
 

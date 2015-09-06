@@ -8,8 +8,7 @@ use Nette,
 class PostPresenter extends BasePresenter {
 
     public function renderShow($address) {
-        $this->template->setFile(__DIR__ . '/templates/Post/showPost.latte');
-
+        $this->setView('post');
         $post = $this->template->post = $this->database->table('post')->where('address', $address)->where('status', 1)->fetch();
         if (!$post) {
             $this->flashMessage('Prispevok bol odstraneny', 'danger');
@@ -21,7 +20,7 @@ class PostPresenter extends BasePresenter {
     }
 
     public function renderCategory($address) {
-        $this->template->setFile(__DIR__ . '/templates/Post/showCategory.latte');
+//        $this->template->setFile(__DIR__ . '/templates/Post/showCategory.latte');
 
         $category = $this->template->category = $this->database->table('post_ctg')->where('address', $address)->fetch();
         $ctg_id = $this->database->table('post_ctg')->where('address', $address)->where('status', 1)->fetch();

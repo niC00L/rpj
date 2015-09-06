@@ -1,0 +1,14 @@
+{* Latte template *}
+
+{block content}
+{control menuForm}
+
+<script type="text/javascript">
+    $(function() {
+        var posts = [ {foreach $posts as $post} {/foreach} ];
+        $("#frm-menuForm-address").autocomplete({
+            source: availableTags,
+            delay: 0
+        });
+    });
+    </script>

@@ -1,0 +1,67 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+*}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{ifset title}{include title|striptags} | {/ifset}Rainbow dust</title>		
+        <link rel="shortcut icon" href="{$basePath}/favicon.ico">		
+
+        <!--Styles-->
+        <link rel="stylesheet" href="{$basePath}/css/materialize.css">
+        <link rel="stylesheet" href="{$basePath}/css/main.css">
+
+        <link rel="stylesheet" href="{$basePath}/css/style.css">
+        <link rel="stylesheet" href="{$basePath}/css/tickets.css">
+
+        <!--autocomplete-->
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
+       
+        <script src="//code.jquery.com/jquery-latest.min.js"></script>	        
+        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <style>
+            [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+                position: relative;
+                left: 0;
+                visibility: visible;
+            }
+
+            .ui-autocomplete-loading {
+                background: white ;
+            }
+        </style>
+
+        {block head}{/block}
+    </head>
+
+    <body>
+        {control menu}
+
+        <i class="material-icons dp48">info_outline</i>
+        {foreach $flashes as $flash}
+            <script>
+                $(function () {
+                    Materialize.toast({$flash->message}, 4000)
+                });
+            </script>
+        {/foreach}
+        <div class="container">                  
+            {include content}
+        </div>
+
+        {block scripts}
+        <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
+        <script src="{$basePath}/js/materialize/bin/materialize.min.js"></script>
+
+        <script src="{$basePath}/js/main.js"></script>
+        <script src="{$basePath}/js/tickets.js"></script>
+        {/block}		
+
+    </body>
+</html>

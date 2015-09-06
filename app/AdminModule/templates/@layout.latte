@@ -17,7 +17,11 @@
         <link rel="stylesheet" href="{$basePath}/css/style.css">
         <link rel="stylesheet" href="{$basePath}/css/tickets.css">
 
-        <script src="//code.jquery.com/jquery-latest.min.js"></script>	
+        <!--autocomplete-->
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
+
+        <script src="//code.jquery.com/jquery-latest.min.js"></script>	        
+        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -27,13 +31,27 @@
                 left: 0;
                 visibility: visible;
             }
+
+            .ui-autocomplete-loading {
+                background: white ;
+            }
         </style>
 
         {block head}{/block}
     </head>
 
     <body>
-        {control menu}
+        <nav class="light-blue lighten-1" role="navigation">
+            <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+                <ul class="right hide-on-med-and-down">						
+                    <li><a n:href="Admin:">Administracia</a></li>
+                    <li><a n:href="Menu:addToMenu">Sprava menu</a></li>
+                    <li><a n:href=":Homepage:">Spat na stranku</a></li>
+                </ul>
+            </div>
+        </nav>
+                
+        {block content}        
 
         <i class="material-icons dp48">info_outline</i>
         {foreach $flashes as $flash}

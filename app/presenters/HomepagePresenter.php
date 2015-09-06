@@ -1,15 +1,15 @@
 <?php
-	namespace App\Presenters;
 
-	use Nette,
-		App\Model;
+namespace App\Presenters;
 
-	
-	class HomepagePresenter extends BasePresenter {
+use Nette,
+    App\Model;
 
-		public function renderDefault() {
-		$this->template->pages = $this->database->table('pages')
-			->order('create_date DESC');
-		}
-	}
+class HomepagePresenter extends BasePresenter {
 
+    public function renderDefault() {
+        $this->template->pages = $this->database->table('pages')
+                ->order('create_date DESC');
+    }
+
+}

@@ -3,28 +3,30 @@
 namespace App;
 
 use Nette,
-	Nette\Application\Routers\RouteList,
-	Nette\Application\Routers\Route,
-	Nette\Application\Routers\SimpleRouter;
-
+    Nette\Application\Routers\RouteList,
+    Nette\Application\Routers\Route,
+    Nette\Application\Routers\SimpleRouter;
 
 /**
  * Router factory.
  */
-class RouterFactory
-{
+class RouterFactory {
 
-	/**
-	 * @return \Nette\Application\IRouter
-	 */
-	public static function createRouter()
-	{
-		$router = new RouteList();
-		$router[] = new Route('<address>', 'Post:show');
-		$router[] = new Route('category/<address>', 'Post:category');
-		$router[] = new Route('<presenter>/<action>', 'Homepage:default');
-		return $router;
-	}
+    /**
+     * @return \Nette\Application\IRouter
+     */
+    public static function createRouter() {
+        $router = new RouteList();
+        $router[] = new Route('admin/<presenter>/<action>', array(
+            'module' => 'Admin',
+            'presenter' => 'Admin',
+            'action' => 'default'
+        ));
+        $router[] = new Route('<address>', 'Post:show');
+        $router[] = new Route('category/<address>', 'Post:category');
+        $router[] = new Route('<presenter>/<action>', 'Homepage:default');
+        return $router;
+    }
 
 }
 
