@@ -9,8 +9,8 @@
                     <li><a class="{$link->class}" href="{plink Homepage: }">{$link->title}</a></li>
 
 
-                {elseif Nette\Utils\Strings::startsWith($link->type, 'Post')}
-                    <li><a  class="{$link->class}"href="{plink $link->type $link->address}">{$link->title}</a></li>					
+                {elseif $link->type == 'Post'}
+                    <li><a  class="{$link->class}"href="{plink $link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
 
                 {elseif $link->type == 'Sign'}
                     {if $user->loggedIn}

@@ -3,68 +3,97 @@
 namespace App\AdminModule\Presenters;
 
 use Nette,
-    Nette\Application\UI\Form;
+    Nette\Application\UI\Form,
+    Nette\Application\UI\Multiplier;
 
 class MenuPresenter extends AdminPresenter {
 
-    public function renderEditMenu() {
-//        $this->template->setFile(__DIR__ . '/templates/editMenu.latte'); 
-        $menu = $this->template->menu = $this->database->table('ctrl_menu')->order('order')->fetchAll();
-//        premenne pre autocomplete
-        $this->template->posts = $this->database->table('post')->select('address, title')->fetchAll();
-        $this->template->post_ctgs = $this->database->table('post_ctg')->select('address, title')->fetchAll();
+    public $address;
 
-        $this['menuForm']->setDefaults($menu);
-        $this['menuFormDelete']->setDefaults($menu);
+    public function startup() {
+        parent::startup();
+
+//        premenne pre templaty
+        $posts = $this->template->posts = $this->database->table('post')->fetchPairs('address', 'title');
+        $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->fetchPairs('address', 'title');
+
+//        premenne pre select
+        $this->address = array_merge($posts, $post_ctgs);
+    }
+
+    public function renderEditMenu() {
+        $menu = $this->template->menu = $this->database->table('ctrl_menu')->order('order')->fetchAll();
+        $menuItems = array();
+        foreach ($menu as $values) {
+            $menuItem = $values->toArray();
+            if ($menuItem['action']) {
+                $menuItem['type'] = $menuItem['type'] . '_' . $menuItem['action'];
+                unset($menuItem['action']);
+            }
+            $menuItems[] = $menuItem;
+        }
+        foreach ($menuItems as $formValue) {
+            $this['menuForm'][$formValue['id']]->setDefaults($formValue);
+            $this['menuFormDelete'][$formValue['id']]->setDefaults($formValue);
+        }
     }
 
     public function renderAddToMenu() {
-//        $this->template->setFile('../../templates/Admin/addToMenu.latte');
-//        premenne pre autocomplete
-        $this->template->posts = $this->database->table('post')->select('address, title')->fetchAll();
-        $this->template->post_ctgs = $this->database->table('post_ctg')->select('address, title')->fetchAll();
+        
     }
 
     protected function createComponentMenuForm() {
-        $form = new Form;
+        return new Multiplier(function ($itemId) {
+            $type = array(
+                'Homepage' => 'Domov',
+                'Post_show' => 'Clanok',
+                'Post_category' => 'Kategoria clankov',
+                'Sign' => 'Prihlasenie/Odhlasenie'
+            );
 
-        $type = array(
-            'Homepage' => 'Domov',
-            'Post:show' => 'Clanok',
-            'Post:category' => 'Kategoria clankov',
-            'Sign' => 'Prihlasenie/Odhlasenie'
-        );
+            $form = new Form;
+            $form->addHidden('id', 'Id:');
+            $form->addText('order', 'Poradie:')
+                    ->setRequired();
+            $form->addSelect('type', 'Typ:', $type)
+                    ->setAttribute('class', 'browser-default')
+                    ->setPrompt('Zvolte typ')
+                    ->setRequired();
+            $form->addSelect('address', 'Clanok:', $this->address)
+                    ->setPrompt('Vyberte')
+                    ->setAttribute('class', 'browser-default');
+            $form->addText('title', 'Titulok:')
+                    ->setRequired();
+            $form->addText('class', 'Class:');
+            $form->addSubmit('send', 'Uložit a publikovat')
+                    ->setAttribute('class', 'btn');
 
-        $form->addHidden('id', 'Id:');
-        $form->addText('order', 'Poradie:')
-                ->setRequired();
-        $form->addSelect('type', 'Typ:', $type)
-                ->setAttribute('class', 'browser-default')
-                ->setPrompt('Zvolte typ')
-                ->setRequired();
-        $form->addText('address','Clanok:');
-        $form->addText('title', 'Titulok:')
-                ->setRequired();
-        $form->addText('class', 'Class:');
-        $form->addSubmit('send', 'Uložit a publikovat')
-                ->setAttribute('class', 'btn');
-
-        $form->onSuccess[] = array($this, 'menuFormSucceeded');
-        return $form;
+            $form->onSuccess[] = array($this, 'menuFormSucceeded');
+            return $form;
+        });
     }
 
     protected function createComponentMenuFormDelete() {
-        $form = new Form;
-        $form->addHidden('id', 'Id:');
-        $form->addSubmit('delete', 'Odstranit')
-                ->setAttribute('class', 'btn');
-        $form->onSuccess[] = array($this, 'menuFormDeleteSucceeded');
-        return $form;
+        return new Multiplier(function ($itemId) {
+            $form = new Form;
+            $form->addHidden('id', 'Id:');
+            $form->addSubmit('delete', 'Odstranit')
+                    ->setAttribute('class', 'btn');
+            $form->onSuccess[] = array($this, 'menuFormDeleteSucceeded');
+            return $form;
+        });
     }
 
     public function menuFormSucceeded($form, $values) {
         $id = $values['id'];
         unset($values['id']);
+
+        $type = explode("_", $values['type']);
+        unset($values['type']);
+        $values['type'] = $type[0];
+        if (count($type)>1) {
+            $values['action'] = $type[1];
+        }
 
         if ($this->getAction() == 'editMenu') {
             $this->database->table('ctrl_menu')->where('id', $id)->update($values);
@@ -81,7 +110,7 @@ class MenuPresenter extends AdminPresenter {
         $this->database->table('ctrl_menu')->where('id', $id)->delete();
 
         $this->flashMessage('Polozka odstranena.', 'success');
-        $this->redirect('Admin:editMenu');
+        $this->redirect('Menu:editMenu');
     }
 
 }

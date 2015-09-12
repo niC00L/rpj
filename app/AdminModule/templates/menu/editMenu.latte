@@ -3,21 +3,11 @@
 <ul class="collapsible" data-collapsible="accordion">
     {foreach $menu as $item}
         <li>
-            <div class="collapsible-header">{$item->title}</div>
+            <div class="collapsible-header">{$item->title}<div class="right">{control menuFormDelete-$item->id}</div></div>
             <div class="collapsible-body">
-                {form menuForm}
-                    <input n:name="id" value="{$item->id}">
-                    <input n:name="order" value="{$item->order}">
-                    {input type}
-                    <input n:name="address" value="{$item->address}">
-                    <input n:name="title" value="{$item->title}">
-                    <input n:name="class" value="{$item->class}">
-                    {input send}
-                {/form}
-                {form menuFormDelete}
-                    <input n:name="id" value="{$item->id}">
-                    {input delete}
-                {/form}
+                <div class="container">
+                    {control menuForm-$item->id}                    
+                </div>
             </div>
         </li>
     {/foreach}
@@ -25,15 +15,4 @@
 
 <a class="btn waves-effect" n:href="Menu:addToMenu">Pridat polozku</a>
 
-<script>
-    $(document).ready(function () {
-        $('.collapsible').collapsible({
-            accordion: false
-        });
-        
-//        $('#frm-menuForm-type').change(function(){
-//            console.log($(this).val());
-//            if($(this).val() == '')
-//        });
-    });
-</script>
+{include script.latte}
