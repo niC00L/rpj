@@ -109,7 +109,6 @@ class PostPresenter extends BasePresenter {
             }
         }
 
-
         if ($address) {
             if ($this->getAction() == 'show') {
                 $table = 'post';
@@ -121,15 +120,8 @@ class PostPresenter extends BasePresenter {
 
 //	zapisanie/pridanie obsahu stranky
             $this->database->table($table)->get($id)->update($values);
-        } else {
-            if ($this->getAction() == 'createPost') {
-                $table = 'post';
-            } elseif ($this->getAction() == 'createCategory') {
-                $table = 'post_ctg';
-            }
-            $this->database->table($table)->insert($values);
         }
-
+        
 //	zapisanie clankov v kategoriach do spolocnej tabulky
         if ($this->getAction() == 'show') {
             $this->database->table('post_ctg_sort')->where('post_id', $id)->delete();
@@ -137,7 +129,7 @@ class PostPresenter extends BasePresenter {
 
         foreach ($ctg_sort as $ctg_id) {
             $this->database->table('post_ctg_sort')->insert(array(
-                'post_id' => $post['id'],
+                'post_id' => $id,
                 'ctg_id' => $ctg_id
             ));
         }
