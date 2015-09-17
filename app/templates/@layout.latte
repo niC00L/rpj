@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{ifset title}{include title|striptags} | {/ifset}Rainbow dust</title>		
+        <title>{ifset title}{include title|striptags} | {/ifset}{$global['site_title']}</title>		
         <link rel="shortcut icon" href="{$basePath}/favicon.ico">		
 
         <!--Styles-->
@@ -19,9 +19,15 @@
 
         <!--autocomplete-->
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
-       
+
         <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>	        
         <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+        <!--JS pre nette validaciu formularov-->
+        <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
+        <script src="{$basePath}/js/materialize/bin/materialize.min.js"></script>
+        
+        <script src="{$basePath}/plugins/jquery.cookie.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -51,17 +57,21 @@
                 });
             </script>
         {/foreach}
-        <div class="container">                  
-            {include content}
-        </div>
+        <main>
+            <div class="container">                  
+                {include content}
+            </div>
+        </main>
 
-        {block scripts}
-        <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
-        <script src="{$basePath}/js/materialize/bin/materialize.min.js"></script>
-
+            {dump $global}
         <script src="{$basePath}/js/main.js"></script>
         <script src="{$basePath}/js/tickets.js"></script>
-        {/block}		
+        
+        <script n:if="$user->loggedIn" src="{$basePath}/js/admin-menu.js"></script>        
+
+        {ifset #scripts}
+            {include scripts}
+        {/ifset}
 
     </body>
 </html>
