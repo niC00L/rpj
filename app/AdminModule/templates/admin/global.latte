@@ -1,0 +1,8 @@
+{block content}
+
+<h1> Globálne nastavenia</h1>
+
+{foreach $globals as $item}    
+    {$item->description}
+    {control globalForm-$item->id}
+{/foreach}
