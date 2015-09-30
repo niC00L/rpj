@@ -14,8 +14,8 @@ class MenuPresenter extends AdminPresenter {
         parent::startup();
 
 //        premenne pre templaty
-        $posts = $this->template->posts = $this->database->table('post')->fetchPairs('address', 'title');
-        $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->fetchPairs('address', 'title');
+        $posts = $this->template->posts = $this->database->table('post')->where('status ? OR status ?', 1, 2)->fetchPairs('address', 'title');
+        $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->where('status ? OR status ?', 1, 2)->fetchPairs('address', 'title');
 
 //        premenne pre select
         $this->address = array_merge($posts, $post_ctgs);
