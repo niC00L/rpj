@@ -1,0 +1,18 @@
+{* Latte template *}
+
+{block content}
+
+<div class="col s6">
+    <ul>
+        {foreach $posts as $post}
+            <li><a n:href=":Post:show $post->address" >{$post->title}</a></li>
+            {/foreach}
+    </ul>
+</div>
+<div class="col s6">
+    <ul>
+        {foreach $post_ctgs as $post_ctg}
+            <li><a n:href=":Post:category $post_ctg->address" >{$post_ctg->title}</a></li>
+            {/foreach}
+    </ul>
+</div>

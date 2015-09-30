@@ -9,8 +9,8 @@ class PostPresenter extends BasePresenter {
 
     public function renderShow($address) {
         $this->setView('post');
-        $post = $this->template->post = $this->database->table('post')->where('address', $address)->where('status', 1)->fetch();
-        if (!$post) {
+        $post = $this->template->post = $this->database->table('post')->where('address', $address)->fetch();
+        if ($post->status != 1 && !$this->user->loggedIn) {
             $this->flashMessage('Prispevok bol odstraneny', 'danger');
             $this->redirect('Homepage:');
         } else {
@@ -24,7 +24,7 @@ class PostPresenter extends BasePresenter {
 
         $category = $this->template->category = $this->database->table('post_ctg')->where('address', $address)->fetch();
         $ctg_id = $this->database->table('post_ctg')->where('address', $address)->where('status', 1)->fetch();
-        if (!$ctg_id) {
+        if ($category->status != 1 && !$this->user->loggedIn) {
             $this->flashMessage('Kategoria bola odstranena', 'danger');
             $this->redirect('Homepage:');
         } else {
@@ -42,7 +42,7 @@ class PostPresenter extends BasePresenter {
 //	ak sa zobrazuje clanok vyberie sa ktore checkboxy maju byt zaskrtnute
         if ($this->getAction() == 'show') {
             $address = $this->getParameter('address');
-            $id = $this->database->table('post')->where('address', $address)->where('status', 1)->fetch()->id;
+            $id = $this->database->table('post')->where('address', $address)->fetch()->id;
 
             $ctgs_in = $this->database->table('post_ctg_sort')->where('post_id', $id);
         }
