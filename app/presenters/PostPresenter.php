@@ -23,14 +23,13 @@ class PostPresenter extends BasePresenter {
 //        $this->template->setFile(__DIR__ . '/templates/Post/showCategory.latte');
 
         $category = $this->template->category = $this->database->table('post_ctg')->where('address', $address)->fetch();
-        $ctg_id = $this->database->table('post_ctg')->where('address', $address)->where('status', 1)->fetch();
         if ($category->status != 1 && !$this->user->loggedIn) {
             $this->flashMessage('Kategoria bola odstranena', 'danger');
             $this->redirect('Homepage:');
         } else {
 
-            $post_id = $this->database->table('post_ctg_sort')->where('ctg_id', $ctg_id)->select('post_id');
-            $posts = $this->template->posts = $this->database->table('post')->where('id', $post_id)->fetchAll();
+//            $post_id = $this->database->table('post_ctg_sort')->where('ctg_id', $ctg_id)->select('post_id');
+            $posts = $this->template->posts = $this->database->table('post')->where(':post_ctg_sort.ctg_id', $category['id'])->fetchAll();
 
             $this['postForm']->setDefaults($category->toArray());
             $this['postFormDelete']->setDefaults($category->toArray());

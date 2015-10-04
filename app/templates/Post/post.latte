@@ -1,13 +1,21 @@
 {block content}
 
-    <p><a n:href="Homepage:default"> Spat </a></p>
+<p><a n:href="Homepage:default"> Spat </a></p>
 
-    {if $user->loggedIn}
-        {control postForm}
+{if $user->loggedIn}
+    {control postForm}
+    {if $post->status != 0}
         {control postFormDelete}
+        {if $post->status == 2}
+            {control postFormPublish}
+        {/if}
     {else}
-        <h1> {$post->title} </h1>
-        <p> {$post->text} </p>	
-    {/if}
+        {*control postFormRenew*}
+        {*control postFormDeleteForever*}
+    {/if} 
+    {else}
+    <h1> {$post->title} </h1>
+    <p> {$post->text} </p>	
+{/if}
 
-    <strong> {$post->create_date}</strong>
+<strong> {$post->create_date}</strong>
