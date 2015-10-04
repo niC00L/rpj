@@ -3,5 +3,25 @@
 {block content}
 <h1>Sprava clankov</h1>
 <hr />
+<div class="row">
+    {foreach $post_ctgs as $post_ctg}
+        <div class="col s12 m4">
+            <div class="card">
+                <a href="{plink :Post:category $post_ctg->address}"><h3>{$post_ctg->title}</h3></a>
+                        {foreach $posts[$post_ctg['id']] as $post}
+                    <a href="{plink :Post:show $post->address}"><h4>{$post->title}</h4></a>
+                {/foreach}
+            </div>
+        </div>
+    {/foreach}    
+    <div class="col s12 m4">
+        <div class="card">
+            <h3>Bez kategorie</h3>
+            {foreach $uncategorized as $unctg}        
+                <a href="{plink :Post:show $unctg->address}"><h4>{$unctg->title}</h4></a>
+                    {/foreach}
+        </div>
+    </div>
+</div>
 <h2><a n:href="Post:createPost">Novy clanok</a></h2>
 <h2><a n:href="Post:createCategory">Nova kategoria</a></h2>
