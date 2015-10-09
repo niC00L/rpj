@@ -12,7 +12,7 @@ class BinPresenter extends AdminPresenter {
         $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->where('status', 0)->fetchAll();       
     }
 
-    protected function createComponentBinRenew() {
+    public function createComponentBinRenew() {
         return new Multiplier(function ($itemId) {
             $form = new Form;
             $form->addHidden('id', 'Id:');
@@ -24,7 +24,7 @@ class BinPresenter extends AdminPresenter {
         });
     }
 
-    protected function createComponentBinDelete() {
+    public function createComponentBinDelete() {
         return new Multiplier(function ($itemId) {
             $form = new Form;
             $form->addHidden('id', 'Id:');

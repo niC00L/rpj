@@ -1,0 +1,9 @@
+{block content}
+
+{if $user->loggedIn}
+    {control postForm}
+    {control postFormRenew}
+    {*control postFormDeleteForever*}	
+{/if}
+
+<strong> {$post->create_date}</strong>
