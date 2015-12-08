@@ -26,7 +26,7 @@
         <!--JS pre nette validaciu formularov-->
         <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
         <script src="{$basePath}/js/materialize/bin/materialize.min.js"></script>
-        
+
         <script src="{$basePath}/plugins/jquery.cookie.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -62,9 +62,9 @@
             </div>
         </main>
 
-        <script src="{$basePath}/js/main.js"></script>
-        <script src="{$basePath}/js/tickets.js"></script>
-        
+        <link href='//nicool.rocks/stuff/tickets/tickets.css' rel='stylesheet'>
+        <script type="text/javascript" src="//nicool.rocks/stuff/tickets/tickets.js"></script>
+
         <script n:if="$user->loggedIn" src="{$basePath}/js/admin-menu.js"></script>        
 
         {ifset #scripts}

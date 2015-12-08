@@ -6,12 +6,10 @@ use Nette,
 	Nette\Utils\Strings,
 	Nette\Security\Passwords;
 
-
 /**
  * Users management.
  */
-class UserManager extends Nette\Object implements Nette\Security\IAuthenticator
-{
+class UserManager extends Nette\Object implements Nette\Security\IAuthenticator {
 	const
 		TABLE_NAME = 'users',
 		COLUMN_ID = 'id',

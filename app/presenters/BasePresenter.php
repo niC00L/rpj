@@ -11,7 +11,7 @@ use Nette,
 abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
     /** @var Nette\Database\Context */
-    protected $database;
+    public $database;
 
     public function __construct(\Nette\Database\Context $database) {
         parent::__construct();
@@ -21,7 +21,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
     /** @var Nette\Http\SessionSection */
     public $mySession;
     public $global;
-    
+
     protected function startup() {
         parent::startup();
         // zaciatok session
@@ -29,8 +29,16 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
         $this->template->global = $this->database->table('global_settings')->fetchPairs('setting_name', 'value');
     }
 
+    public function createComponentBase() {
+        return new \App\AdminModule\Components\baseControl($this->database);
+    }
+    
     public function createComponentMenu() {
         return new \App\Components\Menu\MenuControl($this->database);
+    }
+
+    public function createComponentEditForm() {
+        return new \App\AdminModule\Components\Forms\EditForm\editFormControl($this->database);
     }
 
     public function beforeRender() {

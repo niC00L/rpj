@@ -5,3 +5,21 @@ Main SCSS template for webpage
     Created on : 2.8.2015, 11:54:28
     Author     : niC00L
 */
+@media only screen and (min-width: 993px) {
+  header.admin-open, main.admin-open {
+    padding-right: 240px; }
+
+  #admin-nav {
+    right: -250px !important; }
+    #admin-nav.admin-open {
+      right: 0 !important; }
+
+  .container {
+    width: 85%; }
+
+  .w-trans {
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    -ms-transition: 0.3s;
+    transition: 0.3s; } }

@@ -3,20 +3,24 @@
 {block content}
 
 <div class="row">
-<div class="col s6">
-    <h2>Clanky</h2>
-    <ul>
-        {foreach $posts as $post}
-            <li><a n:href="Post:show $post->address" >{$post->title}</a></li>
-            {/foreach}
-    </ul>
-</div>
-<div class="col s6">
-    <h2>Kategorie</h2>
-    <ul>
-        {foreach $post_ctgs as $post_ctg}
-            <li><a n:href=":Post:category $post_ctg->address" >{$post_ctg->title}</a></li>
-            {/foreach}
-    </ul>
-</div>
+    {if $posts}
+        <div class="col s6">
+            <h2>Clanky</h2>
+            <ul>
+                {foreach $posts as $post}
+                    <li><a n:href=":Post:show $post->address" >{$post->title}</a></li>
+                    {/foreach}
+            </ul>
+        </div>
+    {/if}
+    {if $post_ctgs}
+        <div class="col s6">
+            <h2>Kategorie</h2>
+            <ul>
+                {foreach $post_ctgs as $post_ctg}
+                    <li><a n:href=":Post:category $post_ctg->address" >{$post_ctg->title}</a></li>
+                    {/foreach}
+            </ul>
+        </div>
+    {/if}
 </div>

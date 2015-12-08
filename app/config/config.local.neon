@@ -1,0 +1,9 @@
+parameters:
+
+
+database:
+	dsn: 'mysql:host=localhost;dbname=rpj'
+	user: root
+	password:
+	options:
+		lazy: yes

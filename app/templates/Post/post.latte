@@ -13,9 +13,17 @@
         {*control postFormRenew*}
         {*control postFormDeleteForever*}
     {/if} 
-    {else}
+{else}
     <h1> {$post->title} </h1>
-    <p> {$post->text} </p>	
+    <p> {$post->text} </p>	    
+{/if}
+
+{if $images}
+    <p>
+        {foreach $images as $img}
+            <img src="{$basePath}/images/post/{$post['id']}/{$img['name']}" alt="{$img['alt']}">
+        {/foreach}
+    </p>
 {/if}
 
 <strong> {$post->create_date}</strong>
