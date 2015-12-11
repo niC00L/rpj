@@ -3,14 +3,14 @@
 <p><a n:href="Homepage:default"> Spat </a></p>
 
 {if $user->loggedIn}
-    {control postForm}
+    {control editForm}
     {if $post->status != 0}
-        {control postFormDelete}
+        {control deleteForm}
         {if $post->status == 2}
             {control postFormPublish}
         {/if}
     {else}
-        {*control postFormRenew*}
+        {control renewForm}
         {*control postFormDeleteForever*}
     {/if} 
 {else}
@@ -21,7 +21,7 @@
 {if $images}
     <p>
         {foreach $images as $img}
-            <img src="{$basePath}/images/post/{$post['id']}/{$img['name']}" alt="{$img['alt']}">
+            <img class="materialboxed" src="{$basePath}/images/post/{$post['id']}/{$img['image_name']}" alt="{$img['alt']}">
         {/foreach}
     </p>
 {/if}
