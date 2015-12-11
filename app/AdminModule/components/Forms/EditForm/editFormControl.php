@@ -2,82 +2,61 @@
 
 namespace App\AdminModule\Components\Forms\EditForm;
 
-use Nette\Application\UI\Form;
+use Nette\Application\UI\Form,
+    Nette\Utils\Strings;
 
 class editFormControl extends \App\AdminModule\Components\baseControl {
 
-    public $table;        
-    
+    public $table;
+    public $id;
+
     public function render() {
         $temp = $this->template;
         $temp->setFile(__DIR__ . '/editFormDefault.latte');
         $temp->render();
     }
-    
-    public function setTable($table) {
+
+    public function setForms($id, $table, $defaults) {
+        $this->id = $id;        
         $this->table = $table;
+        $this['editForm']->setDefaults($defaults);
     }
 
-    public function setDefaults($defaults) {
-        $this['editForm']->setDefaults($defaults);
-    }        
-
     protected function createComponentEditForm() {
-        $this->setTable();
-
-//	ak sa zobrazuje clanok vyberie sa ktore checkboxy maju byt zaskrtnute
-//        if ($this->getAction() == 'show') {
-//            $address = $this->getParameter('address');
-//            $id = $this->database->table('post')->where('address', $address)->fetch()->id;
-//
-//            $ctgs_in = $this->database->table('post_ctg_sort')->where('post_id', $id);
-//        }
-//      vyberu sa vsetky checkboxy
-//        $ctgs = $this->database->table('post_ctg')->where('status', 1)->fetchAll();
-//        vytvori sa formular
-
-        $fields = $this->database->query('EXPLAIN '.$this->table);
-//        foreach ($fields as $f) {
-//            if ($f['Type'] == 'timestamp' || $f['Type'] == 'datetime') {
-//                unset($f);
-//            }
-//        }
-//        $f['Field']     //field name
-
-        $form = new Form;
-
+//	ak sa zobrazuje clanok vyberu sa checkboxy kategorii
+        if ($this->table == 'post') {
+            $ctgs_in = $this->database->table('post_ctg_sort')->where('post_id', $this->id);
+        }
+//      vyberu sa nazvy kategorii
+        $ctgs = $this->database->table('post_ctg')->where('status', 1)->fetchAll();
+        
+//      vyberu sa polia pre formular
+        $fields = $this->database->query('EXPLAIN ' . $this->table);
+        
+        $form = new Form;        
         foreach ($fields as $f) {
             if ($f['Type'] == 'text') {
-                $form->addTextArea($f['Field'], $f['Field'])
-                ->setAttribute('class', 'materialize-textarea');
-            } elseif ($f['Type'] == 'varchar(50)') {
-                $form->addText($f['Field'], $f['Field'])
+                $form->addTextArea($f['Field'])
+                        ->setAttribute('class', 'materialize-textarea');
+            } elseif (Strings::startsWith($f['Type'], 'varchar')) {
+                $form->addText($f['Field'])
                         ->setRequired();
-            } else {
-                $form->addHidden($f['Field'], $f['Field'])
-                        ->setRequired();
+            } elseif ($f['Type'] == 'image_name') {
+                $form->addUpload($f['Field']);
             }
         }
-//        $form->addText('address', 'Adresa:')
-//                ->setRequired();
-//        $form->addText('title', 'Titulok:')
-//                ->setRequired();
-//        $form->addTextArea('description', 'Popis:')
-//                ->setAttribute('class', 'materialize-textarea');
-//        if ($this->getAction() == 'show' || $this->getAction() == 'createPost') {
-//            $form->addTextArea('text', 'Obsah:')
-//                    ->setAttribute('class', 'materialize-textarea');
 //	vykreslia sa checkboxy
-//            foreach ($ctgs as $ctg) {
-//                $form->addCheckbox('category_' . $ctg['id'], $ctg['title']);
-//            }
-////        }
+        if($ctgs) {
+            foreach ($ctgs as $ctg) {
+                $form->addCheckbox('category_' . $ctg['id'], $ctg['title']);
+            }
+        }
 //	pouzitym sa prida hodnota true
-//        if ($this->getAction() == 'show') {
-//            foreach ($ctgs_in as $ctg_in) {
-//                $form->setValues(['category_' . $ctg_in->ctg_id => true]);
-//            }
-//        }
+        if ($ctgs) {
+            foreach ($ctgs_in as $ctg_in) {
+                $form->setValues(['category_' . $ctg_in->ctg_id => true]);
+            }
+        }
 
         $form->addSubmit('send', 'Uložit a publikovat')
                 ->setAttribute('class', 'btn');
@@ -87,12 +66,10 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
     }
 
     public function editFormSucceeded($form, $values) {
-        $address = $this->getParameter('address');
-
 //	Vyradi checkboxy z values aby sa nezapisovali do tabulky post
         $ctg_sort = array();
         foreach ($values as $key => $value) {
-            if (Nette\Utils\Strings::startsWith($key, 'category_')) {
+            if (Strings::startsWith($key, 'category_')) {
 //				ak je checkbox zaskrtnuty vlozi jeho hodnotu do pola $ctg_sort
                 if ($values[$key] == true) {
 //				do pola sa vlozia len cisla
@@ -102,34 +79,25 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
             }
         }
 
-        if ($address) {
-//            if ($this->getAction() == 'show') {
-//                $table = 'post';
-//            } elseif ($this->getAction() == 'category') {
-//                $table = 'post_ctg';
-//            }
-
-            $id = $this->database->table($table)->where('address', $address)->fetch()->id;
-
+        if ($this->id) {
 //	zapisanie/pridanie obsahu stranky
-            $this->database->table($table)->get($id)->update($values);
+            $this->database->table($this->table)->get($this->id)->update($values);
         }
 
 //	zapisanie clankov v kategoriach do spolocnej tabulky
-//        if ($this->getAction() == 'show') {
-//            $this->database->table('post_ctg_sort')->where('post_id', $id)->delete();
-//        }
+        if ($this->table == 'post') {
+            $this->database->table('post_ctg_sort')->where('post_id', $this->id)->delete();
+        }
 
         foreach ($ctg_sort as $ctg_id) {
             $this->database->table('post_ctg_sort')->insert(array(
-                'post_id' => $id,
+                'post_id' => $this->id,
                 'ctg_id' => $ctg_id
             ));
         }
 
-
-        $this->flashMessage('Uspesne publikovane.', 'success');
-        $this->redirect('this', ['address' => $values['address']]);
+        $this->presenter->flashMessage('Uspesne publikovane.', 'success');
+        $this->presenter->redirect('this', ['address' => $values['address']]);
     }
 
 }
