@@ -40,6 +40,14 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
     public function createComponentEditForm() {
         return new \App\AdminModule\Components\Forms\EditForm\editFormControl($this->database);
     }
+    
+    public function createComponentDeleteForm() {
+        return new \App\AdminModule\Components\Forms\DeleteForm\deleteFormControl($this->database);
+    }
+    
+    public function createComponentRenewForm() {
+        return new \App\AdminModule\Components\Forms\RenewForm\renewFormControl($this->database);
+    }
 
     public function beforeRender() {
         parent::beforeRender();
