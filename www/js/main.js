@@ -1,3 +1,4 @@
 $(function () {
-    $('.materialboxed').materialbox();
+    $.nette.init();
+    $('.materialboxed').materialbox();    
 });

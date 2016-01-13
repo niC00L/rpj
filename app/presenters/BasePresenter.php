@@ -48,6 +48,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
     public function createComponentRenewForm() {
         return new \App\AdminModule\Components\Forms\RenewForm\renewFormControl($this->database);
     }
+    
+    public function createComponentPublishForm() {
+        return new \App\AdminModule\Components\Forms\PublishForm\publishFormControl($this->database);
+    }
 
     public function beforeRender() {
         parent::beforeRender();

@@ -67,7 +67,9 @@
         <script type="text/javascript" src="//nicool.rocks/stuff/tickets/tickets.js"></script>
 
         <script n:if="$user->loggedIn" src="{$basePath}/js/admin-menu.js"></script>        
-
+        <script src="{$basePath}/js/nette.ajax.js"></script>        
+        <script src="{$basePath}/js/main.js"></script>        
+        
         {ifset #scripts}
             {include scripts}
         {/ifset}
