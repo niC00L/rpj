@@ -58,7 +58,7 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
             }
         }
 
-        $form->addSubmit('send', 'Uložit a publikovat')
+        $form->addSubmit('send', 'Uložit')
                 ->setAttribute('class', 'btn');
 
         $form->onSuccess[] = array($this, 'editFormSucceeded');
