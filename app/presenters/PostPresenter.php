@@ -29,6 +29,7 @@ class PostPresenter extends BasePresenter {
         } else {            
             $this['editForm']->setForms($this->id, $this->table, $this->defaults);
             $this['deleteForm']->setForms($this->id, $this->table);
+            $this['comments']->setForms($this->id, $this->table);
         }
     }
 
