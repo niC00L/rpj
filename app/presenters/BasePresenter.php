@@ -52,6 +52,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
     public function createComponentPublishForm() {
         return new \App\AdminModule\Components\Forms\PublishForm\publishFormControl($this->database);
     }
+    
+    public function createComponentComments() {
+        return new \App\Components\Comments\CommentsControl($this->database);
+    }
 
     public function beforeRender() {
         parent::beforeRender();

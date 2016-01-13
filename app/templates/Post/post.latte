@@ -7,11 +7,10 @@
     {if $post->status != 0}
         {control deleteForm}
         {if $post->status == 2}
-            {control postFormPublish}
+            {control publishForm}
         {/if}
     {else}
         {control renewForm}
-        {*control postFormDeleteForever*}
     {/if} 
 {else}
     <h1> {$post->title} </h1>
@@ -26,4 +25,7 @@
     </p>
 {/if}
 
+{if $post->comments == 1}
+    {control comments:show $post->id, 'post'}
+{/if}
 <strong> {$post->create_date}</strong>
