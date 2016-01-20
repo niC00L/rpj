@@ -2,7 +2,24 @@
 
 <h1> Globálne nastavenia</h1>
 
-{foreach $globals as $item}    
-    {$item->description}
-    {control globalForm-$item->id}
-{/foreach}
+<div class="row">
+    {foreach $globals as $item}  
+        <div class="col s6">
+            {$item->description}
+            {control globalForm-$item->id}
+        </div>
+    {/foreach}
+</div>
+
+<div class="row" id="comm_settings">
+    <h3>Nastavenia komentarov</h3>
+    {foreach $comments as $item}  
+        <div class="col s6">            
+            {form globalForm-$item->id}
+                {$item->description}
+                {input value}
+                {input edit}
+            {/form}
+        </div>
+    {/foreach}
+</div>
