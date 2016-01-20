@@ -1,0 +1,29 @@
+{* Latte template *}
+
+{block content}
+<h1>Všetky komentáre</h1>
+<div class="row">
+    {foreach $comments as $com}
+        <div class="col s12 m6">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title grey-text text-darken-4">
+                        {$com->name}</span>                        
+                    <a href="mailto:{$com->email}" class="cyan-text right">{$com->email}</a>
+                    <p>{$com->text}</p>
+                </div>
+                <div class="card-action">
+                    {if $com->post_id}
+                        <a n:href=":Post:show $post[$com->post_id]['address']">{$post[$com->post_id]['title']}</a>
+                    {elseif $com->ctg_id}
+                        <a n:href=":Post:show $post[$com->post_id]['address']">{$post[$com->post_id]['title']}</a>
+                    {elseif $com->img_id}
+                        <a n:href=":Post:show $post[$com->post_id]['address']">{$post[$com->post_id]['title']}</a>
+                    {/if} 
+                    <span class="right">{$com->date}</span>
+                </div>
+            </div>
+        </div>                
+    {/foreach}
+
+</div>
