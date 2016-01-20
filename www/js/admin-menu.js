@@ -21,7 +21,5 @@ $(function () {
         else {
             $.cookie('menu', 'admin-closed', { path: '/' });
         }                        
-        console.log($.cookie('menu'));
     });    
-    console.log(x);
 });
