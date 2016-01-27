@@ -17,51 +17,58 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
     }
 
     public function setForms($id, $table, $defaults) {
-        $this->id = $id;        
+        $this->id = $id;
         $this->table = $table;
-        $this['editForm']->setDefaults($defaults);
+        if ($defaults) {
+            $this['editForm']->setDefaults($defaults);
+        }
     }
 
     protected function createComponentEditForm() {
 //	ak sa zobrazuje clanok vyberu sa checkboxy kategorii
         if ($this->table == 'post') {
             $ctgs_in = $this->database->table('post_ctg_sort')->where('post_id', $this->id);
-        }
 //      vyberu sa nazvy kategorii
-        $ctgs = $this->database->table('post_ctg')->where('status', 1)->fetchAll();
-        
+            $ctgs = $this->database->table('post_ctg')->where('status', 1)->fetchAll();
+        }
+
 //      vyberu sa polia pre formular
         $fields = $this->database->query('EXPLAIN ' . $this->table);
-        
-        $form = new Form;        
+
+        $form = new Form;
         foreach ($fields as $f) {
             if ($f['Type'] == 'text') {
                 $form->addTextArea($f['Field'])
-                        ->setAttribute('class', 'materialize-textarea');
+                        ->setAttribute('class', 'materialize-textarea')
+                        ->setAttribute('placeholder', $f['Field']);
             } elseif (Strings::startsWith($f['Type'], 'varchar')) {
                 $form->addText($f['Field'])
+                        ->setAttribute('placeholder', $f['Field'])
                         ->setRequired();
             } elseif ($f['Type'] == 'image_name') {
                 $form->addUpload($f['Field']);
             }
         }
+
+        if ($this->table == 'post') {
 //	vykreslia sa checkboxy
-        if($ctgs) {
-            foreach ($ctgs as $ctg) {
-                $form->addCheckbox('category_' . $ctg['id'], $ctg['title']);
+            if ($ctgs) {
+                foreach ($ctgs as $ctg) {
+                    $form->addCheckbox('category_' . $ctg['id'], $ctg['title']);
+                }
             }
-        }
 //	pouzitym sa prida hodnota true
-        if ($ctgs) {
-            foreach ($ctgs_in as $ctg_in) {
-                $form->setValues(['category_' . $ctg_in->ctg_id => true]);
+            if ($ctgs) {
+                foreach ($ctgs_in as $ctg_in) {
+                    $form->setValues(['category_' . $ctg_in->ctg_id => true]);
+                }
             }
+
+            $form->addSubmit('send', 'Uložit')
+                    ->setAttribute('class', 'btn');
+
+            $form->onSuccess[] = array($this, 'editFormSucceeded');
         }
-
-        $form->addSubmit('send', 'Uložit')
-                ->setAttribute('class', 'btn');
-
-        $form->onSuccess[] = array($this, 'editFormSucceeded');
         return $form;
     }
 
