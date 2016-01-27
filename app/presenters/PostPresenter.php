@@ -34,17 +34,20 @@ class PostPresenter extends BasePresenter {
     }
 
     public function actionCategory($address) {
-//        $this->template->setFile(__DIR__ . '/templates/Post/showCategory.latte');
-
+        $this->table = 'post_ctg';
         $category = $this->template->category = $this->database->table('post_ctg')->where('address', $address)->fetch();
+        $posts = $this->template->posts = $this->database->table('post')->where(':post_ctg_sort.ctg_id', $category['id'])->fetchAll();
+        
+        $this->defaults = $category->toArray();
+        $this->id = $category['id'];
+        
         if ($category->status != 1 && !$this->user->loggedIn) {
             $this->flashMessage('Kategoria bola odstranena', 'danger');
             $this->redirect('Homepage:');
-        } else {
-            $posts = $this->template->posts = $this->database->table('post')->where(':post_ctg_sort.ctg_id', $category['id'])->fetchAll();
-
-            $this['editForm']->setDefaults($category->toArray());
-            $this['postFormDelete']->setDefaults($category->toArray());
+        } else {            
+            $this['editForm']->setForms($this->id, $this->table, $this->defaults);
+            $this['deleteForm']->setForms($this->id, $this->table);
+            $this['comments']->setForms($this->id, $this->table);
         }
     }    
 }
