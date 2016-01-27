@@ -50,7 +50,11 @@ class SignPresenter extends BasePresenter {
 
         try {
             $user->login($values->username, $values->password);
-            $this->restoreRequest($this->mySession->backlink);
+            if ($this->mySession->backlink) {
+                $this->restoreRequest($this->mySession->backlink);
+            } else {
+                $this->redirect(':Admin:default');
+            }
             $this->flashMessage('Boli ste uspesne prihlaseny.');
         } catch (\Nette\Security\AuthenticationException $e) {
             $this->flashMessage($e->getMessage());
@@ -60,7 +64,11 @@ class SignPresenter extends BasePresenter {
     public function actionOut() {
         $this->getUser()->logout();
         $this->flashMessage('You have been signed out.');
-        $this->restoreRequest($this->mySession->backlink);
+        if ($this->mySession->backlink) {
+            $this->restoreRequest($this->mySession->backlink);
+        } else {
+            $this->redirect('Homepage:default');
+        }
     }
 
 }
