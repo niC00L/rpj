@@ -14,11 +14,14 @@ class PostPresenter extends BasePresenter {
     public function setForms($id, $table, $defaults) {
     }
     
-    public function actionShow($address) {
-        $this->setView('post');
-        $this->table = 'post';
+    public function actionShow($address) {                
+        $this->table = 'post';        
+        
         $post = $this->template->post = $this->database->table('post')->where('address', $address)->fetch();
         $images = $this->template->images = $this->database->table('imgs')->where(':img_sort.gallery_id', $post['gallery_id'])->fetchAll();
+        
+        $template = $this->database->table('site_templates')->where('site_templates.id', $post['template'])->fetch()->file_name;
+        $this->setView($template);
                 
         $this->defaults = $post->toArray();
         $this->id = $post['id'];
@@ -37,6 +40,9 @@ class PostPresenter extends BasePresenter {
         $this->table = 'post_ctg';
         $category = $this->template->category = $this->database->table('post_ctg')->where('address', $address)->fetch();
         $posts = $this->template->posts = $this->database->table('post')->where(':post_ctg_sort.ctg_id', $category['id'])->fetchAll();
+        
+        $template = $this->database->table('site_templates')->where('site_templates.id', $category['template'])->fetch()->file_name;
+        $this->setView($template);
         
         $this->defaults = $category->toArray();
         $this->id = $category['id'];
