@@ -27,34 +27,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
         // zaciatok session
         $this->mySession = $this->session->getSection("mySession");
         $this->template->global = $this->database->table('global_settings')->fetchPairs('setting_name', 'value');
-    }
-
-    public function createComponentBase() {
-        return new \App\AdminModule\Components\baseControl($this->database);
-    }
-    
-    public function createComponentMenu() {
-        return new \App\Components\Menu\MenuControl($this->database);
-    }
-
-    public function createComponentEditForm() {
-        return new \App\AdminModule\Components\Forms\EditForm\editFormControl($this->database);
-    }
-    
-    public function createComponentDeleteForm() {
-        return new \App\AdminModule\Components\Forms\DeleteForm\deleteFormControl($this->database);
-    }
-    
-    public function createComponentRenewForm() {
-        return new \App\AdminModule\Components\Forms\RenewForm\renewFormControl($this->database);
-    }
-    
-    public function createComponentPublishForm() {
-        return new \App\AdminModule\Components\Forms\PublishForm\publishFormControl($this->database);
-    }
-    
-    public function createComponentComments() {
-        return new \App\Components\Comments\CommentsControl($this->database);
+        
+        $components = $this->database->table('controls')->fetchAll();
+        foreach ($components as $com) {
+            $this->addComponent(new $com['namescape']($this->database), $com['component_name']);
+        }
     }
 
     public function beforeRender() {
