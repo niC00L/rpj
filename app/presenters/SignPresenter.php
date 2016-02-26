@@ -6,16 +6,29 @@ use Nette,
     App\Forms\SignFormFactory,
     Nette\Application\UI\Form,
     Nette\Security\Passwords;
+//    App\Model\UserManager;
 
 class SignPresenter extends BasePresenter {
 
+    /**
+     * @var \App\Model\UserManager
+     * @inject
+     */
+    public $userManager;
+
     /** @var SignFormFactory @inject */
     public $factory;
+    private $users;
 
 //    aby sa nezapisovala stranka do session
     public function beforeRender() {
         
     }
+
+//    protected function startup() {
+//        parent::startup();
+//        $this->users = $this->database->table('users');
+//    }
 
     /**
      * Sign-in form factory.
@@ -58,6 +71,47 @@ class SignPresenter extends BasePresenter {
             $this->flashMessage('Boli ste uspesne prihlaseny.');
         } catch (\Nette\Security\AuthenticationException $e) {
             $this->flashMessage($e->getMessage());
+        }
+    }
+
+    public function createComponentRegisterForm() {
+        $form = new Form;
+        $form->addText('username', 'Username')
+                ->addCondition(Form::FILLED);
+        $form->addText('display_name', 'Display name')
+                ->addCondition(Form::FILLED);
+        $form->addText('email', 'E-mail: *', 35)
+                ->setEmptyValue('@')
+                ->addRule(Form::FILLED, 'Enter your e-mail')
+                ->addCondition(Form::FILLED)
+                ->addRule(Form::EMAIL, 'E-mail not valid');
+        $form->addPassword('password', 'Password: *', 20)
+                ->setOption('description', 'Min 6 characters')
+                ->addRule(Form::FILLED, 'Enter your password')
+                ->addRule(Form::MIN_LENGTH, 'Password must contain at least %d characters.', 6);
+        $form->addPassword('password2', 'Retype password: *', 20)
+                ->addConditionOn($form['password'], Form::VALID)
+                ->addRule(Form::FILLED, 'Heslo znovu')
+                ->addRule(Form::EQUAL, 'Passwords do not match.', $form['password']);
+        $form->addSubmit('send', 'Register');
+
+        $form->onSuccess[] = array($this, 'registerFormSucceeded');
+        return $form;
+    }
+
+    public function registerFormSucceeded($form, $values) {
+        $name = $values['username'];
+        $password = $values['password'];
+        unset($values['username'], $values['password'], $values['password2']);
+        
+        $values['rights'] = 'user';
+        $values['token'] = '42';
+        
+        $this->userManager->add($name, $password);
+        $add_user = $this->database->table('users')->where('username', $name)->update($values);
+        if ($add_user) {
+            $this->flashMessage('Successfully registered! You can sign in now');
+            $this->redirect('Sign:in');
         }
     }
 
