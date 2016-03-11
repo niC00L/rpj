@@ -74,16 +74,10 @@ class SignPresenter extends BasePresenter {
     public function createComponentRegisterForm() {
         $form = new Form;
         $form->addText('username', 'Username')
-//                ->setAttribute('class', 'validate')
-//                ->setAttribute('data-error', 'Username is taken')
-//                ->setAttribute('data-success', 'Username is available')
                 ->addCondition(Form::FILLED);
         $form->addText('display_name', 'Display name')
                 ->addCondition(Form::FILLED);
         $form->addText('email', 'E-mail: *', 35)
-//                ->setAttribute('class', 'validate')
-//                ->setAttribute('data-error', 'Email is taken')
-//                ->setAttribute('data-success', 'Email is available')
                 ->setEmptyValue('@')
                 ->addRule(Form::FILLED, 'Enter your e-mail')
                 ->addCondition(Form::FILLED)
