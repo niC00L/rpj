@@ -6,9 +6,15 @@ use Nette,
     App\Forms\SignFormFactory,
     Nette\Application\UI\Form,
     Nette\Security\Passwords;
+
 //    App\Model\UserManager;
 
 class SignPresenter extends BasePresenter {
+
+//    aby sa nezapisovala stranka do session
+    public function beforeRender() {
+        
+    }
 
     /**
      * @var \App\Model\UserManager
@@ -19,16 +25,6 @@ class SignPresenter extends BasePresenter {
     /** @var SignFormFactory @inject */
     public $factory;
     private $users;
-
-//    aby sa nezapisovala stranka do session
-    public function beforeRender() {
-        
-    }
-
-//    protected function startup() {
-//        parent::startup();
-//        $this->users = $this->database->table('users');
-//    }
 
     /**
      * Sign-in form factory.
@@ -44,7 +40,8 @@ class SignPresenter extends BasePresenter {
 
         $form->addCheckbox('remember', 'Keep me signed in');
 
-        $form->addSubmit('send', 'Sign in');
+        $form->addSubmit('send', 'Sign in')
+                ->setAttribute('class', 'btn');
 
         // call method signInFormSucceeded() on success                        
         $form->onSuccess[] = $this->signInFormSucceeded;
@@ -77,10 +74,16 @@ class SignPresenter extends BasePresenter {
     public function createComponentRegisterForm() {
         $form = new Form;
         $form->addText('username', 'Username')
+//                ->setAttribute('class', 'validate')
+//                ->setAttribute('data-error', 'Username is taken')
+//                ->setAttribute('data-success', 'Username is available')
                 ->addCondition(Form::FILLED);
         $form->addText('display_name', 'Display name')
                 ->addCondition(Form::FILLED);
         $form->addText('email', 'E-mail: *', 35)
+//                ->setAttribute('class', 'validate')
+//                ->setAttribute('data-error', 'Email is taken')
+//                ->setAttribute('data-success', 'Email is available')
                 ->setEmptyValue('@')
                 ->addRule(Form::FILLED, 'Enter your e-mail')
                 ->addCondition(Form::FILLED)
@@ -93,7 +96,8 @@ class SignPresenter extends BasePresenter {
                 ->addConditionOn($form['password'], Form::VALID)
                 ->addRule(Form::FILLED, 'Heslo znovu')
                 ->addRule(Form::EQUAL, 'Passwords do not match.', $form['password']);
-        $form->addSubmit('send', 'Register');
+        $form->addSubmit('send', 'Register')
+                ->setAttribute('class', 'btn');
 
         $form->onSuccess[] = array($this, 'registerFormSucceeded');
         return $form;
@@ -103,10 +107,10 @@ class SignPresenter extends BasePresenter {
         $name = $values['username'];
         $password = $values['password'];
         unset($values['username'], $values['password'], $values['password2']);
-        
+
         $values['rights'] = 'user';
         $values['token'] = '42';
-        
+
         $this->userManager->add($name, $password);
         $add_user = $this->database->table('users')->where('username', $name)->update($values);
         if ($add_user) {
@@ -114,7 +118,23 @@ class SignPresenter extends BasePresenter {
             $this->redirect('Sign:in');
         }
     }
-
+    
+    public function renderIn(){
+        if ($this->user->isLoggedIn()){
+            $this->flashMessage('You are already logged in');
+            $this->redirect('Admin:Admin:default');
+        }
+    }
+    
+    public function renderRegister(){
+        $this->template->users = $this->database->table('users')->fetchAll();
+        #$this->template->mails = $this->database->table('users')->select('email')->fetchAll();
+        if ($this->user->isLoggedIn()){
+            $this->flashMessage('You are already logged in');
+            $this->redirect('Admin:Admin:default');
+        }
+    }
+    
     public function actionOut() {
         $this->getUser()->logout();
         $this->flashMessage('You have been signed out.');

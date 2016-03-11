@@ -1,0 +1,79 @@
+{* Latte template *}
+
+{block content}
+<script type="text/javascript">
+    $(function () {
+        var users = [ {foreach $users as $u} {$u['username']} {sep}, {/sep} {/foreach} ];
+        var mails = [ {foreach $users as $m} {$m['email']} {sep}, {/sep} {/foreach} ];
+        
+        var disabled = false;
+        
+        $('[name=username]').change(function(){
+            var item = $(this).val();
+            if ($.inArray(item, users) != -1) {
+//                $(this).removeClass('valid');
+                $(this).addClass('invalid');
+                $('[name=send]').addClass('disabled');
+            }  
+            else {
+//                $(this).addClass('valid');
+                $(this).removeClass('invalid');
+                $('[name=send]').removeClass('disabled');
+            };
+        });
+        
+        $('[name=display_name]').change(function(){
+            var item = $(this).val();
+            if (item == 'admin' || item == 'Admin') {
+//                $(this).removeClass('valid');
+                $(this).addClass('invalid');
+                $('[name=send]').addClass('disabled');
+            }  
+            else {
+//                $(this).addClass('valid');
+                $(this).removeClass('invalid');
+                $('[name=send]').removeClass('disabled');
+            };
+        });
+        
+        $('[name=email]').change(function(){
+            var item = $(this).val();
+            if ($.inArray(item, mails) != -1) {
+//                $(this).removeClass('valid');
+                $(this).addClass('invalid');
+                $('[name=send]').addClass('disabled');
+            }  
+            else {
+//                $(this).addClass('valid');
+                $(this).removeClass('invalid');
+                $('[name=send]').removeClass('disabled');
+            };
+        });
+        
+        
+
+//        $("form").each(function(){
+//            var select = $(this).find("[name=address]");
+//            var hide = $(this).find("[name=address]").parent();
+//            var ab = $(this).find("[name=type]").val();
+//            if(ab) { var a = ab.search("_")};
+//            if(a == -1 || !ab) {
+//                hide.hide();
+//            };
+//        
+//            $(this).find("[name=type]").change(function () {
+//                var source = $(this).val();      
+//                var a = source.search("_");
+//                
+//                if(a != -1) {
+//                    hide.show();
+//                    select.empty();
+//                    $.each(address[source], function (value, title) {  
+//                        select.append('<option value="' + value + '"> ' + title + ' </option>');
+//                    });
+//                }
+//                else { hide.hide();};
+//            });
+//        });
+    });
+</script>
