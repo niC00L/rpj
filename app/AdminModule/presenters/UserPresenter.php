@@ -12,12 +12,43 @@ class UserPresenter extends \App\Presenters\BasePresenter {
     
     private $user;
     private $id;
-
-    public function renderDefault() {
-        
+    
+    public function setForms($id, $table, $defaults) {        
     }
-    public function setForms($id, $table, $defaults) {
+
+    public function actionDefault() {        
+        $users = $this->database->table('users')->fetchAll();
+        $this->template->users = $users;
+        foreach($users as $u) {
+            $this['usersEditor'][$u['id']]->setDefaults($u);
+        }
+    }
+    
+    public function createComponentUsersEditor() {
+        return new Multiplier(function ($itemId) {
+            $rights = array(
+                'admin' => 'Admin',
+                'user' => 'User',
+                'editor' => 'Editor',
+                'ban' => 'Banned'
+            );
+            $form = new Form;   
+            $form->addHidden('id');
+            $form->addSelect('rights', 'Rights', $rights)
+                    ->setAttribute('class', 'browser-default');
+            $form->addSubmit('edit', 'Edit')
+                    ->setAttribute('class', 'btn');
+
+            $form->onSuccess[] = array($this, 'usersEditoorSuc');
+            return $form;
+        });
+    }
+    
+    public function usersEditoorSuc($form, $values) {
+        $id = $values['id'];
+        unset($values['id']);
         
+        $this->database->table('users')->where('id', $id)->update($values);
     }
 
     public function actionProfile() {
