@@ -37,16 +37,19 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
 
         $form = new Form;
         foreach ($fields as $f) {
-            if ($f['Type'] == 'text') {
-                $form->addTextArea($f['Field'])
-                        ->setAttribute('class', 'materialize-textarea')
-                        ->setAttribute('placeholder', $f['Field']);
-            } elseif (Strings::startsWith($f['Type'], 'varchar')) {
-                $form->addText($f['Field'])
-                        ->setAttribute('placeholder', $f['Field'])
-                        ->setRequired();
-            } elseif ($f['Type'] == 'image_name') {
-                $form->addUpload($f['Field']);
+            if ($f['Field'] != 'password' && $f['Field'] != 'token' && $f['Field'] != 'rights' && $f['Field'] != 'username') {
+                if ($f['Type'] == 'text') {
+                    $form->addTextArea($f['Field'], $f['Field'])
+                            ->setAttribute('class', 'materialize-textarea ' . $f['Field'])
+                            ->setAttribute('placeholder', $f['Field']);
+                } elseif ($f['Field'] == 'image_name') {
+                    $form->addUpload($f['Field'], 'Image');
+                } elseif (Strings::startsWith($f['Type'], 'varchar')) {
+                    $form->addText($f['Field'], $f['Field'])
+                            ->setAttribute('class', $f['Field'])
+                            ->setAttribute('placeholder', $f['Field'])
+                            ->setRequired();
+                }
             }
         }
 
@@ -63,12 +66,13 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                     $form->setValues(['category_' . $ctg_in->ctg_id => true]);
                 }
             }
-
-            $form->addSubmit('send', 'Uložit')
-                    ->setAttribute('class', 'btn');
-
-            $form->onSuccess[] = array($this, 'editFormSucceeded');
         }
+
+        $form->addSubmit('send', 'Uložit')
+                ->setAttribute('class', 'btn');
+
+        $form->onSuccess[] = array($this, 'editFormSucceeded');
+
         return $form;
     }
 
@@ -94,17 +98,22 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
 //	zapisanie clankov v kategoriach do spolocnej tabulky
         if ($this->table == 'post') {
             $this->database->table('post_ctg_sort')->where('post_id', $this->id)->delete();
-        }
 
-        foreach ($ctg_sort as $ctg_id) {
-            $this->database->table('post_ctg_sort')->insert(array(
-                'post_id' => $this->id,
-                'ctg_id' => $ctg_id
-            ));
+            foreach ($ctg_sort as $ctg_id) {
+                $this->database->table('post_ctg_sort')->insert(array(
+                    'post_id' => $this->id,
+                    'ctg_id' => $ctg_id
+                ));
+            }
         }
 
         $this->presenter->flashMessage('Uspesne publikovane.', 'success');
-        $this->presenter->redirect('this', ['address' => $values['address']]);
+//        if($values['address']) {
+//            $this->presenter->redirect('this', ['address' => $values['address']]);
+//        }
+//        else {
+        $this->presenter->redirect('this');
+//        }
     }
 
 }
