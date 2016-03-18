@@ -1,0 +1,22 @@
+{block content}
+<div class="container container-box">
+    <h1 n:block="title" class="text-center">Galeria</h1>
+    <p class="text-center"><a n:if="$user->isLoggedIn()" n:href="Gallery:add">Pridat</a> </p>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="row">
+                {foreach $imgs as $i}            
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                            <img class="img-responsive" src="{$basePath}/images/gallery/{$i['image_name']}" alt="{$i['alt']}">
+                            <div class="caption">
+                                <p>{$i['description']}</p>
+                            </div>
+                        </div>
+
+                    </div>            
+                {/foreach}
+            </div>        
+        </div>
+    </div>
+</div>

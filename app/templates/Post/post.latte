@@ -17,12 +17,8 @@
     <p> {$post->text} </p>	    
 {/if}
 
-{if $images}
-    <p>
-        {foreach $images as $img}
-            <img class="materialboxed" src="{$basePath}/images/post/{$post['id']}/{$img['image_name']}" alt="{$img['alt']}">
-        {/foreach}
-    </p>
+{if $post['gallery_id']}
+    {control gallery:show $post['gallery_id']}
 {/if}
 
 {if $post->comments == 1}
