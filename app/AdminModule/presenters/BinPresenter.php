@@ -19,7 +19,7 @@ class BinPresenter extends AdminPresenter {
             $form->addSubmit('delete', 'Delete')
                     ->setAttribute('class', 'btn');
 
-            $form->onSuccess[] = array($this, 'postFormDeleteSucceeded');
+            $form->onSuccess[] = array($this, 'binRenewSucceeded');
             return $form;
         });
     }
@@ -31,11 +31,21 @@ class BinPresenter extends AdminPresenter {
             $form->addSubmit('delete', 'Delete')
                     ->setAttribute('class', 'btn');
 
-            $form->onSuccess[] = array($this, 'postFormDeleteSucceeded');
+            $form->onSuccess[] = array($this, 'binDeleteSucceeded');
             return $form;
         });
     }
 
+    public function binRenewSucceeded($form, $values) {
+        $id = $values['id'];
+        unset($values['id']);
+        
+        $this->database->table('post')->where('id', $id)->update($values);
+        
+        $this->flashMessage('Prispevok obnoveny.', 'success');
+        $this->redirect('Homepage:');
+    }
+    
     public function binDeleteSucceeded($form, $values) {
         $id = $values['id'];
 
