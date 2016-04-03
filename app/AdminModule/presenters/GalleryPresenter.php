@@ -7,13 +7,14 @@ use App\Model,
     Nette\Application\UI\Form;
 
 class GalleryPresenter extends AdminPresenter {
+    private $gallery_id;
 
     public function renderDefault() {
         $this->template->imgs = $this->database->table('imgs')->fetchAll();
     }
 
-    public function renderAdd() {
-        
+    public function actionAdd($id) {
+        $this->gallery_id = $id;
     }
 
     public function createComponentAddForm() {
@@ -39,11 +40,15 @@ class GalleryPresenter extends AdminPresenter {
         unset($values['image_name']);
         $values['image_name'] = $image->name;
                
-        $image->move('images/gallery/'.$image->name);
-        $this->database->table('imgs')->insert($values);
+        $image->move('images/gallery/'.$this->gallery_id.'/'.$image->name);
+        $image = $this->database->table('imgs')->insert($values);
+        
+        $this->database->table('img_sort')->insert(array(
+            'gallery_id' => $this->gallery_id,
+            'img_id' => $image['id']
+        ));
         
         $this->flashMessage('Uspesne pridane');
         $this->redirect('Gallery:add');
     }
-
 }

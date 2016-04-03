@@ -1,43 +1,15 @@
 <?php
 
-namespace App\AdminModule\Components\Forms\DeleteForm;
+namespace App\Components\Gallery;
 
 use Nette\Application\UI\Form;
 
-class galleryControl extends \App\AdminModule\Components\baseControl {
-
-    public $table;
-    public $id;
-
-    public function setForms($id, $table) {
-        $this->id = $id;
-        $this->table = $table;
+class GalleryControl extends \App\AdminModule\Components\baseControl {    
+    public function renderShow($id) {
+        $template = $this->template;
+        $template->gallery_id = $id;
+        $template->setFile(__DIR__ . '/galleryDefault.latte');        
+        $template->images = $comments = $this->database->table('imgs')->where('status ? OR status ?', 1, 2)->where(':img_sort.gallery_id', $id)->fetchAll();
+        $template->render();
     }
-    
-    public function render() {
-        $temp = $this->template;
-        $temp->setFile(__DIR__ . '/deleteFormDefault.latte');
-        $temp->render();
-    }    
-
-    protected function createComponentDeleteForm() {
-        $form = new Form;
-        $form->addSubmit('delete', 'Delete')
-                ->setAttribute('class', 'btn');
-
-        $form->onSuccess[] = array($this, 'deleteFormSucceeded');
-        return $form;
-    }
-
-    public function deleteFormSucceeded($form, $values) {
-
-        $address = $this->database->table($this->table)->where('id', $this->id)->fetch()->address;
-        $this->database->table($this->table)->where('id', $this->id)->update(array('status' => 0));
-
-        $this->database->table('ctrl_menu')->where('address', $address)->update(array('status' => 0));
-
-        $this->presenter->flashMessage('Prispevok odstraneny.', 'success');
-        $this->presenter->redirect('Homepage:');
-    }
-
 }

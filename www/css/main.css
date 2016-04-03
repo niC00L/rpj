@@ -3,7 +3,10 @@
  *//* 
  Created on : 2.8.2015, 11:54:28
  Author     : niC00L
- */@media only screen and (min-width: 993px) {
+ */label:after {
+  width: 100px;
+}
+@media only screen and (min-width: 993px) {
   header.admin-open, main.admin-open {
     padding-right: 240px;
   }
