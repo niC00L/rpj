@@ -24,3 +24,4 @@ services:
 	- App\Forms\SignFormFactory
 	router: App\RouterFactory::createRouter
 	authenticator: App\Model\UserManager
+	- App\Model\GlobalSettings
