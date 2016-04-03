@@ -102,8 +102,8 @@ class SignPresenter extends BasePresenter {
         $password = $values['password'];
         unset($values['username'], $values['password'], $values['password2']);
 
-        $values['rights'] = 'user';
-        $values['token'] = '42';
+        $values['role'] = 'user';
+        $values['token'] = Nette\Utils\Random::generate(20, '0-9A-Za-z');
 
         $this->userManager->add($name, $password);
         $add_user = $this->database->table('users')->where('username', $name)->update($values);

@@ -26,7 +26,7 @@ class UserPresenter extends \App\Presenters\BasePresenter {
     
     public function createComponentUsersEditor() {
         return new Multiplier(function ($itemId) {
-            $rights = array(
+            $roles = array(
                 'admin' => 'Admin',
                 'user' => 'User',
                 'editor' => 'Editor',
@@ -34,7 +34,7 @@ class UserPresenter extends \App\Presenters\BasePresenter {
             );
             $form = new Form;   
             $form->addHidden('id');
-            $form->addSelect('rights', 'Rights', $rights)
+            $form->addSelect('role', 'Role', $roles)
                     ->setAttribute('class', 'browser-default');
             $form->addSubmit('edit', 'Edit')
                     ->setAttribute('class', 'btn');
