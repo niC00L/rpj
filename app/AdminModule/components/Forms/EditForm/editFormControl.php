@@ -37,7 +37,7 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
 
         $form = new Form;
         foreach ($fields as $f) {
-            if ($f['Field'] != 'password' && $f['Field'] != 'token' && $f['Field'] != 'rights' && $f['Field'] != 'username') {
+            if ($f['Field'] != 'password' && $f['Field'] != 'token' && $f['Field'] != 'role' && $f['Field'] != 'username') {
                 if ($f['Type'] == 'text') {
                     $form->addTextArea($f['Field'], $f['Field'])
                             ->setAttribute('class', 'materialize-textarea ' . $f['Field'])

@@ -16,7 +16,11 @@ class UserPresenter extends \App\Presenters\BasePresenter {
     public function setForms($id, $table, $defaults) {        
     }
 
-    public function actionDefault() {        
+    public function actionDefault() { 
+        if(!$this->getUser()->isAllowed('users', 'edit')) {
+            $this->flashMessage('Nemáte právo na prístup k tejto stránke');
+            $this->redirect('Admin:default');
+        }
         $users = $this->database->table('users')->fetchAll();
         $this->template->users = $users;
         foreach($users as $u) {
@@ -52,8 +56,10 @@ class UserPresenter extends \App\Presenters\BasePresenter {
     }
 
     public function actionProfile() {
-//        $this->user = $this->getUser()->getIdentity();        
-//        $this['profileForm']->setDefaults($this->user->toArray());
+        if(!$this->getUser()->isAllowed('profile', 'edit')) {
+            $this->flashMessage('Nemáte právo na prístup k tejto stránke');
+            $this->redirect('Admin:default');
+        }
         $this->id = $this->getUser()->getId();
         $this->user = $this->database->table('users')->where('id', $this->id)->fetch();
         

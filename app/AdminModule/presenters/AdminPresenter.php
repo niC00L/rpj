@@ -10,11 +10,23 @@ use Nette,
 
 class AdminPresenter extends \App\Presenters\BasePresenter {
 
-    public function renderDefault() {
-        
+    public function startup() {
+        parent::startup();
+        if(!$this->getUser()->isLoggedIn()) {
+            $this->flashMessage('Na prístup k tejto stránke sa musíte prihlásiť');
+            $this->redirect(':Sign:in');
+        }
+    }
+    
+    public function renderDefault() {        
     }
 
     public function renderGlobal() {
+        if(!$this->getUser()->isAllowed('global', 'edit')) {
+            $this->flashMessage('Nemáte právo na prístup k tejto stránke');
+            $this->redirect('Admin:default');
+        }
+        
         $defaults = $this->database->table('global_settings')->where('editable', 1)->fetchAll();
         $comments = array();
         $other = array();

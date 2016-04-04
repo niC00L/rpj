@@ -2,37 +2,49 @@
 
 namespace App\Model;
 
-class roles extends \Nette\Object implements \Nette\Security\IAuthorizator {
+class Roles extends \Nette\Object implements \Nette\Security\IAuthorizator {
 
     private $global;
+    public $acls;
 
-    private function __construct(GlobalSettings $global) {
+    public function __construct(GlobalSettings $global) {
         $this->global = $global->getGlobal();
 
-        $acl = new Nette\Security\Permission;
+        $acl = new \Nette\Security\Permission;
+
+        $acl->addResource('post');
+        $acl->addResource('comment');
+        $acl->addResource('category');
+        $acl->addResource('profile');
+        $acl->addResource('users');
+        $acl->addResource('global');
+        $acl->addResource('components');
 
         $acl->addRole('banned');
         $acl->addRole('guest', 'banned');
-        $acl->addRole('user', 'guest'); // registered dědí od guest
-        $acl->addRole('editor', 'user'); // a od něj dědí administrator
-        $acl->addRole('administrator', 'editor'); // a od něj dědí administrator
+        $acl->addRole('user', 'guest');
+        $acl->addRole('editor', 'user');
+        $acl->addRole('admin', 'editor');
 
-        $acl->allow('guest', array('article', 'comment', 'category'), 'view');
+        $acl->allow('guest', array('post', 'comment', 'category'), 'view');
 
-        if ($this->global['comment_all']==1) {
+        if ($this->global['comment_all'] == 1) {
             $acl->allow('guest', 'comment', 'add');
         } else {
             $acl->allow('user', 'comment', 'add');
         }
+
         $acl->allow('user', 'profile', 'edit');
 
-        $acl->allow('editor', array('article', 'gallery', 'category'), array('edit', 'add', 'delete'));
+        $acl->allow('editor', array('post', 'components', 'category', 'comment'), array('edit', 'add', 'delete'));
 
-        $acl->allow('administrator', Permission::ALL, array('view', 'edit', 'add'));
+        $acl->allow('admin', \Nette\Security\Permission::ALL, array('view', 'edit', 'add'));
+
+        $this->acls = $acl;
     }
 
     public function isAllowed($role, $resource, $privilege) {
-        return True;
+        return $this->acls->isAllowed($role, $resource, $privilege);
     }
 
 }
