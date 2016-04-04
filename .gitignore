@@ -6,3 +6,4 @@ vendor/*
 !web.config
 /nbproject/private/
 www/images/gallery/
+www/images/users/

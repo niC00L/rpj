@@ -8,7 +8,7 @@ use Nette,
     Nette\Application\UI\Multiplier,
     Nette\Utils\Strings;
 
-class UserPresenter extends \App\Presenters\BasePresenter {
+class UserPresenter extends AdminPresenter {
     
     private $user;
     private $id;
@@ -43,12 +43,12 @@ class UserPresenter extends \App\Presenters\BasePresenter {
             $form->addSubmit('edit', 'Edit')
                     ->setAttribute('class', 'btn');
 
-            $form->onSuccess[] = array($this, 'usersEditoorSuc');
+            $form->onSuccess[] = array($this, 'usersEditorSuc');
             return $form;
         });
     }
     
-    public function usersEditoorSuc($form, $values) {
+    public function usersEditorSuc($form, $values) {
         $id = $values['id'];
         unset($values['id']);
         
@@ -65,11 +65,5 @@ class UserPresenter extends \App\Presenters\BasePresenter {
         
         $this['editForm']->setForms($this->id, 'users', $this->user);
         
-    }
-    
-    public function createComponentProfileForm() {
-        $form = new Form;
-        
-        return $form;
     }
 }

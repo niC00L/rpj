@@ -4,9 +4,14 @@
         {foreach $comments as $com}
             <div class="col s12">
                 <div class="card">
-                    <div class="card-content">
-                        <span class="card-title grey-text text-darken-4">{$com->name}</span>
-                        <p>{$com->text}</p>
+                    <div class="row card-content">
+                        <div class="col s2">
+                            <img src="{$basePath}/images/users/{$com['user_id']}/{$com['img']}" alt="{$com['name']}" class="responsive-img">
+                        </div>
+                        <div class='col s10'>
+                            <span class="card-title grey-text text-darken-4">{$com['name']}</span>
+                            <p>{$com['text']}</p>
+                        </div>
                     </div>
                 </div>
             </div>
