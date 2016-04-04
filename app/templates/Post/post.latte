@@ -21,7 +21,7 @@
     {control gallery:show $post['gallery_id']}
 {/if}
 
-{if $post->comments == 1}
+{if $comments['post'] == 1}
     {control comments:show $post->id, 'post'}
 {/if}
 <strong> {$post->create_date}</strong>

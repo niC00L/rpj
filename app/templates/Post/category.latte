@@ -22,4 +22,8 @@
     <blockquote>{$post->description}</blockquote>
 {/foreach}
 
+{if $comments['ctg'] == 1}
+    {control comments:show $category->id, 'post_ctg'}
+{/if}
+
 {/block}
