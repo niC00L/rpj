@@ -6,7 +6,6 @@ use Nette\Application\UI\Control,
     Nette\Application\UI\Form;
 
 class CommentsControl extends \App\AdminModule\Components\baseControl {
-
     private $id;
     private $table;
     public $user;
@@ -39,7 +38,7 @@ class CommentsControl extends \App\AdminModule\Components\baseControl {
         $template->render();
     }
 
-    public function createComponentAddCommentForm() {
+    public function createComponentAddCommentForm() {        
         $form = new Form;
         if (!$this->presenter->user->isLoggedIn()) {
             $form->addText('name', 'Meno')
