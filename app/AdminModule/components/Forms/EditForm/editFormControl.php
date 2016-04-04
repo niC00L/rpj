@@ -90,6 +90,14 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
             }
         }
 
+        if ($values['image_name']) {
+            $image = $values['image_name'];
+            unset($values['image_name']);
+            $values['image_name'] = $image->name;
+
+            $image->move('images/' . $this->table . '/'.$this->id.'/' . $image->name);
+        }
+
         if ($this->id) {
 //	zapisanie/pridanie obsahu stranky
             $this->database->table($this->table)->get($this->id)->update($values);
