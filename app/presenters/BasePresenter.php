@@ -13,11 +13,13 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
     /** @var Nette\Database\Context */
     public $database;
     public $global;
+    public $g;
 
     public function __construct(\Nette\Database\Context $database, \App\Model\GlobalSettings $global) {
         parent::__construct();
         $this->database = $database;
         $this->global = $global->getGlobal();
+        $this->g = $global;
     }
 
     /** @var Nette\Http\SessionSection */
@@ -31,7 +33,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
         
         $components = $this->database->table('controls')->fetchAll();
         foreach ($components as $com) {
-            $this->addComponent(new $com['namescape']($this->database), $com['component_name']);
+            $this->addComponent(new $com['namescape']($this->database, $this->g), $com['component_name']);
         }
     }
 
