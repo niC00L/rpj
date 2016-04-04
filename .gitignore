@@ -5,3 +5,4 @@ vendor/*
 !.htaccess
 !web.config
 /nbproject/private/
+www/images/gallery/
