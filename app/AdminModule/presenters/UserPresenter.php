@@ -10,8 +10,7 @@ use Nette,
 
 class UserPresenter extends AdminPresenter {
     
-    private $user;
-    private $id;
+    public $id;
     
     public function setForms($id, $table, $defaults) {        
     }
@@ -55,15 +54,14 @@ class UserPresenter extends AdminPresenter {
         $this->database->table('users')->where('id', $id)->update($values);
     }
 
-    public function actionProfile() {
-        if(!$this->getUser()->isAllowed('profile', 'edit')) {
+    public function actionProfile($id) {
+        if(!$this->getUser()->isAllowed('profile', 'view')) {
             $this->flashMessage('Nemáte právo na prístup k tejto stránke');
-            $this->redirect('Admin:default');
+            $this->redirect(':Homepage:default');
         }
-        $this->id = $this->getUser()->getId();
-        $this->user = $this->database->table('users')->where('id', $this->id)->fetch();
-        
-        $this['editForm']->setForms($this->id, 'users', $this->user);
-        
+        $user = $this->database->table('users')->where('id', $id)->fetch();        
+        $user = $user->toArray();
+        $this->template->profile = $user;
+        $this['editForm']->setForms($id, 'users', $user);        
     }
 }

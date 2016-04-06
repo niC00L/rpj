@@ -5,6 +5,51 @@ Main SCSS template for webpage
     Created on : 2.8.2015, 11:54:28
     Author     : niC00L
 */
+body {
+    font-size: 12px;
+}
+
+
+.form-invisible {
+    .edit-img {
+        position: relative;  
+        cursor: pointer;
+        
+        #uploadImg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 999;
+            margin-top: -.9em;
+            margin-left: -.5em;
+            font-size: 3em;
+            text-align: center;
+            opacity: 0;            
+            transition: all .2s ease;
+        }
+        img{            
+            transition: all .2s ease;
+        }
+
+        &:hover {
+            #uploadImg {opacity: 1;}
+            img {opacity: .3;}            
+        }
+    }
+    form {
+        label {
+            display: none;
+        }
+        input[type='text'] {
+            border: none;
+            display: inline;
+        }
+        input[name='image_name'] {
+            display: none;
+        }
+    }
+}
+
 label:after {
     width: 100px;
 }
@@ -25,7 +70,7 @@ label:after {
     .container {
         width: 85%;
     }
-    
+
     .w-trans {
         -webkit-transition: 0.3s;
         -moz-transition: 0.3s;

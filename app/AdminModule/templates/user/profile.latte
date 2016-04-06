@@ -1,4 +1,36 @@
 {block content}
 
-<h1> User profile</h1>
-{control editForm}
+<h1>Profil</h1>
+<div class='row'>
+    <div class='form-invisible'>
+        {if $user->isAllowed('profile', 'edit')}            
+            <div class='col s4 edit-img' onclick="$('#frm-editForm-editForm-image_name').click()">
+                <div id='uploadImg'>
+                    <i class="fa fa-upload"></i>
+                </div>
+                <img class='responsive-img' id="profilePic" src='{$basePath}/images/users/{$profile['id']}/{$profile['image_name']}'>                
+            </div>
+            <div class='col s8'>
+                {control editForm 'editProfile'}
+            </div>
+        {/if}
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#profilePic').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#frm-editForm-editForm-image_name").change(function () {
+            readURL(this);
+        });
+    });
+</script>
