@@ -1,0 +1,11 @@
+{block content}
+
+{form editForm}
+    {foreach $form->getControls() as $control}        
+        {if $control->caption == 'Image'}            
+            {input $control}
+        {else}
+            {input $control}
+        {/if}
+    {/foreach}
+{/form}

@@ -10,10 +10,9 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
     public $table;
     public $id;
 
-    public function render() {
-        $temp = $this->template;
-        $temp->setFile(__DIR__ . '/editFormDefault.latte');
-        $temp->render();
+    public function render($template = 'editFormDefault') {
+        $this->template->setFile(__DIR__ . '/'.$template.'.latte');
+        $this->template->render();
     }
 
     public function setForms($id, $table, $defaults) {
