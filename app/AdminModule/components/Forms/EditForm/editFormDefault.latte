@@ -1,2 +1,6 @@
 {block content}
-{control editForm}
+{form editForm}
+    {foreach $form->getControls() as $control}        
+        {input $control}
+    {/foreach}
+{/form}

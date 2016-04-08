@@ -11,7 +11,7 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
     public $id;
 
     public function render($template = 'editFormDefault') {
-        $this->template->setFile(__DIR__ . '/'.$template.'.latte');
+        $this->template->setFile(__DIR__ . '/' . $template . '.latte');
         $this->template->render();
     }
 
@@ -37,11 +37,11 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
         $form = new Form;
         foreach ($fields as $f) {
             if ($f['Field'] != 'password' && $f['Field'] != 'token' && $f['Field'] != 'role' && $f['Field'] != 'username') {
-                if ($f['Type'] == 'text') {
+                if (\Nette\Utils\Strings::endsWith($f['Type'], 'text')) {
                     $form->addTextArea($f['Field'], $f['Field'])
                             ->setAttribute('class', 'materialize-textarea ' . $f['Field'])
                             ->setAttribute('placeholder', $f['Field']);
-                } elseif ($f['Field'] == 'image_name') {
+                } elseif (\Nette\Utils\Strings::endsWith($f['Field'], 'image')) {
                     $form->addUpload($f['Field'], 'Image');
                 } elseif (Strings::startsWith($f['Type'], 'varchar')) {
                     $form->addText($f['Field'], $f['Field'])
@@ -87,14 +87,17 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                 }
                 unset($values[$key]);
             }
-        }
 
-        if ($values['image_name']) {
-            $image = $values['image_name'];
-            unset($values['image_name']);
-            $values['image_name'] = $image->name;
-
-            $image->move('images/' . $this->table . '/'.$this->id.'/' . $image->name);
+            if (Strings::endsWith($key, 'image')) {
+                if (strlen($values[$key]) > 1) {
+                    $image = $values[$key];
+                    $values[$key] = $image->name;
+                    $image->move('images/' . $this->table . '/' . $this->id . '/' . $image->name);
+                    $values[$key] = $image->name;
+                } else {
+                    unset($values[$key]);
+                }
+            }
         }
 
         if ($this->id) {
