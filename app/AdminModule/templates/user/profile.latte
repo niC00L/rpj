@@ -1,36 +1,85 @@
 {block content}
 
-<h1>Profil</h1>
-<div class='row'>
+<main>     
     <div class='form-invisible'>
-        {if $user->isAllowed('profile', 'edit')}            
-            <div class='col s4 edit-img' onclick="$('#frm-editForm-editForm-image_name').click()">
-                <div id='uploadImg'>
-                    <i class="fa fa-upload"></i>
+        <div class="parallax-container">
+            {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']}
+                <div class='edit-img' onclick="$('#frm-editForm-editForm-background_image').click()">
+                    <div class="parallax" > 
+                        <div class="uploadImg ">
+                            <span class="center-align">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                        </div>                  
+                        <img class='responsive-img' id="backgroundPic" src='{$basePath}/images/users/{$profile['id']}/{$profile['background_image']}'>            
+                    </div>
                 </div>
-                <img class='responsive-img' id="profilePic" src='{$basePath}/images/users/{$profile['id']}/{$profile['image_name']}'>                
+            {else}
+                <div class="parallax" > 
+                    <img class='responsive-img' id="backgroundPic" src='{$basePath}/images/users/{$profile['id']}/{$profile['background_image']}'>            
+                </div>
+            {/if}
+        </div>
+        <div class="row container">            
+            <div class="section white">
+                <div class="row center-align">
+                    {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']}
+                        <div class='edit-img profile circle valign-wrapper' >
+                            <div class="uploadImg valign-wrapper" onclick="$('#frm-editForm-editForm-profile_image').click()">
+                                <span class="valign center-align">
+                                    <i class="fa fa-upload"></i>
+                                </span>
+                            </div>
+                            <div class='responsive-img valign' id="profilePic" style='background-image:url({$basePath}/images/users/{$profile['id']}/{$profile['profile_image']})'></div>
+                        </div>
+                    {else}
+                        <div class='edit-img profile circle valign-wrapper'>
+                            <div class='responsive-img valign' id="profilePic" style='background-image:url({$basePath}/images/users/{$profile['id']}/{$profile['profile_image']})'></div>
+                        </div>
+                    {/if}
+                </div>
+                {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']} 
+                    {control editForm 'editProfile'}
+                {else}
+                    <p class="display_name">
+                        {$profile['display_name']}
+                    </p>
+                    <p class="email">
+                        {$profile['email']}
+                    </p>
+                    <p class="about">
+                        {$profile['about']}
+                    </p>
+                {/if}
             </div>
-            <div class='col s8'>
-                {control editForm 'editProfile'}
-            </div>
-        {/if}
+        </div>
     </div>
-</div>
+</main>
 
 <script>
     $(document).ready(function () {
-        function readURL(input) {
+        function readURL(input, output, bcg) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $('#profilePic').attr('src', e.target.result);
+                    if (bcg == 1) {
+                        $(output).css('background-image', 'url(' + e.target.result + ')');
+                    } else {
+                        $(output).attr('src', e.target.result);
+                    }
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        $("#frm-editForm-editForm-image_name").change(function () {
-            readURL(this);
+        $("#frm-editForm-editForm-profile_image").change(function () {
+            readURL(this, '#profilePic', 1);
         });
+        $("#frm-editForm-editForm-background_image").change(function () {
+            readURL(this, '#backgroundPic', 0);
+        });
+
+        $('.parallax').parallax();
+
     });
 </script>

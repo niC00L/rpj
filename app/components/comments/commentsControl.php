@@ -30,7 +30,7 @@ class CommentsControl extends \App\AdminModule\Components\baseControl {
             if ($comment['user_id']) {
                 $comment['name'] = $this->getUser($comment['user_id'])['display_name'];
                 $comment['email'] = $this->getUser($comment['user_id'])['email'];
-                $comment['img'] = $this->getUser($comment['user_id'])['image_name'];
+                $comment['img'] = $this->getUser($comment['user_id'])['profile_image'];
             }
             array_push($coms, $comment);
         }

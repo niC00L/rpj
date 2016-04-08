@@ -6,27 +6,29 @@ use Nette,
     App\Model,
     Nette\Application\UI\Form,
     Nette\Application\UI\Multiplier,
-    Nette\Utils\Strings;
+    Nette\Utils\Strings,
+    Nette\Utils\Image;
 
 class UserPresenter extends AdminPresenter {
-    
+
     public $id;
-    
-    public function setForms($id, $table, $defaults) {        
+
+    public function setForms($id, $table, $defaults) {
+        
     }
 
-    public function actionDefault() { 
-        if(!$this->getUser()->isAllowed('users', 'edit')) {
+    public function actionDefault() {
+        if (!$this->getUser()->isAllowed('users', 'edit')) {
             $this->flashMessage('Nemáte právo na prístup k tejto stránke');
             $this->redirect('Admin:default');
         }
         $users = $this->database->table('users')->fetchAll();
         $this->template->users = $users;
-        foreach($users as $u) {
+        foreach ($users as $u) {
             $this['usersEditor'][$u['id']]->setDefaults($u);
         }
     }
-    
+
     public function createComponentUsersEditor() {
         return new Multiplier(function ($itemId) {
             $roles = array(
@@ -35,7 +37,7 @@ class UserPresenter extends AdminPresenter {
                 'editor' => 'Editor',
                 'ban' => 'Banned'
             );
-            $form = new Form;   
+            $form = new Form;
             $form->addHidden('id');
             $form->addSelect('role', 'Role', $roles)
                     ->setAttribute('class', 'browser-default');
@@ -46,22 +48,28 @@ class UserPresenter extends AdminPresenter {
             return $form;
         });
     }
-    
+
     public function usersEditorSuc($form, $values) {
         $id = $values['id'];
         unset($values['id']);
-        
+
         $this->database->table('users')->where('id', $id)->update($values);
     }
 
     public function actionProfile($id) {
-        if(!$this->getUser()->isAllowed('profile', 'view')) {
+        if (!$this->getUser()->isAllowed('profile', 'view')) {
             $this->flashMessage('Nemáte právo na prístup k tejto stránke');
             $this->redirect(':Homepage:default');
         }
-        $user = $this->database->table('users')->where('id', $id)->fetch();        
+        $posts = $this->database->table('post')->where('author', $id);
+        $comments = $this->database->table('comments')->where('user_id', $id);
+        $user = $this->database->table('users')->where('id', $id)->fetch();
         $user = $user->toArray();
+        
+//        $this->template->comments = $comments;
+//        $this->template->posts = $posts;
         $this->template->profile = $user;
-        $this['editForm']->setForms($id, 'users', $user);        
+        $this['editForm']->setForms($id, 'users', $user);
     }
+
 }
