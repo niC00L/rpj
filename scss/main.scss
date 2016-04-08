@@ -5,54 +5,111 @@ Main SCSS template for webpage
     Created on : 2.8.2015, 11:54:28
     Author     : niC00L
 */
+/*$white = hsla(100, 100, 100, 1);*/
+
+
 body {
     font-size: 12px;
 }
 
+.parallax-container {
+    height: 40vh;
+}        
 
 .form-invisible {
-    .edit-img {
-        position: relative;  
-        cursor: pointer;
-        
-        #uploadImg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 999;
-            margin-top: -.9em;
-            margin-left: -.5em;
-            font-size: 3em;
-            text-align: center;
-            opacity: 0;            
-            transition: all .2s ease;
-        }
-        img{            
-            transition: all .2s ease;
-        }
-
-        &:hover {
-            #uploadImg {opacity: 1;}
-            img {opacity: .3;}            
-        }
-    }
     form {
         label {
             display: none;
         }
-        input[type='text'] {
+        input[type='text'], textarea {
             border: none;
-            display: inline;
-        }
-        input[name='image_name'] {
-            display: none;
-        }
+            margin-bottom: 0;
+        } 
     }
+
+    /*CUSTOM STYLES FOR PROFILE PAGE*/
+    input[name='profile_image'], input[name='background_image'] {
+        display: none;
+    }
+    .display_name{        
+        margin: 0;
+        padding-top: 1rem;
+        /*padding-bottom: 1rem;*/
+        text-align: center;
+        font-size: 2.5rem;  
+    }
+    .email{
+        text-align: center;
+        height: auto;
+        padding-bottom: .2rem;
+        padding-top: .2rem;
+        margin: 0;
+    }
+    [name='send'] {margin-top: -3rem;}
+    .about {
+        padding-top: 2rem;
+        padding-bottom: 1.5rem;
+        text-align: center;        
+        text-transform: uppercase;
+        font-size: 1.3rem;
+        /*border-bottom: 2px dashed hsla(0,0,0,.3);*/
+    }
+
+    /*CUSTOM STYLES FOR PROFILE PAGE*/
+    .edit-img {
+        position: relative;                  
+        padding: 0;
+        height: 100%;        
+        cursor: pointer;                
+        box-shadow: 0 0  1rem hsla(0, 0, 0, .5);
+
+        &.profile {
+            margin-top: -25vh;
+            width: 40vmin;
+            height: 40vmin;
+            display: inline-block;            
+            border-radius: 50%;
+            overflow: hidden;  
+            border: .5rem solid white;
+
+            .uploadImg {
+                padding-top: 0;
+                border-radius: 50%;
+            }
+
+            #profilePic {
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center;
+            }
+        }
+
+        .uploadImg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding-top: 3vh;
+            z-index: 999;
+            font-size: 3rem;
+            text-align: center;
+            opacity: 0;                        
+            background-color: hsla(100, 100, 100, .5);
+            transition: all .2s ease;
+
+            span{width: 100%;}
+        }
+        img{    
+            transition: all .2s ease;
+        }
+
+        &:hover {
+            .uploadImg {opacity: 1;}
+        }
+    }        
 }
 
-label:after {
-    width: 100px;
-}
+label:after {width: 100px;}
 
 @media only screen and (min-width: 993px){
     header, main {
