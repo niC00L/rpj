@@ -1,0 +1,25 @@
+{block content}
+
+{form editForm}
+    {foreach $form->getControls() as $control}        
+        {if $control->getName() != 'address' && $control->getName() != 'description' && $control->getName() != 'template'}
+            {input $control}
+        {/if}
+    {/foreach}
+
+    <a class="waves-effect waves-light btn modal-trigger" href="#otherSettings">Ďalšie nastavenia</a>
+
+    <!-- Modal Structure -->
+    <div id="otherSettings" class="modal bottom-sheet">
+        <div class="modal-content">
+            {foreach $form->getControls() as $control}        
+                {if $control->getName() == 'address' || $control->getName() == 'description' || $control->getName() == 'template'}
+                    {input $control}
+                {/if}
+            {/foreach}
+        </div>
+        <div class="modal-footer">
+            {input send}
+        </div>
+    </div>
+{/form}

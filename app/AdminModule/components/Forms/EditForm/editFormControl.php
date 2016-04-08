@@ -48,6 +48,10 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                             ->setAttribute('class', $f['Field'])
                             ->setAttribute('placeholder', $f['Field'])
                             ->setRequired();
+                } elseif ($f['Field'] == 'template') {
+                    $templates = $this->database->table('site_templates')->where('type', $this->table)->fetchPairs('id', 'title');
+                    $t = $form->addSelect($f['Field'], $f['Field'], $templates)
+                        ->setAttribute('class', 'browser-default');
                 }
             }
         }
