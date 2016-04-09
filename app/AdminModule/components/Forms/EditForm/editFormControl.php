@@ -50,8 +50,7 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                             ->setRequired();
                 } elseif ($f['Field'] == 'template') {
                     $templates = $this->database->table('site_templates')->where('type', $this->table)->fetchPairs('id', 'title');
-                    $t = $form->addSelect($f['Field'], $f['Field'], $templates)
-                        ->setAttribute('class', 'browser-default');
+                    $t = $form->addSelect($f['Field'], $f['Field'], $templates);
                 }
             }
         }
@@ -60,13 +59,11 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
 //	vykreslia sa checkboxy
             if ($ctgs) {
                 foreach ($ctgs as $ctg) {
-                    $form->addCheckbox('category_' . $ctg['id'], $ctg['title']);
+                    $i = $form->addCheckbox('category_' . $ctg['id'], $ctg['title']);
                 }
-            }
 //	pouzitym sa prida hodnota true
-            if ($ctgs) {
                 foreach ($ctgs_in as $ctg_in) {
-                    $form->setValues(['category_' . $ctg_in->ctg_id => true]);
+                    $i = $form->setValues(['category_' . $ctg_in->ctg_id => true]);
                 }
             }
         }
