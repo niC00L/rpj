@@ -13,6 +13,9 @@
         <!--Styles-->
         <link rel="stylesheet" href="{$basePath}/css/materialize.css">
         <link rel="stylesheet" href="{$basePath}/font/font-awesome-450/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{$basePath}plugins/markitup/style.css">
+        <link rel="stylesheet" href="{$basePath}plugins/markitup/set/style.css">
+
         <link rel="stylesheet" href="{$basePath}/css/main.css">
 
         <link rel="stylesheet" href="{$basePath}/css/style.css">
@@ -29,6 +32,8 @@
         <script src="{$basePath}/js/materialize.min.js"></script>
 
         <script src="{$basePath}/plugins/jquery.cookie.js"></script>
+        <script src="{$basePath}/plugins/markitup/jquery.markitup.js"></script>
+        <script src="{$basePath}/plugins/markitup/set/set.js"></script>        
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -56,20 +61,35 @@
                     Materialize.toast({$flash->message}, 4000)
                 });
             </script>
-        {/foreach}
-        <main>
-            <div class="container">                  
-                {include content}
+        {/foreach}                
+        {include content}
+        
+        <footer class="page-footer light-blue lighten-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Odkazy na sociálne siete</h5>
+                        <a class="white-text" href="{$global['social_twitter']}">Twitter</a>
+                        <a class="white-text" href="{$global['social_instagram']}">Instagram</a>
+                        <a class="white-text" href="{$global['social_youtube']}">YouTube</a>
+                        <a class="white-text" href="{$global['social_steam']}">Steam</a>
+                    </div>
+                </div>
             </div>
-        </main>
+            <div class="footer-copyright">
+                <div class="container">
+                    © niC00L 2016 
+                </div>
+            </div>
+        </footer>
 
         <link href='//nicool.rocks/stuff/tickets/tickets.css' rel='stylesheet'>
         <script type="text/javascript" src="//nicool.rocks/stuff/tickets/tickets.js"></script>
 
         <script n:if="$user->loggedIn" src="{$basePath}/js/admin-menu.js"></script>        
         <script src="{$basePath}/js/nette.ajax.js"></script>        
-        <script src="{$basePath}/js/main.js"></script>        
-        
+        <script src="{$basePath}/js/main.js"></script>
+
         {ifset #scripts}
             {include scripts}
         {/ifset}
