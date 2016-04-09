@@ -1,5 +1,5 @@
 $(function () {
-    $(".button-collapse").sideNav({
+    $('.toggle-admin').sideNav({
         edge: 'right'
     });
 

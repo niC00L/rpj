@@ -4,8 +4,8 @@
         <div class="container">
             <div class="nav-wrapper">
                 <a class="brand-logo" href="{plink :Homepage:}">Logo</a>
-                <a n:if="$user->loggedIn" href="#" data-activates="admin-nav" class="button-collapse right"><i class="mdi-navigation-menu"></i></a>
-                <a n:if="$user->loggedIn" href="#" data-toggle="admin-nav" id="admin-toggle" class="right hide-on-med-and-down"><i class="mdi-navigation-menu"></i></a>
+                <a n:if="$user->loggedIn" href="#" data-activates="admin-nav" data-side="right" class="button-collapse toggle-admin right"><i class="mdi-navigation-menu"></i></a>
+                <a n:if="$user->loggedIn" href="#" data-toggle="admin-nav" data-side="right" id="admin-toggle" class="right hide-on-med-and-down"><i class="mdi-navigation-menu"></i></a>
                 <ul class="right hide-on-med-and-down">						
                     {foreach $links as $link}
                         {if $link->status == 1}
@@ -41,6 +41,42 @@
                         {/if}
                     {/foreach}
                 </ul>                                
+                <ul id="slide-out" class="side-nav">						
+                    {foreach $links as $link}
+                        {if $link->status == 1}
+                            {if $link->type == 'Homepage'}
+                                <li><a class="{$link->class}" href="{plink :Homepage: }">{$link->title}</a></li>
+
+                            {elseif $link->type == 'Post'}
+                                <li><a  class="{$link->class}"href="{plink ':'.$link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
+
+                            {elseif $link->type == 'Sign'}
+                                {if $user->loggedIn}
+                                <li><a class="{$link->class}" href="{plink :Sign:out}">Odhlásit</a></li>
+                                {else}
+                                <li><a class="{$link->class}" href="{plink :Sign:in}">Prihlásit</a></li>
+                                {/if}					
+                            {/if}
+                        {elseif $link->status == 2}
+                            {if $user->loggedIn}
+                                {if $link->type == 'Homepage'}
+                                <li><a class="{$link->class}" href="{plink :Homepage: }">{$link->title}</a></li>
+
+                            {elseif $link->type == 'Post'}
+                                <li><a  class="{$link->class}"href="{plink ':'.$link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
+
+                            {elseif $link->type == 'Sign'}
+                                {if $user->loggedIn}
+                                    <li><a class="{$link->class}" href="{plink :Sign:out}">Odhlásit</a></li>
+                                    {else}
+                                    <li><a class="{$link->class}" href="{plink :Sign:in}">Prihlásit</a></li>
+                                    {/if}					
+                                {/if}
+                            {/if}
+                        {/if}
+                    {/foreach}
+                </ul>   
+                <a href="#" data-activates="slide-out" class="button-collapse toggle-menu" data-side="left"><i class="mdi-navigation-menu"></i></a>
                 <div class="clearfix"></div>
             </div>
         </div>
