@@ -1,15 +1,18 @@
 {if count($comments)>0}
     <div class="row">     
-        <h3>Komentáre</h3>
+        <h4>Komentáre</h4>
         {foreach $comments as $com}
-            <div class="col s12">
+            <div class="col s12 comment">
                 <div class="card">
                     <div class="row card-content">
-                        <div class="col s2">
-                            <img src="{$basePath}/images/users/{$com['user_id']}/{$com['img']}" alt="{$com['name']}" class="responsive-img">
-                        </div>
-                        <div class='col s10'>
-                            <span class="card-title grey-text text-darken-4">{$com['name']}</span>
+                        <a href="{plink Admin:User:profile $com['user_id']}">
+                            <div class="circle author-pic inline-block" style="background-image:url({$basePath}/images/users/{$com['user_id']}/{$com['img']}" alt="{$com['name']})">
+                            </div>
+                        </a>
+                        <div class='inline-block text'>
+                            <a href="{plink Admin:User:profile $com['user_id']}">
+                                <span class="card-title grey-text text-darken-4">{$com['name']}</span>
+                            </a>
                             <p>{$com['text']}</p>
                         </div>
                     </div>
@@ -19,7 +22,22 @@
     </div>
 {/if}
 {if $user->isAllowed('comment', 'add')}
-    {control addCommentForm}
+    <div class="card grey lighten-4">
+        <div class="card-content grey-text text-darken-4">
+            <span class="card-title teal-text">Pridať komentár</span>
+            {form addCommentForm}
+                {foreach $form->getControls() as $control}
+                    {if $control->getName()!='submit'}
+                        <div class="input-field">
+                            {input $control}
+                        {label $control}{$control->caption}{/label}
+                    </div>
+                {/if}
+            {/foreach}
+            {input submit}
+        {/form}
+    </div>
+</div>
 {else}
-    <strong>{'Pre pridávanie kmentárov sa musíte prihlásiť'}</strong>
+    <strong>Pre pridávanie kmentárov sa musíte prihlásiť</strong>
 {/if}
