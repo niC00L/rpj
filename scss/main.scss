@@ -34,7 +34,7 @@ body {
 }        
 
 .form-invisible {
-    form {
+    /*form {*/
         label {
             display: none;
         }
@@ -42,7 +42,7 @@ body {
             border: none;
             margin-bottom: 0;
         } 
-    }
+    /*}*/
 
     /*CUSTOM STYLES FOR PROFILE PAGE*/
     input[name='profile_image'], input[name='background_image'], input[name='title_image'] {
@@ -135,6 +135,26 @@ body {
 
 label:after {width: 100px;}
 
+/*CUSTOM STYLE FOR POST PAGE*/  
+.author {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+
+    span {vertical-align: middle;}        
+    .author-pic {
+        display: inline-block;
+        width: 3.5rem;
+        height: 3.5rem;
+        background-size: cover;
+        background-position: center;
+        border: .25rem solid white;
+    }
+}
+#otherSettings {
+    max-height: 60vh;
+}
+
+/*ADMIN SIDE NAVIGATION*/
 @media only screen and (min-width: 993px){
     header, main {
         &.admin-open {
@@ -156,19 +176,3 @@ label:after {width: 100px;}
         @include transition( all .2s ease);
     }
 }
-
-/*CUSTOM STYLE FOR POST PAGE*/  
-.author {
-        padding-top: .5rem;
-        padding-bottom: .5rem;
-        
-        span {vertical-align: middle;}        
-        .author-pic {
-            display: inline-block;
-            width: 3.5rem;
-            height: 3.5rem;
-            background-size: cover;
-            background-position: center;
-            border: .25rem solid white;
-        }
-    }
