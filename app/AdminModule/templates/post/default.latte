@@ -7,14 +7,8 @@
     {foreach $post_ctgs as $post_ctg}
         <div class="col s12 m4">
             <div class="card">
-                {if $post_ctg['status'] == 1}
-                    <span class="chip">P</span>
-                {/if}
                 <a href="{plink :Post:category $post_ctg->address}"><h3>{$post_ctg->title}</h3></a>
                         {foreach $posts[$post_ctg['id']] as $post}
-                            {if $post['status'] == 1}
-                        <span class="new badge">P</span>
-                    {/if}
                     <a href="{plink :Post:show $post->address}"><h4>{$post->title}</h4></a>
                         {/foreach}
             </div>
@@ -24,9 +18,6 @@
         <div class="card">
             <h3>Bez kategorie</h3>
             {foreach $uncategorized as $unctg}  
-                {if $unctg['status'] == 1}
-                            <span class="new badge">P</span>
-                        {/if}
                 <a href="{plink :Post:show $unctg->address}"><h4>{$unctg->title}</h4></a>
                     {/foreach}
         </div>

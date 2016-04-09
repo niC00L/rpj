@@ -1,27 +1,74 @@
 {block content}
+<main>
+    <div class="form-invisible">
+        <div class="parallax-container" style="height:55vmin;">
+            {if $user->isAllowed('post', 'edit')}
+                <div class='edit-img' onclick="$('#frm-editForm-editForm-title_image').click()">
+                    <div class="parallax"> 
+                        <div class="uploadImg valign-wrapper">
+                            <span class="center-align valign">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                        </div>                  
+                        <img class='responsive-img' id="titlePic" src='{$basePath}/images/post/{$post['id']}/{$post['title_image']}'>            
+                    </div>
+                </div>
+            {else}
+                <div class="parallax"> 
+                    <img class='responsive-img' id="titlePic" src='{$basePath}/images/post/{$post['id']}/{$post['title_image']}'>            
+                </div>
+            {/if}
+        </div>
+        <div class="author row grey lighten-3">
+            <div class="container">                
+                <span>
+                    {if $user->isAllowed('profile', 'view')}
+                        <a n:href="Admin:User:profile $author['id']">
+                        {/if}
+                        <span class="circle author-pic" style="background-image:url({$basePath}/images/users/{$author['id']}/{$author['profile_image']})" ></span>
+                        <strong class="grey-text text-darken-4">{$author['display_name']}</strong>
+                        {if $user->isAllowed('profile', 'view')}
+                        </a>
+                    {/if}
+                </span>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <span><i class="fa fa-calendar"></i> &nbsp;{$post->create_date|date:'%d.%m.%Y'}</span>
+            </div>
+        </div>
+        <div class="container padding-vertical-1">            
+            {if $user->loggedIn && $user->isAllowed('post', 'edit')}
+                {control editForm 'editPost'}
 
-<p><a n:href="Homepage:default"> Spat </a></p>
+                {if $post->status != 0}                    
+                    {control deleteForm}
+                {else}
+                    <blockquote>Tento článok sa nachádza v koši.
+                        {control renewForm} {*control deleteForeverForm*}
+                    </blockquote>
+                {/if} 
+            {else}
+                <h1 class="title"> {$post->title} </h1>
+                <p> {$post->text} </p>	    
+            {/if}                        
 
-{if $user->loggedIn}
-    {control editForm}
-    {if $post->status != 0}
-        {control deleteForm}
-        {if $post->status == 2}
-            {control publishForm}
-        {/if}
-    {else}
-        {control renewForm}
-    {/if} 
-{else}
-    <h1> {$post->title} </h1>
-    <p> {$post->text} </p>	    
-{/if}
+            {if $post['gallery_id']}
+                {control gallery:show $post['gallery_id']}
+            {/if}
 
-{if $post['gallery_id']}
-    {control gallery:show $post['gallery_id']}
-{/if}
+            {if $comments['post'] == 1}
+                {control comments:show $post->id, 'post'}
+            {/if}            
+        </div>
+    </div>
+</main>
 
-{if $comments['post'] == 1}
-    {control comments:show $post->id, 'post'}
-{/if}
-<strong> {$post->create_date}</strong>
+<script type="text/javascript" >
+    $(function () {
+        $("#frm-editForm-editForm-title_image").change(function () {
+            readURL(this, '#titlePic', 0);
+        });
+        //        $("textarea").markItUp(mySettings);
+    });
+</script>

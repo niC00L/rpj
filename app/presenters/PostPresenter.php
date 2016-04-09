@@ -29,7 +29,8 @@ class PostPresenter extends BasePresenter {
 
         $post = $this->template->post = $this->database->table('post')->where('address', $address)->fetch();
         $images = $this->template->images = $this->database->table('imgs')->where(':img_sort.gallery_id', $post['gallery_id'])->fetchAll();        
-
+        $author = $this->template->author = $this->database->table('users')->where('id', $post['author'])->fetch();
+        
         $template = $this->database->table('site_templates')->where('site_templates.id', $post['template'])->fetch()->file_name;
         $this->setView($template);
         
