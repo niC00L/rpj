@@ -7,9 +7,16 @@ use Nette,
 
 class BinPresenter extends AdminPresenter {
 
+    public function startup() {
+        if ($this->getUser()->getRoles()[0] == 'banned') {
+            $this->flashMessage('Máte ban');
+            $this->redirect('Admin:default');
+        }
+    }
+
     public function renderDefault() {
         $posts = $this->template->posts = $this->database->table('post')->where('status', 0)->fetchAll();
-        $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->where('status', 0)->fetchAll();       
+        $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->where('status', 0)->fetchAll();
     }
 
     public function createComponentBinRenew() {
@@ -39,13 +46,13 @@ class BinPresenter extends AdminPresenter {
     public function binRenewSucceeded($form, $values) {
         $id = $values['id'];
         unset($values['id']);
-        
+
         $this->database->table('post')->where('id', $id)->update($values);
-        
+
         $this->flashMessage('Prispevok obnoveny.', 'success');
         $this->redirect('Homepage:');
     }
-    
+
     public function binDeleteSucceeded($form, $values) {
         $id = $values['id'];
 

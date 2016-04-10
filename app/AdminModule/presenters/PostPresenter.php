@@ -7,6 +7,13 @@ use Nette,
 
 class PostPresenter extends AdminPresenter {
 
+    public function startup() {
+        if ($this->getUser()->getRoles()[0] == 'banned') {
+            $this->flashMessage('Máte ban');
+            $this->redirect('Admin:default');
+        }
+    }
+    
     public function setForms($id, $table, $defaults) {
         
     }

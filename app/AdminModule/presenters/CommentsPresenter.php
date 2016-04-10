@@ -6,6 +6,12 @@ use Nette,
     Nette\Application\UI\Form;
 
 class CommentsPresenter extends AdminPresenter {
+    public function startup() {
+        if ($this->getUser()->getRoles()[0] == 'banned') {
+            $this->flashMessage('Máte ban');
+            $this->redirect('Admin:default');
+        }
+    }
 
     public function renderShow() {
         $comments = $this->database->table('comments')->where('NOT(status ?)', 0)->fetchAll();
@@ -16,8 +22,8 @@ class CommentsPresenter extends AdminPresenter {
             if (!in_array($com->post_id, $post_ids)) {
                 array_push($post_ids, $com->post_id);
             }
-            if (!in_array($com->ctg_id, $ctg_ids)) {
-                array_push($ctg_ids, $com->ctg_id);
+            if (!in_array($com->post_ctg_id, $ctg_ids)) {
+                array_push($ctg_ids, $com->post_ctg_id);
             }
             if (!in_array($com->img_id, $img_ids)) {
                 array_push($img_ids, $com->img_id);

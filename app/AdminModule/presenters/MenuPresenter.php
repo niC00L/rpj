@@ -12,7 +12,11 @@ class MenuPresenter extends AdminPresenter {
 
     public function startup() {
         parent::startup();
-
+        
+        if ($this->getUser()->getRoles()[0] == 'banned') {
+            $this->flashMessage('Máte ban');
+            $this->redirect('Admin:default');
+        }
 //        premenne pre templaty
         $posts = $this->template->posts = $this->database->table('post')->where('status ? OR status ?', 1, 2)->fetchPairs('address', 'title');
         $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->where('status ? OR status ?', 1, 2)->fetchPairs('address', 'title');
@@ -91,7 +95,7 @@ class MenuPresenter extends AdminPresenter {
         $type = explode("_", $values['type']);
         unset($values['type']);
         $values['type'] = $type[0];
-        if (count($type)>1) {
+        if (count($type) > 1) {
             $values['action'] = $type[1];
         }
 

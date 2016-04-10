@@ -8,6 +8,13 @@ use App\Model,
 
 class GalleryPresenter extends AdminPresenter {
     private $gallery_id;
+    
+    public function startup() {
+        if ($this->getUser()->getRoles()[0] == 'banned') {
+            $this->flashMessage('Máte ban');
+            $this->redirect('Admin:default');
+        }
+    }
 
     public function renderDefault() {
         $this->template->imgs = $this->database->table('imgs')->fetchAll();
