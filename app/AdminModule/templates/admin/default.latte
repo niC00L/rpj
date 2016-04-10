@@ -1,2 +1,41 @@
 {block content}
-<h1>Vitajte v administracii</h1>
+<main>
+    <div class="container padding-vertical-2">
+        <h1 class="center-align">Vitajte v administrácii</h1>        
+        <div class="row">
+            <div class="col s12 m8 l6 offset-m2 offset-l3">
+                {if $user->getRoles()[0] == 'banned'}
+                    <h1 class="center-align red-text text-lighten-1">
+                        <i class="fa fa-user-times"></i>
+                    </h1>
+                    <blockquote>
+                        Pre neprístojné správanie na stránke Vám bol udelený BAN. <br>
+                        Ak chcete vedieť viac, kontaktujte <a href="mailto:admin@ncool.rocks">administrátora</a>. 
+                    </blockquote>
+                {elseif $user->getRoles()[0] == 'user'}
+                    <h1 class="center-align teal-text text-lighten-1">
+                        <i class="fa fa-user-plus"></i>
+                    </h1>
+                    <div class="center-align">
+                        <ul>
+                            Získali ste právo vlastniť bočné administrátorské menu. 
+                            Sú v ňom nové položky, ku ktorým ste sa predtým nedostali.
+                            Pri písaní komentárov už nemusíte zakaždým vypisovať meno a email.
+                            Máte vlastný profil, kde si môžte zmeniť aj obrázok.
+                            Úžasné však?
+                    </div>
+                {elseif $user->getRoles()[0] == 'editor'}
+                    <h1 class="center-align teal-text text-lighten-1">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </h1>
+                    <div class="center-align">
+                        <ul>
+                            Získali ste právo editora. Môžte písať a upravovať príspevky, a podobne. 
+                            Zvyšok Vám už asi predstavovať netreba.
+                    </div>
+                {/if}
+            </div>
+        </div>
+
+    </div>
+</main>
