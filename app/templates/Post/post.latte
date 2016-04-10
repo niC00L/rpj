@@ -3,7 +3,6 @@
     <div class="form-invisible">
         <div class="parallax-container" style="height:55vmin;">
             {if $user->isAllowed('post', 'edit')}
-
                 <div class='edit-img' onclick="$('#frm-editForm-editForm-title_image').click()">
                     <div class="parallax"> 
                         <div class="uploadImg valign-wrapper">
@@ -11,13 +10,21 @@
                                 <i class="fa fa-upload"></i>
                             </span>
                         </div>                  
-                        <img class='responsive-img' id="titlePic" src='{$basePath}/images/post/{$post['id']}/{$post['title_image']}'>            
+                        {if $post['title_image']}
+                            <img class='responsive-img' id="titlePic" src='{$basePath}/images/post/{$post['id']}/{$post['title_image']}'>
+                        {else}
+                            <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background/default{? echo rand(0,9)}.jpg'>
+                        {/if}
                     </div>
                 </div>
 
             {else}
                 <div class="parallax"> 
-                    <img class='responsive-img' id="titlePic" src='{$basePath}/images/post/{$post['id']}/{$post['title_image']}'>            
+                    {if $post['title_image']}
+                        <img class='responsive-img' id="titlePic" src='{$basePath}/images/post/{$post['id']}/{$post['title_image']}'>
+                    {else}
+                        <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background/default{? echo rand(0,9);}.jpg'>
+                    {/if}
                 </div>
             {/if}
         </div>
