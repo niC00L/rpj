@@ -1,25 +1,33 @@
 {block content}
-<h1 n:block=title>Sign in</h1>
-
-{form signInForm}	
-    <div class="row">
-        <div class="input-field col s12">
-            <label for="username">Meno</label>
-            {input username}
+<main>
+    <div class="container padding-vertical-2">        
+        <div class="row">
+            <div class="col s12 m8 l6 offset-m2 offset-l3">
+                <h1 n:block=title>Prihlásenie</h1>
+                {form signInForm}	
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <label for="username">Meno</label>
+                            {input username}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <label for="password">Heslo</label>
+                            {input password}
+                        </div>
+                        <p>
+                            {!$form['remember']->getControlPart().$form['remember']->getLabelPart()}
+                        </p>
+                        <div class="input-field">
+                            {input send}
+                            <a class="btn" n:href="Sign:register">Registrácia</a>
+                        </div>
+                    {/form}                    
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <label for="password">Heslo</label>
-            {input password}
-        </div>
-        <p>
-            {!$form['remember']->getControlPart().$form['remember']->getLabelPart()}
-        </p>
-        <div class="input-field">
-            {input send}
-        </div>
-    {/form}
-    <a n:href="Sign:register">Register</a>
+</main>
 
-    {* or use {include '../components/form.latte', form => signInForm} *}
+{* or use {include '../components/form.latte', form => signInForm} *}

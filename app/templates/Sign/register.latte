@@ -1,39 +1,43 @@
 {block content}
-<h1 n:block=title>Register</h1>
-{form registerForm}	
-    <div class="row">
-        <div class="input-field col s12">            
-            {input username}
-            <label n:name="username" data-error="Username is taken" data-success="Username available">Username</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            {input display_name}
-            <label n:name="display_name" data-error="You can't be admin">Display-name</label>
-        </div>
-    </div>
+<main>
+    <div class="container padding-vertical-2">
         <div class="row">
-        <div class="input-field col s12">
-            {input email}
-            <label n:name="username" data-error="Email is taken" data-success="Email available">Username</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            {label password}{/label}
-            {input password}
-        </div>
-</div>
-        <div class="row">
-        <div class="input-field col s12">
-            {label password2}{/label}
-            {input password2}
-        </div>
-</div>
-        <div class="input-field">
-            {input send}
-        </div>
-    {/form}
+            <div class="col s12 m8 offset-m2">
+                <h1 n:block=title>Registrácia</h1>
+                {form registerForm}            
+                    <div class="row">            
+                        <div class="input-field col s12 l6">            
+                            {input username}
+                            <label n:name="username" data-error="Meno je použité" data-success="Meno je dostupné">Prihlasovacie meno</label>
+                        </div>
+                        <div class="input-field col s12 l6"> 
+                            {input display_name}
+                            <label n:name="display_name" data-error="Nemôžeš byť admin">Meno pre zobrazenie</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            {input email}
+                            <label n:name="email" data-error="Email je použitý" data-success="Email je dostupný">E-mail</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l6"> 
+                            {input password}
+                        {label password}{/label}                
+                    </div>
+                    <div class="input-field col s12 l6"> 
+                        {input password2}
+                    {label password2}{/label}
+                </div>
+            </div>
+            <div class="input-field">
+                {input send}
+            </div>
 
+        {/form}
+    </div>
+</div>
+</div>
+</main>
 {include script.latte}

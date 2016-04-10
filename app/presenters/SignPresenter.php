@@ -33,14 +33,14 @@ class SignPresenter extends BasePresenter {
     public function createComponentSignInForm() {
         $form = new Form();
         $form->addText('username', 'Username:')
-                ->setRequired('Please enter your username.');
+                ->setRequired('Zadajte meno.');
 
         $form->addPassword('password', 'Password:')
-                ->setRequired('Please enter your password.');
+                ->setRequired('Zadajte heslo.');
 
-        $form->addCheckbox('remember', 'Keep me signed in');
+        $form->addCheckbox('remember', 'Zapamätať prihlásenie');
 
-        $form->addSubmit('send', 'Sign in')
+        $form->addSubmit('send', 'Prihlásiť')
                 ->setAttribute('class', 'btn');
 
         // call method signInFormSucceeded() on success                        
@@ -73,24 +73,24 @@ class SignPresenter extends BasePresenter {
 
     public function createComponentRegisterForm() {
         $form = new Form;
-        $form->addText('username', 'Username')
+        $form->addText('username', 'Prihlasovacie meno')
                 ->addCondition(Form::FILLED);
-        $form->addText('display_name', 'Display name')
+        $form->addText('display_name', 'Meno pre zobrazenie')
                 ->addCondition(Form::FILLED);
         $form->addText('email', 'E-mail: *', 35)
                 ->setEmptyValue('@')
-                ->addRule(Form::FILLED, 'Enter your e-mail')
+                ->addRule(Form::FILLED, 'Zadajte e-mail')
                 ->addCondition(Form::FILLED)
-                ->addRule(Form::EMAIL, 'E-mail not valid');
-        $form->addPassword('password', 'Password: *', 20)
-                ->setOption('description', 'Min 6 characters')
-                ->addRule(Form::FILLED, 'Enter your password')
-                ->addRule(Form::MIN_LENGTH, 'Password must contain at least %d characters.', 6);
-        $form->addPassword('password2', 'Retype password: *', 20)
+                ->addRule(Form::EMAIL, 'Neplatný e-mail');
+        $form->addPassword('password', 'Heslo: *', 20)
+                ->setOption('description', 'Minimálne 6 znakov')
+                ->addRule(Form::FILLED, 'Zadajte heslo')
+                ->addRule(Form::MIN_LENGTH, 'Heslo musí mať minimálne %d znakov.', 6);
+        $form->addPassword('password2', 'Heslo znovu: *', 20)
                 ->addConditionOn($form['password'], Form::VALID)
                 ->addRule(Form::FILLED, 'Heslo znovu')
-                ->addRule(Form::EQUAL, 'Passwords do not match.', $form['password']);
-        $form->addSubmit('send', 'Register')
+                ->addRule(Form::EQUAL, 'Hesla sa nezhodujú.', $form['password']);
+        $form->addSubmit('send', 'Registrovať')
                 ->setAttribute('class', 'btn');
 
         $form->onSuccess[] = array($this, 'registerFormSucceeded');
