@@ -1,29 +1,59 @@
 {block content}
+<main>    
+    <div class="section blue lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col m10 l8 offset-m1 offset-l2">
+                    {if $user->isAllowed('category', 'edit')}
+                        {control editForm 'editCategory'}
+                        {if $category->status != 0}
+                            {control deleteForm}
+                            {*if $category->status == 2*}
+                            {*control publishForm*}
+                            {*/if*}
+                        {else}
+                            {control renewForm}
+                        {/if} 
+                    {else}
+                        <h1> {$category->title} </h1>
+                        <p> {$category->description} </p>
+                    {/if}                    
+                </div>
+            </div>                
+        </div>                
+    </div>
+    <div class="blue lighten-2">&nbsp;</div>
+    
+    <div class="container padding-vertical-2">
+        <div class="row">
+            <div class="col m10 l8 offset-m1 offset-l2">                
+                {foreach $posts as $post}
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card">
+                                {if $post->title_image}
+                                    <div class="card-image waves-effect waves-block waves-light" style="max-height: 10rem;">
+                                        <a n:href="Post:show $post->address">
+                                            <img class="responsive-img" src="{$basePath}/images/post/{$post->id}/{$post->title_image}" style="top: -6.2rem;">
+                                        </a>
+                                    </div>
+                                {/if}
+                                <div class="card-content">
+                                    <a n:href="Post:show $post->address">
+                                        <span class="card-title blue-text">{$post->title}</span>
+                                    </a>
+                                    <p>{$post->description}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {/foreach}
 
-{if $user->loggedIn}
-    {control editForm}
-    {if $category->status != 0}
-        {control deleteForm}
-        {if $category->status == 2}
-            {control publishForm}
-        {/if}
-    {else}
-        {control renewForm}
-    {/if} 
-{else}
-
-    <h1> {$category->title} </h1>
-    <p> {$category->description} </p>	
-
-{/if}
-
-{foreach $posts as $post}
-    <a n:href="Post:show $post->address"><h2>{$post->title}</h2></a>
-    <blockquote>{$post->description}</blockquote>
-{/foreach}
-
-{if $comments['ctg'] == 1}
-    {control comments:show $category->id, 'post_ctg'}
-{/if}
-
+                {if $comments['ctg'] == 1}
+                    {control comments:show $category->id, 'post_ctg'}
+                {/if}
+            </div>
+        </div>
+    </div>
+</main>
 {/block}
