@@ -1,85 +1,105 @@
 {block content}
-
 <main>     
     <div class='form-invisible'>
         <div class="parallax-container">
             {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']}
                 <div class='edit-img' onclick="$('#frm-editForm-editForm-background_image').click()">
-                    <div class="parallax" > 
+                    <div class="parallax"> 
                         <div class="uploadImg ">
                             <span class="center-align">
                                 <i class="fa fa-upload"></i>
                             </span>
-                        </div>                  
-                        <img class='responsive-img' id="backgroundPic" src='{$basePath}/images/users/{$profile['id']}/{$profile['background_image']}'>            
+                        </div>   
+                        {if $profile['background_image']}
+                            <img class='responsive-img' id="backgroundPic" src='{$basePath}/images/users/{$profile['id']}/{$profile['background_image']}'>            
+                        {else}
+                            <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background/default{? echo rand(0,9)}.jpg'>
+                        {/if}
                     </div>
                 </div>
             {else}
                 <div class="parallax" > 
-                    <img class='responsive-img' id="backgroundPic" src='{$basePath}/images/users/{$profile['id']}/{$profile['background_image']}'>            
+                    {if $profile['background_image']}
+                        <img class='responsive-img' id="backgroundPic" src='{$basePath}/images/users/{$profile['id']}/{$profile['background_image']}'>            
+                    {else}
+                        <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background/default{? echo rand(0,9)}.jpg'>
+                    {/if}
                 </div>
             {/if}
         </div>
-        <div class="row container">            
-            <div class="section white">
-                <div class="row center-align">
-                    {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']}
-                        <div class='edit-img profile circle valign-wrapper' >
+    </div>
+    <div class="row container">            
+        <div class="section white">
+            <div class="row center-align">
+                {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']}
+                    <div class='form-invisible'>
+                        <div class='edit-img profile circle valign-wrapper z-depth-1'>
                             <div class="uploadImg valign-wrapper" onclick="$('#frm-editForm-editForm-profile_image').click()">
                                 <span class="valign center-align">
                                     <i class="fa fa-upload"></i>
                                 </span>
-                            </div>
-                            <div class='responsive-img valign' id="profilePic" style='background-image:url({$basePath}/images/users/{$profile['id']}/{$profile['profile_image']})'></div>
+                            </div>                            
+                            {if $profile['profile_image']}
+                                <div class='responsive-img valign' id="profilePic" style='background-image:url({$basePath}/images/users/{$profile['id']}/{$profile['profile_image']})'></div>
+                            {else}
+                                <div class='responsive-img valign' id="profilePic" style='background-image:url({$basePath}/images/default/profile.jpg)'></div>
+                            {/if}
                         </div>
-                    {else}
-                        <div class='edit-img profile circle valign-wrapper'>
-                            <div class='responsive-img valign' id="profilePic" style='background-image:url({$basePath}/images/users/{$profile['id']}/{$profile['profile_image']})'></div>
-                        </div>
-                    {/if}
-                </div>
-                {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']} 
-                    {control editForm 'editProfile'}
+                    </div>
                 {else}
-                    <p class="display_name">
-                        {$profile['display_name']}
-                    </p>
-                    <p class="email">
-                        {$profile['email']}
-                    </p>
-                    <p class="about">
-                        {$profile['about']}
-                    </p>
+                    <div class='edit-img profile circle valign-wrapper'>
+                        {if $profile['profile_image']}
+                            <div class='responsive-img valign' id="profilePic" style='background-image:url({$basePath}/images/users/{$profile['id']}/{$profile['profile_image']})'></div>
+                        {else}
+                            <div class='responsive-img valign' id="profilePic" style='background-image:url({$basePath}/images/default/profile.jpg)'></div>
+                        {/if}
+                    </div>
                 {/if}
             </div>
-        </div>
+            {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']} 
+                <div class='form-invisible'>
+                    {control editForm 'editProfile'}
+                </div>                    
+
+                <div id="modal-pw" class="modal bottom-sheet">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s12 m8 l6 offset-m2 offset-l3">
+                                <h4>Zmena hesla</h4>
+                                {form changePasswordForm}
+                                    {foreach $form->getControls() as $control}
+                                        <div class="input-field"> 
+                                            {input $control}
+                                        {label $control->getName()}{/label}
+                                    </div>
+                                {/foreach}
+                            {/form}
+                        </div>
+                    </div>
+                </div>
+            </div>                
+        {else}
+            <p class="display_name">
+                {$profile['display_name']}
+            </p>
+            <p class="email">
+                {$profile['email']}
+            </p>
+            <p class="about">
+                {$profile['about']}
+            </p>
+        {/if}
     </div>
+</div>
 </main>
 
 <script>
-    $(document).ready(function () {
-        function readURL(input, output, bcg) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    if (bcg == 1) {
-                        $(output).css('background-image', 'url(' + e.target.result + ')');
-                    } else {
-                        $(output).attr('src', e.target.result);
-                    }
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
+    $(function () {
         $("#frm-editForm-editForm-profile_image").change(function () {
             readURL(this, '#profilePic', 1);
         });
         $("#frm-editForm-editForm-background_image").change(function () {
             readURL(this, '#backgroundPic', 0);
         });
-
-        $('.parallax').parallax();
-
     });
 </script>
