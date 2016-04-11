@@ -47,17 +47,13 @@ class MenuPresenter extends AdminPresenter {
         }
     }
 
-    public function renderAddToMenu() {
-        
-    }
-
     protected function createComponentMenuForm() {
         return new Multiplier(function ($itemId) {
             $type = array(
                 'Homepage' => 'Domov',
-                'Post_show' => 'Clanok',
-                'Post_category' => 'Kategoria clankov',
-                'Sign' => 'Prihlasenie/Odhlasenie'
+                'Post_show' => 'Článok',
+                'Post_category' => 'Kategória článkov',
+                'Sign' => 'Prihlásenie/Odhlásenie'
             );
 
             $form = new Form;
@@ -65,16 +61,14 @@ class MenuPresenter extends AdminPresenter {
             $form->addText('order', 'Poradie:')
                     ->setRequired();
             $form->addSelect('type', 'Typ:', $type)
-                    ->setAttribute('class', 'browser-default')
                     ->setPrompt('Zvolte typ')
                     ->setRequired();
-            $form->addSelect('address', 'Clanok:', $this->address)
-                    ->setPrompt('Vyberte')
-                    ->setAttribute('class', 'browser-default');
+            $form->addSelect('address', 'Článok:', $this->address)
+                    ->setPrompt('Vyberte');
             $form->addText('title', 'Titulok:')
                     ->setRequired();
             $form->addText('class', 'Class:');
-            $form->addSubmit('send', 'Uložit a publikovat')
+            $form->addSubmit('send', 'Uložiť')
                     ->setAttribute('class', 'btn');
 
             $form->onSuccess[] = array($this, 'menuFormSucceeded');
