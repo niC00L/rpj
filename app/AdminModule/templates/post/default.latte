@@ -1,27 +1,72 @@
 {* Latte template *}
 
 {block content}
-<h1>Sprava clankov</h1>
-<hr />
-<div class="row">
-    {foreach $post_ctgs as $post_ctg}
-        <div class="col s12 m4">
-            <div class="card">
-                <a href="{plink :Post:category $post_ctg->address}"><h3>{$post_ctg->title}</h3></a>
-                        {foreach $posts[$post_ctg['id']] as $post}
-                    <a href="{plink :Post:show $post->address}"><h4>{$post->title}</h4></a>
-                        {/foreach}
+<main>
+    <div class="section blue lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col m10 l8 offset-m1 offset-l2">
+                    <h1>Správa článkov</h1>
+                    <p> 
+                        Tu môžte upravovať a pridávať články a ich kategórie. <br>
+                        Sú rozdelené podľa kategórií.
+                    </p>                   
+                </div>
+            </div>                
+        </div>                
+    </div>
+    <div class="blue lighten-2">&nbsp;</div>
+
+    <div class="container padding-vertical-2">
+        <div class="row">
+            {foreach $post_ctgs as $post_ctg}
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content row valign-wrapper">
+                            <div class="col s12">
+                                <span class="card-title"><a href="{plink :Post:category $post_ctg->address}">{$post_ctg->title}</a></span>
+                                <ul class="black-text">
+                                    {foreach $posts[$post_ctg['id']] as $post} 
+                                        <li><a href="{plink :Post:show $post->address}">{$post->title}</a></li>
+                                        {/foreach}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {/foreach}    
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-content row valign-wrapper">
+                        <div class="col s12">
+                            <span class="card-title">Bez kategórie</span>
+                            <ul class="black-text">
+                                {foreach $uncategorized as $unctg}  
+                                    <li><a href="{plink :Post:show $unctg->address}">{$unctg->title}</a></li>
+                                    {/foreach}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    {/foreach}    
-    <div class="col s12 m4">
-        <div class="card">
-            <h3>Bez kategorie</h3>
-            {foreach $uncategorized as $unctg}  
-                <a href="{plink :Post:show $unctg->address}"><h4>{$unctg->title}</h4></a>
-                    {/foreach}
+        <div class="row">
+            <div class="col s6 m4 l3">
+                <div class="card-panel grey lighten-4 center-align">
+                    <p>
+                        <a class="btn-floating btn-large waves-effect waves-light blue" n:href="Post:createPost"><i class="fa fa-plus"></i></a>
+                    </p>
+                    <h5><a class="gray-text text-darken-4" n:href="Post:createPost">Článok</a></h5>
+                </div>
+            </div>
+            <div class="col s6 m4 l3">
+                <div class="card-panel grey lighten-4 center-align">
+                    <p>
+                        <a class="btn-floating btn-large waves-effect waves-light blue" n:href="Post:createPost"><i class="fa fa-plus"></i></a>
+                    </p>
+                    <h5><a n:href="Post:createCategory">Kategória</a></h5>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<h2><a n:href="Post:createPost">Novy clanok</a></h2>
-<h2><a n:href="Post:createCategory">Nova kategoria</a></h2>
+</main>

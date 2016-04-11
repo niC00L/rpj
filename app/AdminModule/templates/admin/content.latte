@@ -1,9 +1,53 @@
 {* Latte template *}
 
 {block content}
+<main>        
+    <div class="section blue lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col m10 l8 offset-m1 offset-l2">
+                    <h1>Správa obsahu</h1>
+                    <p> Tu môžte spravovať obsah stránky</p>                   
+                </div>
+            </div>                
+        </div>                
+    </div>
+    <div class="blue lighten-2">&nbsp;</div>
 
-<h1>Sprava obsahu</h1>
-<hr />
-<h2><a n:href="Post:default">Sprava clankov</a></h2>
-<h2><a n:href="Comments:show">Sprava Komentarov</a></h2>
-<!--<h2><a n:href="Gallery:default">Sprava galerii</a></h2>-->
+    <div class="container padding-vertical-2">
+        <div class="row">
+            <div class="col m10 l8 offset-m1 offset-l2">    
+                <div class="row">
+                    <div class="card">
+                        <div class="card-content row valign-wrapper">
+                            <div class="col s2">
+                                <h1 class="center-align"><i class="fa fa-book"></i></h1>
+                            </div>
+                            <div class="col s10">
+                                <span class="card-title"><a n:href="Post:default">Správa článkov</a></span>
+                                <p class="black-text">
+                                    Tu môžte pridávať a upravovať články a kategórie.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-content row valign-wrapper">
+                            <div class="col s2">
+                                <h1 class="center-align"><i class="fa fa-comments"></i></h1>
+                            </div>
+                            <div class="col s10">
+                                <span class="card-title"><a n:href="Comments:show">Správa komentárov</a></span>
+                                <p class="black-text">
+                                    Tu môžte prezerať a mazať komentáre.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>        
+            <!--<h2><a n:href="Gallery:default">Sprava galerii</a></h2>-->
+            </div>
+        </div>
+    </div>
+</main>

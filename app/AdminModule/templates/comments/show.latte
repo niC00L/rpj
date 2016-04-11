@@ -1,29 +1,61 @@
 {* Latte template *}
 
 {block content}
-<h1>Všetky komentáre</h1>
-<div class="row">
-    {foreach $comments as $com}
-        <div class="col s12 m6">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title grey-text text-darken-4">
-                        {$com->name}</span>                        
-                    <a href="mailto:{$com->email}" class="cyan-text right">{$com->email}</a>
-                    <p>{$com->text}</p>
+<main>
+    <div class="section blue lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col m10 l8 offset-m1 offset-l2">
+                    <h1>Všetky komentáre</h1>
+                    <p> 
+                        Tu môžte prehľadne prezerať všetky komentáre.
+                    </p>                   
                 </div>
-                <div class="card-action">
-                    {if $com->post_id}
-                        <a n:href=":Post:show $post[$com->post_id]['address']">{$post[$com->post_id]['title']}</a>
-                    {elseif $com->ctg_id}
-                        <a n:href=":Post:show $post[$com->post_id]['address']">{$post[$com->post_id]['title']}</a>
-                    {elseif $com->img_id}
-                        <a n:href=":Post:show $post[$com->post_id]['address']">{$post[$com->post_id]['title']}</a>
-                    {/if} 
-                    <span class="right">{$com->date}</span>
-                </div>
-            </div>
+            </div>                
         </div>                
-    {/foreach}
+    </div>
+    <div class="blue lighten-2">&nbsp;</div>
+    <div class="container padding-vertical-2">
+        <div class="row">
+            {foreach $comments as $com}
+                <div class="col s12 m6">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title grey-text text-darken-4">
+                                {if $com->user_id}
+                                    {$author[$com->user_id]['display_name']}
+                                {else}
+                                    {$com->name}
+                                {/if}
+                            </span>    
+                            {if $com->user_id}
+                                <a href="mailto:{$author[$com->user_id]['email']}" class="cyan-text right">{$author[$com->user_id]['email']}</a>
+                            {else}
+                                <a href="mailto:{$com->email}" class="cyan-text right">{$com->email}</a>
+                            {/if}
+                            <p>{$com->text}</p>
+                        </div>
+                        <div class="card-action">
+                            {if $com->post_id}
+                                <span class="gray-text text-darken-4">Článok: </span>
+                                <a n:href=":Post:show $post[$com->post_id]['address']">
+                                    {$post[$com->post_id]['title']}
+                                </a>
+                            {elseif $com->post_ctg_id}
+                                <span class="gray-text text-darken-4">Kategória: </span>
+                                <a n:href=":Post:category $ctgs[$com->post_ctg_id]['address']">
+                                    {$ctgs[$com->post_ctg_id]['title']}
+                                </a>
+                                {*elseif $com->img_id*}
+                                    <!--<a n:href=":Post:show $post[$com->post_id]['address']">{*$post[$com->post_id]['title']*}</a>-->
+                            {/if} 
+                            <span class="right">{$com->date}</span>
+                        </div>
+                    </div>
+                </div>                
+            {/foreach}
 
-</div>
+        </div>
+    </div>
+</main>
+{/block}
