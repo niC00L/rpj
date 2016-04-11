@@ -6,8 +6,13 @@
                 <div class="card">
                     <div class="row card-content">
                         <a href="{plink Admin:User:profile $com['user_id']}">
-                            <div class="circle author-pic inline-block" style="background-image:url({$basePath}/images/users/{$com['user_id']}/{$com['img']}" alt="{$com['name']})">
-                            </div>
+                            {if $com['img']}
+                                <div class="circle author-pic inline-block" style="background-image:url({$basePath}/images/users/{$com['user_id']}/{$com['img']}" alt="{$com['name']})">
+                                </div>
+                            {else}
+                                <div class="circle author-pic inline-block" style="background-image:url({$basePath}/images/default/profile.jpg" alt="{$com['name']})">
+                                </div>
+                            {/if}
                         </a>
                         <div class='inline-block text'>
                             <a href="{plink Admin:User:profile $com['user_id']}">
