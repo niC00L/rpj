@@ -8,8 +8,13 @@ use Nette,
 class BinPresenter extends AdminPresenter {
 
     public function startup() {
+        parent::startup();
         if ($this->getUser()->getRoles()[0] == 'banned') {
             $this->flashMessage('Máte ban');
+            $this->redirect('Admin:default');
+        }
+        elseif (!$this->getUser()->isAllowed('post', 'edit')) {
+            $this->flashMessage('Nemáte prístup k tejto stránke');
             $this->redirect('Admin:default');
         }
     }

@@ -15,7 +15,6 @@ class Roles extends \Nette\Object implements \Nette\Security\IAuthorizator {
         $acl->addResource('post');
         $acl->addResource('gallery');
         $acl->addResource('comment');
-        $acl->addResource('category');
         $acl->addResource('profile');
         $acl->addResource('users');
         $acl->addResource('global');
@@ -27,7 +26,7 @@ class Roles extends \Nette\Object implements \Nette\Security\IAuthorizator {
         $acl->addRole('editor', 'user');
         $acl->addRole('admin', 'editor');
 
-        $acl->allow('guest', array('post', 'comment', 'category'), 'view');
+        $acl->allow('guest', array('post', 'comment'), 'view');
 
         if ($this->global['comment_all'] == 1) {
             $acl->allow('guest', 'comment', 'add');
@@ -36,7 +35,7 @@ class Roles extends \Nette\Object implements \Nette\Security\IAuthorizator {
         }
         $acl->allow('user', 'profile', array('edit', 'view'));
 
-        $acl->allow('editor', array('post', 'components', 'category', 'comment', 'gallery'), array('edit', 'add', 'delete'));
+        $acl->allow('editor', array('post', 'components', 'comment', 'gallery'), array('edit', 'add', 'delete'));
 
         $acl->allow('admin', \Nette\Security\Permission::ALL, array('view', 'edit', 'add'));
 

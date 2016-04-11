@@ -17,6 +17,11 @@ class MenuPresenter extends AdminPresenter {
             $this->flashMessage('Máte ban');
             $this->redirect('Admin:default');
         }
+        elseif (!$this->getUser()->isAllowed('components', 'edit')) {
+            $this->flashMessage('Nemáte prístup k tejto stránke');
+            $this->redirect('Admin:default');
+        }
+        
 //        premenne pre templaty
         $posts = $this->template->posts = $this->database->table('post')->where('status ? OR status ?', 1, 2)->fetchPairs('address', 'title');
         $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->where('status ? OR status ?', 1, 2)->fetchPairs('address', 'title');

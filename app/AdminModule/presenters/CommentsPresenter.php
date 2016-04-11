@@ -7,8 +7,12 @@ use Nette,
 
 class CommentsPresenter extends AdminPresenter {
     public function startup() {
+        parent::startup();
         if ($this->getUser()->getRoles()[0] == 'banned') {
             $this->flashMessage('Máte ban');
+            $this->redirect('Admin:default');
+        } elseif (!$this->getUser()->isAllowed('comment', 'edit')) {
+            $this->flashMessage('Nemáte prístup k tejto stránke');
             $this->redirect('Admin:default');
         }
     }

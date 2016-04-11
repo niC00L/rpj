@@ -13,6 +13,9 @@ class GalleryPresenter extends AdminPresenter {
         if ($this->getUser()->getRoles()[0] == 'banned') {
             $this->flashMessage('Máte ban');
             $this->redirect('Admin:default');
+        } elseif (!$this->getUser()->isAllowed('gallery', 'edit')) {
+            $this->flashMessage('Nemáte prístup k tejto stránke');
+            $this->redirect('Admin:default');
         }
     }
 
