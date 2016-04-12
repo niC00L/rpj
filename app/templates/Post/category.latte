@@ -4,7 +4,7 @@
         <div class="container">
             <div class="row">
                 <div class="col m10 l8 offset-m1 offset-l2">
-                    {if $user->isAllowed('category', 'edit')}
+                    {if $user->isAllowed('post', 'edit')}
                         {control editForm 'editCategory'}
                         {if $category->status != 0}
                             {control deleteForm}
