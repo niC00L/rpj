@@ -1,7 +1,7 @@
 {block content}
 <main>     
     <div class='form-invisible'>
-        <div class="parallax-container">
+        <div class="parallax-container" style="height: 40vmin">
             {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']}
                 <div class='edit-img' onclick="$('#frm-editForm-editForm-background_image').click()">
                     <div class="parallax"> 
