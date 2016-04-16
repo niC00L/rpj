@@ -14,7 +14,7 @@ class UserPresenter extends AdminPresenter {
     public $id;
 
     public function setForms($id, $table, $defaults) {
-        
+        //gridForm has $table, $columns, $filter;
     }
 
     public function startup() {
@@ -32,38 +32,12 @@ class UserPresenter extends AdminPresenter {
         }
         $users = $this->database->table('users')->fetchAll();
         $this->template->users = $users;
-        foreach ($users as $u) {
-            $this['usersEditor'][$u['id']]->setDefaults($u);
-        }
+        $this['gridForm']->setForms('users', array('username', 'role'), 'id <>'.$this->getUser()->getId());
+//        foreach ($users as $u) {
+//            $this['usersEditor'][$u['id']]->setDefaults($u);
+//        }
     }
-
-    public function createComponentUsersEditor() {
-        return new Multiplier(function ($itemId) {
-            $roles = array(
-                'admin' => 'Admin',
-                'user' => 'User',
-                'editor' => 'Editor',
-                'ban' => 'Banned'
-            );
-            $form = new Form;
-            $form->addHidden('id');
-            $form->addSelect('role', 'Role', $roles)
-                    ->setAttribute('class', 'browser-default');
-            $form->addSubmit('edit', 'Edit')
-                    ->setAttribute('class', 'btn');
-
-            $form->onSuccess[] = array($this, 'usersEditorSuc');
-            return $form;
-        });
-    }
-
-    public function usersEditorSuc($form, $values) {
-        $id = $values['id'];
-        unset($values['id']);
-
-        $this->database->table('users')->where('id', $id)->update($values);
-    }
-
+    
     public function actionProfile($id) {
         if (!$this->getUser()->isAllowed('profile', 'view')) {
             $this->flashMessage('Nemáte právo na prístup k tejto stránke');
@@ -92,8 +66,8 @@ class UserPresenter extends AdminPresenter {
                 ->addConditionOn($form['new'], Form::VALID)
                 ->addRule(Form::FILLED, 'Heslo znovu')
                 ->addRule(Form::EQUAL, 'Hesla sa nezhodujú.', $form['new']);
-        
-        
+
+
         $form->addSubmit('submit', 'Zmeniť')
                 ->setAttribute('class', 'btn');
 
@@ -109,8 +83,7 @@ class UserPresenter extends AdminPresenter {
             $this->database->table('users')->update(array('password' => $values['new']));
             $this->flashMessage('Heslo bolo zmenené');
             $this->redirect('this');
-        }
-        else {
+        } else {
             $this->flashMessage('Staré heslo sa nezhoduje');
             $this->redirect('this');
         }

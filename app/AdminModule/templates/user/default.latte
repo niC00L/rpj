@@ -1,7 +1,25 @@
 {block content}
-<h1>Users</h1>
+<main>
+    <div class="section blue lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col m10 l8 offset-m1 offset-l2">
+                    <h1>Používatelia</h1>
+                    <p> 
+                        Tu môžte upravovať práva používateľov.
+                    </p>                   
+                </div>
+            </div>                
+        </div>                
+    </div>
+    <div class="blue lighten-2">&nbsp;</div>
 
-{foreach $users as $user}
-    {$user->username}
-    {control usersEditor-$user->id}
-{/foreach}
+    <div class="container padding-vertical-2">
+        <div class="row">
+            <div class="col m10 l8 offset-m1 offset-l2">                
+
+                {control gridForm}
+            </div>
+        </div>
+    </div>
+</main>
