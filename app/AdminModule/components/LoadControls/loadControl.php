@@ -2,7 +2,8 @@
 
 namespace App\AdminModule\Components\LoadControls;
 
-use Nette\Application\UI\Form;
+use Nette\Application\UI\Form,
+    Nette\Application\UI\Multiplier;
 
 class loadControl extends \Nette\Application\UI\Control {
 
@@ -16,8 +17,8 @@ class loadControl extends \Nette\Application\UI\Control {
         $this->global = $global->getGlobal();
         $this->g = $global;
     }
-    
-    public function loadControls($position) {        
+
+    public function loadControls($position) {
         $components = $this->database->table('controls')->where('status', 2)->where('position', $position)->fetchAll();
         $added = array();
         foreach ($components as $com) {
@@ -25,11 +26,11 @@ class loadControl extends \Nette\Application\UI\Control {
                 $this->addComponent(new $com['namespace']($this->database, $this->g), $com['component_name']);
                 array_push($added, $com['component_name']);
             }
-        }        
+        }
         return $components;
     }
 
-    public function render($position) {                        
+    public function render($position) {
         $this->template->controls = $controls = $this->loadControls($position);
         $this->template->position = $position;
         $this->template->setFile(__DIR__ . '/default.latte');
@@ -44,9 +45,9 @@ class loadControl extends \Nette\Application\UI\Control {
             'textBlock' => 'Blok textu',
             'search' => 'Vyhľadávanie',
         );
-        
+
         $templates = array();
-        foreach($controls as $c) {
+        foreach ($controls as $c) {
             $templates[$c] = $this->database->table('site_templates')->where('type', $c)->fetchPairs('id', 'title');
         }
 
@@ -58,14 +59,14 @@ class loadControl extends \Nette\Application\UI\Control {
         $form->addTextArea('description', 'Popis')
                 ->setAttribute('class', 'materialize-textarea');
         $form->addHidden('position', 'Position');
-        
+
         $form->addSubmit('submit', 'Pridať')
                 ->setAttribute('class', 'btn');
-        
+
         $form->onSuccess[] = array($this, 'addControlSuccess');
         return $form;
     }
-    
+
     public function addControlSuccess($form, $values) {
         $namespace = array(
             'banner' => '\App\Components\Banner\BannerControl',
@@ -79,6 +80,23 @@ class loadControl extends \Nette\Application\UI\Control {
         $this->database->table('controls')->insert($values);
         $this->presenter->flashMessage('Komponenta pridaná');
         //TODO: Redirect na edit komponenty
+    }
+
+    public function createComponentDeleteControl() {
+        return new Multiplier(function ($id) {
+            $form = new Form;
+            $form->addHidden('id', $id);
+            $form->addSubmit('delete', 'Zmazať komponentu')
+                    ->setAttribute('class', 'btn');
+
+            $form->onSuccess[] = array($this, 'deleteControlSuc');
+            return $form;
+        });
+    }
+
+    public function deleteControlSuc($form, $values) {
+        $this->database->table('controls')->where('id', $values['id'])->update(array('status'=>0));
+        $this->presenter->flashMessage('Komponenta odstránená');
     }
 
 }

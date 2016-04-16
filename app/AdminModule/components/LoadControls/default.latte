@@ -1,5 +1,8 @@
 {block content}
 {foreach $controls as $control}
+    {if $user->isAllowed('components', 'edit')}
+        {control deleteControl-$control->id}
+    {/if}
     {control $control['component_name']:default $control['id']}
 {/foreach}
 
