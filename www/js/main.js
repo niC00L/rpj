@@ -4,6 +4,8 @@ $(function () {
     $('.parallax').parallax();
     $('.modal-trigger').leanModal();
     $('select').material_select();
+    $('.slider').slider();
+    $('.carousel').carousel();
 
     $('.toggle-menu').sideNav({
         edge: $(this).data('side'), // Choose the horizontal origin
