@@ -35,7 +35,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
         $added = array();
         foreach ($components as $com) {
             if (!in_array($com['component_name'], $added)) {
-                $this->addComponent(new $com['namescape']($this->database, $this->g), $com['component_name']);
+                $this->addComponent(new $com['namespace']($this->database, $this->g), $com['component_name']);
                 array_push($added, $com['component_name']);
             }
         }

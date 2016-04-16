@@ -22,7 +22,7 @@ class loadControl extends \Nette\Application\UI\Control {
         $added = array();
         foreach ($components as $com) {
             if (!in_array($com['component_name'], $added)) {
-                $this->addComponent(new $com['namescape']($this->database, $this->g), $com['component_name']);
+                $this->addComponent(new $com['namespace']($this->database, $this->g), $com['component_name']);
                 array_push($added, $com['component_name']);
             }
         }        
@@ -40,7 +40,9 @@ class loadControl extends \Nette\Application\UI\Control {
         $form = new Form;
         $controls = array(
             'banner' => 'Banner',
-            'menu' => 'Menu'
+            'menu' => 'Menu',
+            'textBlock' => 'Blok textu',
+            'search' => 'Vyhľadávanie',
         );
         
         $templates = array();
@@ -68,11 +70,15 @@ class loadControl extends \Nette\Application\UI\Control {
         $namespace = array(
             'banner' => '\App\Components\Banner\BannerControl',
             'menu' => '\App\Components\Menu\MenuControl',
+            'textBlock' => '\App\Components\TextBlock\TextBlockControl',
+            'search' => '\App\Components\Search\SearchControl',
         );
         $values['namespace'] = $namespace[$values['component_name']];
         $values['status'] = 2;
-        $values['editeble'] = 1;
-        dump($values);exit;
+        $values['editable'] = 1;
+        $this->database->table('controls')->insert($values);
+        $this->presenter->flashMessage('Komponenta pridaná');
+        //TODO: Redirect na edit komponenty
     }
 
 }
