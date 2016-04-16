@@ -29,11 +29,15 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
         parent::startup();
         // zaciatok session
         $this->mySession = $this->session->getSection("mySession");
-        $this->template->global = $this->global;       
-        
-        $components = $this->database->table('controls')->fetchAll();
+        $this->template->global = $this->global;
+
+        $components = $this->database->table('controls')->where('status', 1)->fetchAll();
+        $added = array();
         foreach ($components as $com) {
-            $this->addComponent(new $com['namescape']($this->database, $this->g), $com['component_name']);
+            if (!in_array($com['component_name'], $added)) {
+                $this->addComponent(new $com['namescape']($this->database, $this->g), $com['component_name']);
+                array_push($added, $com['component_name']);
+            }
         }
     }
 
