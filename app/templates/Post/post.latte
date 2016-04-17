@@ -13,7 +13,7 @@
                         {if $post['title_image']}
                             <img class='responsive-img' id="titlePic" src='{$basePath}/images/post/{$post['id']}/{$post['title_image']}'>
                         {else}
-                            <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background/default{? echo rand(0,9)}.jpg'>
+                            <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background.jpg'>
                         {/if}
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                     {if $post['title_image']}
                         <img class='responsive-img' id="titlePic" src='{$basePath}/images/post/{$post['id']}/{$post['title_image']}'>
                     {else}
-                        <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background/default{? echo rand(0,9);}.jpg'>
+                        <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background.jpg'>
                     {/if}
                 </div>
             {/if}
