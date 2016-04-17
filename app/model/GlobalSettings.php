@@ -12,6 +12,6 @@ class GlobalSettings {
     }
     
     public function getSetting($name) {
-        return $this->database->table('global_settings')->where('setting_name', $name)->fetchPairs('setting_name', 'value');
+        return $this->database->table('global_settings')->where('setting_name', $name)->fetch()->value;
     }
 }

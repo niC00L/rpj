@@ -28,7 +28,7 @@
             {/if}
         </div>
     </div>
-    <div class="row container">            
+    <div class="row container form-invisible">            
         <div class="section white">
             <div class="row center-align">
                 {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']}
@@ -57,9 +57,7 @@
                 {/if}
             </div>
             {if $user->isAllowed('profile', 'edit') && $user->getId() == $profile['id']} 
-                <div class='form-invisible'>
-                    {control editForm 'editProfile'}
-                </div>                    
+                {control editForm 'editProfile'}
 
                 <div id="modal-pw" class="modal bottom-sheet">
                     <div class="modal-content">

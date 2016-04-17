@@ -28,6 +28,10 @@ Main SCSS template for webpage
     display: inline-block;
 }
 
+form th {
+    text-align: left !important;
+}
+
 
 body {
     font-size: 12px;
