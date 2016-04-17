@@ -30,8 +30,8 @@ class MenuPresenter extends AdminPresenter {
         $this->address = array_merge($posts, $post_ctgs);
     }
 
-    public function renderEditMenu() {
-        $menu = $this->template->menu = $this->database->table('ctrl_menu')->order('order')->fetchAll();
+    public function actionEditMenu($id) {
+        $menu = $this->template->menu = $this->database->table('ctrl_menu')->order('order')->where('menu_id', $id)->fetchAll();
         $menuItems = array();
         foreach ($menu as $values) {
             $menuItem = $values->toArray();
@@ -51,6 +51,7 @@ class MenuPresenter extends AdminPresenter {
         return new Multiplier(function ($itemId) {
             $type = array(
                 'Homepage' => 'Domov',
+//                'Homepage_contact' => 'Kontakt',
                 'Post_show' => 'Článok',
                 'Post_category' => 'Kategória článkov',
                 'Sign' => 'Prihlásenie/Odhlásenie'
@@ -60,10 +61,12 @@ class MenuPresenter extends AdminPresenter {
             $form->addHidden('id', 'Id:');
             $form->addText('order', 'Poradie:')
                     ->setRequired();
-            $form->addSelect('type', 'Typ:', $type)
-                    ->setPrompt('Zvolte typ')
+            $form->addSelect('type', '', $type)
+                    ->setPrompt('Zvoľte typ')
+                    ->setAttribute('class', 'browser-default')
                     ->setRequired();
-            $form->addSelect('address', 'Článok:', $this->address)
+            $form->addSelect('address', '', $this->address)
+                    ->setAttribute('class', 'browser-default')
                     ->setPrompt('Vyberte');
             $form->addText('title', 'Titulok:')
                     ->setRequired();
@@ -80,7 +83,7 @@ class MenuPresenter extends AdminPresenter {
         return new Multiplier(function ($itemId) {
             $form = new Form;
             $form->addHidden('id', 'Id:');
-            $form->addSubmit('delete', 'Odstranit')
+            $form->addSubmit('delete', 'Odstrániť')
                     ->setAttribute('class', 'btn');
             $form->onSuccess[] = array($this, 'menuFormDeleteSucceeded');
             return $form;
