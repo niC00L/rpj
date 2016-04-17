@@ -7,6 +7,16 @@ use Nette\Application\UI\Control,
 
 class BannerControl extends \App\AdminModule\Components\baseControl {
     
+    static function defaultValue($db, $id) {
+        $values = array(
+            'control_id' => $id,
+            'title' => 'Titulok',
+            'alt' => 'Alt obrázka',
+            'description' => 'Popis obrázka',
+        );
+        $db->table('banners')->insert($values);
+    }
+    
     public function getIds($id) {
         $temp_id = $this->database->table('controls')->where('id', $id)->fetch()->template;
         $template = $this->database->table('site_templates')->where('id', $temp_id)->fetch()->file_name;
@@ -21,7 +31,7 @@ class BannerControl extends \App\AdminModule\Components\baseControl {
         $this->template->render();
     }
     
-    public function renderEdit($position) {
+    public function renderEdit($id) {
         
     }
 
