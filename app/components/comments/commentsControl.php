@@ -38,7 +38,7 @@ class CommentsControl extends \App\AdminModule\Components\baseControl {
         $template->render();
     }
 
-    public function createComponentAddCommentForm() {        
+    public function createComponentAddCommentForm() {   
         $form = new Form;
         if (!$this->presenter->user->isLoggedIn()) {
             $form->addText('name', 'Meno')

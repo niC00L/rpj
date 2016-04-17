@@ -13,11 +13,12 @@
                                 <div class="circle author-pic inline-block" style="background-image:url({$basePath}/images/default/profile.jpg" alt="{$com['name']})">
                                 </div>
                             {/if}
-                        </a>
+                        </a>                            
                         <div class='inline-block text'>
                             <a href="{plink Admin:User:profile $com['user_id']}">
                                 <span class="card-title grey-text text-darken-4">{$com['name']}</span>
                             </a>
+                            <p class="grey-text">{$com['date']|date:'%d.%m.%Y'}</p>
                             <p>{$com['text']}</p>
                         </div>
                     </div>

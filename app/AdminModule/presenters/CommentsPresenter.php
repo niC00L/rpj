@@ -3,7 +3,8 @@
 namespace App\AdminModule\Presenters;
 
 use Nette,
-    Nette\Application\UI\Form;
+    Nette\Application\UI\Form,
+    Nette\Application\UI\Multiplier;
 
 class CommentsPresenter extends AdminPresenter {
     public function startup() {
@@ -17,7 +18,7 @@ class CommentsPresenter extends AdminPresenter {
         }
     }
 
-    public function renderShow() {
+    public function actionShow() {
         $comments = $this->database->table('comments')->where('NOT(status ?)', 0)->fetchAll();
         $post_ids = array();
         $ctg_ids = array();
@@ -32,10 +33,27 @@ class CommentsPresenter extends AdminPresenter {
             if (!in_array($com->img_id, $img_ids)) {
                 array_push($img_ids, $com->img_id);
             }
+            $this['deleteComment-'.$com->id]->setDefaults($com);
         }        
         $this->template->post = $posts = $this->database->table('post')->where('id', $post_ids)->fetchAll();
         $this->template->ctgs = $ctgs = $this->database->table('post_ctg')->where('id', $ctg_ids)->fetchAll();
         $this->template->author = $ctgs = $this->database->table('users')->fetchAll();
         $this->template->comments = $comments;
+    }
+    
+    public function createComponentDeleteComment(){
+        return new Multiplier(function ($itemId) {
+            $form = new Form;
+            $form->addHidden('id');
+            $form->addSubmit('submit', 'Zmazať')
+                    ->setAttribute('class', 'btn');
+            $form->onSuccess[] = array($this, 'deleteCommentSucceeded');
+            return $form;
+        });    
+    }
+    public function deleteCommentSucceeded($form, $values) {
+        $this->database->table('comments')->where('id', $values['id'])->update(array('status'=> 0));
+        $this->presenter->flashMessage('Komentár odstránený');
+        $this->redirect('this');
     }
 }
