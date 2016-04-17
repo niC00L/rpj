@@ -41,7 +41,8 @@ class MenuPresenter extends AdminPresenter {
             }
             $menuItems[] = $menuItem;
         }
-        foreach ($menuItems as $formValue) {
+        array_push($menuItems, array('id'=>0, 'menu_id' => $id));
+        foreach ($menuItems as $formValue) {            
             $this['menuForm'][$formValue['id']]->setDefaults($formValue);
             $this['menuFormDelete'][$formValue['id']]->setDefaults($formValue);
         }
@@ -51,7 +52,7 @@ class MenuPresenter extends AdminPresenter {
         return new Multiplier(function ($itemId) {
             $type = array(
                 'Homepage' => 'Domov',
-//                'Homepage_contact' => 'Kontakt',
+                'Homepage_contact' => 'Kontakt',
                 'Post_show' => 'Článok',
                 'Post_category' => 'Kategória článkov',
                 'Sign' => 'Prihlásenie/Odhlásenie'
@@ -59,6 +60,7 @@ class MenuPresenter extends AdminPresenter {
 
             $form = new Form;
             $form->addHidden('id', 'Id:');
+            $form->addHidden('menu_id', 'MenuId:');
             $form->addText('order', 'Poradie:')
                     ->setRequired();
             $form->addSelect('type', '', $type)
@@ -101,14 +103,14 @@ class MenuPresenter extends AdminPresenter {
             $values['action'] = $type[1];
         }
 
-        if ($this->getAction() == 'editMenu') {
+        if ($form->getName() == 0) {
+            $this->database->table('ctrl_menu')->insert($values);            
+        } else {
             $this->database->table('ctrl_menu')->where('id', $id)->update($values);
-        } elseif ($this->getAction() == 'addToMenu') {
-            $this->database->table('ctrl_menu')->insert($values);
         }
 
         $this->flashMessage('Uspesne publikovane.', 'success');
-        $this->redirect('this', ['address' => $values['address']]);
+        $this->redirect('this');
     }
 
     public function menuFormDeleteSucceeded($form, $values) {
@@ -116,7 +118,7 @@ class MenuPresenter extends AdminPresenter {
         $this->database->table('ctrl_menu')->where('id', $id)->delete();
 
         $this->flashMessage('Polozka odstranena.', 'success');
-        $this->redirect('Menu:editMenu');
+        $this->redirect('this');
     }
 
 }
