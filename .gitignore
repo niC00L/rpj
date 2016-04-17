@@ -5,5 +5,6 @@ vendor/*
 !.htaccess
 !web.config
 /nbproject/private/
-www/images/gallery/
-www/images/users/
+www/images/*
+!www/images/default/
+!www/images/template/
