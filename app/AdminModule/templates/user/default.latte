@@ -17,8 +17,27 @@
     <div class="container padding-vertical-2">
         <div class="row">
             <div class="col m10 l8 offset-m1 offset-l2">                
-
-                {control gridForm}
+                <table class="striped">
+                    <tbody>
+                        {foreach $users as $user}
+                            <tr>
+                                <td>
+                                    {$user->username}
+                                </td>
+                                {form usersEditor-$user->id}
+                                    <td>
+                                        <div class="input-field">
+                                            {input role}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {input edit}                        
+                                    </td>
+                                {/form}
+                            </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

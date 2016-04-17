@@ -12,21 +12,31 @@ class AdminPresenter extends \App\Presenters\BasePresenter {
 
     public function startup() {
         parent::startup();
-        if(!$this->getUser()->isLoggedIn()) {
+        if (!$this->getUser()->isLoggedIn()) {
             $this->flashMessage('Na prístup k tejto stránke sa musíte prihlásiť');
             $this->redirect(':Sign:in');
         }
     }
-    
-    public function renderDefault() {        
+
+    public function renderDefault() {
+        
     }
 
+//    public function setForms($table, $columns, $filter) {
+//        
+//    }
+
     public function renderGlobal() {
-        if(!$this->getUser()->isAllowed('global', 'edit')) {
+        if (!$this->getUser()->isAllowed('global', 'edit')) {
             $this->flashMessage('Nemáte právo na prístup k tejto stránke');
             $this->redirect('Admin:default');
         }
-        
+        $def = array(
+            'description' => array('description', 'Nastavenie'),
+            'value' => array('value', 'Hodnota'),
+        );
+//        $this['gridForm']->setForms('global_settings', $def, 'id <> 0');
+
         $defaults = $this->database->table('global_settings')->where('editable', 1)->fetchAll();
         $comments = array();
         $other = array();
@@ -34,10 +44,10 @@ class AdminPresenter extends \App\Presenters\BasePresenter {
             if (Strings::startsWith($def->setting_name, 'comment_')) {
                 $comments[$def->id] = $def;
             } else {
-                $other[$def->id] = $def;                
+                $other[$def->id] = $def;
             }
         }
-        foreach($defaults as $d) {
+        foreach ($defaults as $d) {
             $this['globalForm'][$d['id']]->setDefaults($d);
         }
         $this->template->globals = $other;
@@ -53,7 +63,7 @@ class AdminPresenter extends \App\Presenters\BasePresenter {
             } else {
                 $form->addText('value');
             }
-            $form->addSubmit('edit', 'Upravit')
+            $form->addSubmit('edit', 'Upraviť')
                     ->setAttribute('class', 'btn');
             $form->onSuccess[] = array($this, 'menuFormDeleteSucceeded');
             return $form;
@@ -66,4 +76,5 @@ class AdminPresenter extends \App\Presenters\BasePresenter {
         $this->flashMessage('Polozka upravena.', 'success');
         $this->redirect('Admin:global');
     }
+
 }

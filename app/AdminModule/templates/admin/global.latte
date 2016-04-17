@@ -1,25 +1,66 @@
 {block content}
 
-<h1> Globálne nastavenia</h1>
+<main>        
+    <div class="section blue lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col m10 l8 offset-m1 offset-l2">
+                    <h1> Globálne nastavenia</h1>
+                    <p> Tu môžte spravovať globálne nastavenia stránky</p>                   
+                </div>
+            </div>                
+        </div>                
+    </div>
+    <div class="blue lighten-2">&nbsp;</div>
 
-<div class="row">
-    {foreach $globals as $item}  
-        <div class="col s6">
-            {$item->description}
-            {control globalForm-$item->id}
-        </div>
-    {/foreach}
-</div>
+    <div class="container padding-vertical-2">
+        <div class="row">
+            <div class="col s12 m10 l8 offset-m1 offset-l2">                  
+                <table class="striped">
+                    <tbody>
+                        {foreach $globals as $item}  
+                            <tr>
+                                <td>
+                                    {$item->description}
+                                </td>
 
-<div class="row" id="comm_settings">
-    <h3>Nastavenia komentarov</h3>
-    {foreach $comments as $item}  
-        <div class="col s6">            
-            {form globalForm-$item->id}
-                {$item->description}
-                {input value}
-                {input edit}
-            {/form}
+                                {form globalForm-$item->id}
+                                    <td>
+                                        <div class="input-field">
+                                            {input value}
+                                            {label value} {/label}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {input edit}
+                                    </td>
+                                {/form}                                
+                            </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+
+
+                <div class="row" id="comm_settings">
+                    <h3>Nastavenia komentarov</h3>
+                    <table class="striped">
+                        <tbody>                            
+                            {foreach $comments as $item}            
+                                <tr>
+                                    {form globalForm-$item->id}
+                                        <td>
+                                            {$item->description}
+                                            {input value}
+                                        </td>
+                                        <td>
+                                            {input edit}
+                                        </td>
+                                    {/form}
+                                </tr>
+                            {/foreach}                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    {/foreach}
-</div>
+    </div>

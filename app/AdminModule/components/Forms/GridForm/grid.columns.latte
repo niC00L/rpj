@@ -1,0 +1,12 @@
+{define col-username}
+<td>
+    <a href="{plink User:profile id => $row->id}">{$cell}</a>
+</td>
+{/define}
+
+{define row-actions}
+<a href="{link edit! $primary}" class="ajax btn" data-datagrid-edit="">
+    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> &nbsp;Upraviť
+</a>
+{/define}
+
