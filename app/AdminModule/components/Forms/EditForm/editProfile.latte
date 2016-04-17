@@ -1,9 +1,12 @@
 {block content}
 
 {form editForm}
-    {foreach $form->getControls() as $control}        
+    <ul class="errors" n:if="$form->hasErrors()">
+        <li n:foreach="$form->errors as $error">{$error}</li>
+    </ul>
+    {foreach $form->getControls() as $control}           
         {if $control->getName() == 'email'}
-            <input disabled n:name="$control">
+            <input n:name="$control" value="{$control->value}">
         {else}
             {input $control}
         {/if}

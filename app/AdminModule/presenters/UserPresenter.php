@@ -73,9 +73,6 @@ class UserPresenter extends AdminPresenter {
         $comments = $this->database->table('comments')->where('user_id', $id);
         $user = $this->database->table('users')->where('id', $id)->fetch();
         $user = $user->toArray();
-
-//        $this->template->comments = $comments;
-//        $this->template->posts = $posts;
         $this->template->profile = $user;
         $this['editForm']->setForms($id, 'users', $user);
     }
@@ -103,8 +100,8 @@ class UserPresenter extends AdminPresenter {
 
     public function changePasswordSuccess($form, $values) {
         $id = $this->getParameter('id');
-        $old = $old = $this->database->table('users')->where('id', $id)->select('password');
-        $verify = Passwords::verify($form['old'], $old);
+        $old = $this->database->table('users')->where('id', $id)->fetch()->password;
+        $verify = \Nette\Security\Passwords::verify($values['old'], $old);
         if ($verify) {
             $this->database->table('users')->update(array('password' => $values['new']));
             $this->flashMessage('Heslo bolo zmenené');
