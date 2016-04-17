@@ -9,13 +9,11 @@ class loadControl extends \Nette\Application\UI\Control {
 
     public $database;
     public $global;
-    public $g;
 
     public function __construct(\Nette\Database\Context $database, \App\Model\GlobalSettings $global) {
         parent::__construct();
         $this->database = $database;
-        $this->global = $global->getGlobal();
-        $this->g = $global;
+        $this->global = $global;
     }
 
     public function loadControls($position) {
@@ -23,7 +21,7 @@ class loadControl extends \Nette\Application\UI\Control {
         $added = array();
         foreach ($components as $com) {
             if (!in_array($com['component_name'], $added)) {
-                $this->addComponent(new $com['namespace']($this->database, $this->g), $com['component_name']);
+                $this->addComponent(new $com['namespace']($this->database, $this->global), $com['component_name']);
                 array_push($added, $com['component_name']);
             }
         }
@@ -47,7 +45,7 @@ class loadControl extends \Nette\Application\UI\Control {
         );
 
         $templates = array();
-        foreach ($controls as $c) {
+        foreach ($controls as $c => $a) {
             $templates[$c] = $this->database->table('site_templates')->where('type', $c)->fetchPairs('id', 'title');
         }
 
@@ -77,8 +75,10 @@ class loadControl extends \Nette\Application\UI\Control {
         $values['namespace'] = $namespace[$values['component_name']];
         $values['status'] = 2;
         $values['editable'] = 1;
-        $this->database->table('controls')->insert($values);
+        $added = $this->database->table('controls')->insert($values);
+        $values['namespace']::defaultValue($this->database, $added['id']);
         $this->presenter->flashMessage('Komponenta pridaná');
+        $this->presenter->redirect('this');
         //TODO: Redirect na edit komponenty
     }
 
@@ -95,8 +95,9 @@ class loadControl extends \Nette\Application\UI\Control {
     }
 
     public function deleteControlSuc($form, $values) {
-        $this->database->table('controls')->where('id', $values['id'])->update(array('status'=>0));
+        $this->database->table('controls')->where('id', $values['id'])->update(array('status' => 0));
         $this->presenter->flashMessage('Komponenta odstránená');
+        $this->presenter->redirect('this');
     }
 
 }
