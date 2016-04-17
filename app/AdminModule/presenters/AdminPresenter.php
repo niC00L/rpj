@@ -48,7 +48,7 @@ class AdminPresenter extends \App\Presenters\BasePresenter {
         return new Multiplier(function ($itemId) {
             $form = new Form;
             $form->addHidden('id');
-            if ($itemId >= 8 && $itemId <= 10) {
+            if ($itemId >= 8 && $itemId <= 11) {
                 $form->addCheckbox('value');
             } else {
                 $form->addText('value');

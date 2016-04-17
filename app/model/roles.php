@@ -8,7 +8,7 @@ class Roles extends \Nette\Object implements \Nette\Security\IAuthorizator {
     public $acls;
 
     public function __construct(GlobalSettings $global) {
-        $this->global = $global->getGlobal();
+        $this->global = $global;
 
         $acl = new \Nette\Security\Permission;
 
@@ -28,7 +28,7 @@ class Roles extends \Nette\Object implements \Nette\Security\IAuthorizator {
 
         $acl->allow('guest', array('post', 'comment'), 'view');
 
-        if ($this->global['comment_all'] == 1) {
+        if ($this->global->getSetting('comment_all') == 1) {
             $acl->allow('guest', 'comment', 'add');
         } else {
             $acl->allow('user', 'comment', 'add');

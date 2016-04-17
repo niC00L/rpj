@@ -19,8 +19,8 @@ class PostPresenter extends BasePresenter {
     public function startup() {
         parent::startup();
         $this->comments = array(
-            'post' => $this->global['comment_post'],
-            'ctg' => $this->global['comment_ctg']
+            'post' => $this->global->getSeting('comment_post'),
+            'ctg' => $this->global->getSetting('comment_ctg')
         );
     }
     

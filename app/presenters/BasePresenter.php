@@ -13,13 +13,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
     /** @var Nette\Database\Context */
     public $database;
     public $global;
-    public $g;
 
     public function __construct(\Nette\Database\Context $database, \App\Model\GlobalSettings $global) {
         parent::__construct();
         $this->database = $database;
-        $this->global = $global->getGlobal();
-        $this->g = $global;
+        $this->global = $global;
     }
 
     /** @var Nette\Http\SessionSection */
@@ -29,13 +27,13 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
         parent::startup();
         // zaciatok session
         $this->mySession = $this->session->getSection("mySession");
-        $this->template->global = $this->global;
+        $this->template->global = $this->global->getGlobal();
 
         $components = $this->database->table('controls')->where('status', 1)->fetchAll();
         $added = array();
         foreach ($components as $com) {
             if (!in_array($com['component_name'], $added)) {
-                $this->addComponent(new $com['namespace']($this->database, $this->g), $com['component_name']);
+                $this->addComponent(new $com['namespace']($this->database, $this->global), $com['component_name']);
                 array_push($added, $com['component_name']);
             }
         }

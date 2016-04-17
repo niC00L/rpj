@@ -49,8 +49,8 @@ class CommentsControl extends \App\AdminModule\Components\baseControl {
         $form->addTextarea('text', 'Text')
                 ->setRequired()
                 ->setAttribute('class', 'materialize-textarea')
-                ->setAttribute('length', $this->global['comment_length'])
-                ->addRule(Form::MAX_LENGTH, 'Komentár má maximálnu dĺžku %d znakov', $this->global['comment_length']);
+                ->setAttribute('length', $this->global->getSetting('comment_length'))
+                ->addRule(Form::MAX_LENGTH, 'Komentár má maximálnu dĺžku %d znakov', $this->global->getSetting('comment_length'));
         $form->addSubmit('submit', 'Odoslat')
                 ->setAttribute('class', 'btn');
         $form->onSuccess[] = array($this, 'addCommentFormSuc');
