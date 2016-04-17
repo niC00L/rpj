@@ -1,0 +1,12 @@
+{* Latte template *}
+
+{block content}
+
+{if $user->isAllowed('components', 'edit')}
+    <div class="form-invisible">
+        {control editForm}
+    </div>
+{else}
+    <h3>{$text['title']}</h3>
+    {$text['text']}
+{/if}
