@@ -1,0 +1,49 @@
+{* Latte template *}
+
+{block content}
+<main>        
+    <div class="section blue lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col m10 l8 offset-m1 offset-l2">
+                    <h1>Správa Komponent</h1>
+                    <p> Tu môžte spravovať Vaše komponenty</p>                   
+                </div>
+            </div>                
+        </div>                
+    </div>
+    <div class="blue lighten-2">&nbsp;</div>
+
+    <div class="container padding-vertical-2">
+        <div class="row">
+            <div class="col s12">    
+                <div class="row">
+                    {foreach $controls as $control}
+                        <div class="col s12 m6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">{if $control->title}{$control->title}{else}Bez názvu{/if}</span>
+                                    <p class="black-text">
+                                        {if $control->description}
+                                            {$control->description}
+                                        {else}
+                                            Bez popisu
+                                        {/if}
+                                    </p>
+                                </div>
+                                <div class="card-action">
+                                    <span>{$control->component_name}</span>
+                                    <a class="right" href="{if count($links[$control['position']])>2}
+                                       {plink ':'.$links[$control['position']][0].':'.$links[$control['position']][1] $links[$control['position']][2]}
+                                       {else}
+                                           {plink ':'.$links[$control['position']][0].':'.$links[$control['position']][1]}
+                                           {/if}">{$control->position}</a>
+                                       </div>
+                                    </div>
+                                </div>
+                                {/foreach}
+                                </div>        
+                            </div>
+                        </div>
+                    </div>
+                </main>
