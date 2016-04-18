@@ -28,10 +28,10 @@ class ControlsPresenter extends AdminPresenter {
                     $links[$item['position']] = '#';
                 } elseif ($link[0] == 'post') {
                     if($link[1] == 'show') {
-                        $link[2] = $this->database->table('post')->where('status', 1)->fetch()->address;
+                        $link[2] = $db->table('post')->where('status', 1)->fetch()->address;
                     }
                     else {
-                        $link[2] = $this->database->table('post_ctg')->where('status', 1)->fetch()->address;
+                        $link[2] = $db->table('post_ctg')->where('status', 1)->fetch()->address;
                     }
                     $links[$item['position']] = array( \Nette\Utils\Strings::capitalize($link[0]), \Nette\Utils\Strings::capitalize($link[1]), $link[2]);
                 } else {

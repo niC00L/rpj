@@ -37,7 +37,7 @@ class CommentsPresenter extends AdminPresenter {
         }        
         $this->template->post = $posts = $this->database->table('post')->where('id', $post_ids)->fetchAll();
         $this->template->ctgs = $ctgs = $this->database->table('post_ctg')->where('id', $ctg_ids)->fetchAll();
-        $this->template->author = $ctgs = $this->database->table('users')->fetchAll();
+        $this->template->author = $author = $this->database->table('users')->fetchAll();
         $this->template->comments = $comments;
     }
     
