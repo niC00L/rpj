@@ -23,8 +23,9 @@
         </div>                
     </div>
     <div class="blue lighten-2">&nbsp;</div>
-    
+
     <div class="container padding-vertical-2">
+        {control CategoryHeader}
         <div class="row">
             <div class="col m10 l8 offset-m1 offset-l2">                
                 {foreach $posts as $post}
@@ -54,6 +55,7 @@
                 {/if}
             </div>
         </div>
+        {control CategoryFooter}
     </div>
 </main>
 {/block}

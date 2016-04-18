@@ -9,14 +9,14 @@ class loadControl extends \Nette\Application\UI\Control {
 
     public $database;
     public $global;
+    protected $position;
 
-    public function __construct(\Nette\Database\Context $database, \App\Model\GlobalSettings $global) {
+    public function __construct(\Nette\Database\Context $database, \App\Model\GlobalSettings $global, $position) {
         parent::__construct();
         $this->database = $database;
         $this->global = $global;
-    }
+        $this->position = $position;
 
-    public function loadControls($position) {
         $components = $this->database->table('controls')->where('status', 2)->where('position', $position)->fetchAll();
         $added = array();
         foreach ($components as $com) {
@@ -25,12 +25,23 @@ class loadControl extends \Nette\Application\UI\Control {
                 array_push($added, $com['component_name']);
             }
         }
+    }
+
+    public function loadControls($position) {
+        $components = $this->database->table('controls')->where('status', 2)->where('position', $this->position)->fetchAll();
+//        $added = array();
+//        foreach ($components as $com) {
+//            if (!in_array($com['component_name'], $added)) {
+//                $this->addComponent(new $com['namespace']($this->database, $this->global), $com['component_name']);
+//                array_push($added, $com['component_name']);
+//            }
+//        }
         return $components;
     }
 
-    public function render($position) {
-        $this->template->controls = $controls = $this->loadControls($position);
-        $this->template->position = $position;
+    public function render() {
+        $this->template->controls = $controls = $this->loadControls($this->position);
+        $this->template->position = $this->position;
         $this->template->setFile(__DIR__ . '/default.latte');
         $this->template->render();
     }
@@ -41,7 +52,7 @@ class loadControl extends \Nette\Application\UI\Control {
             'banner' => 'Banner',
             'menu' => 'Menu',
             'textBlock' => 'Blok textu',
-            'search' => 'Vyhľadávanie',
+//            'search' => 'Vyhľadávanie',
         );
 
         $templates = array();
@@ -76,7 +87,9 @@ class loadControl extends \Nette\Application\UI\Control {
         $values['status'] = 2;
         $values['editable'] = 1;
         $added = $this->database->table('controls')->insert($values);
-        $values['namespace']::defaultValue($this->database, $added['id']);
+        if ($values['component_name'] != 'search') {
+            $values['namespace']::defaultValue($this->database, $added['id']);
+        }
         $this->presenter->flashMessage('Komponenta pridaná');
         $this->presenter->redirect('this');
         //TODO: Redirect na edit komponenty

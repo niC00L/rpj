@@ -25,6 +25,8 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
     protected function startup() {
         parent::startup();
+        $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'layout-footer'), 'LayoutFooter');
+        
         // zaciatok session
         $this->mySession = $this->session->getSection("mySession");
         $this->template->global = $this->global->getGlobal();

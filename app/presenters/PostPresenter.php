@@ -23,6 +23,12 @@ class PostPresenter extends BasePresenter {
             'post' => $globals['comment_post'],
             'ctg' => $globals['comment_ctg']
         );
+        
+        $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'post-header'), 'PostHeader');
+        $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'post-footer'), 'PostFooter');
+        
+        $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'category-header'), 'CategoryHeader');
+        $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'category-footer'), 'CategoryFooter');
     }
     
     public function actionShow($address) {

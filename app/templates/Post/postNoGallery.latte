@@ -37,7 +37,9 @@
                 <span><i class="fa fa-calendar"></i> &nbsp;{$post->create_date|date:'%d.%m.%Y'}</span>
             </div>
         </div>
-        <div class="container padding-vertical-1">            
+        <div class="container padding-vertical-1"> 
+            {control PostHeader}
+            <div class="row">
             {if $user->loggedIn && $user->isAllowed('post', 'edit')}
                 {control editForm 'editPost'}
 
@@ -57,6 +59,7 @@
                 {control comments:show $post->id, 'post'}
             {/if}            
         </div>
+        {control PostFooter}
     </div>
 </main>
 
