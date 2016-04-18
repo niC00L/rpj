@@ -13,27 +13,28 @@
         <!--Styles-->
         <link rel="stylesheet" href="{$basePath}/css/materialize.css">
         <link rel="stylesheet" href="{$basePath}/font/font-awesome-450/css/font-awesome.min.css">
-        <link rel="stylesheet" href="{$basePath}plugins/markitup/style.css">
-        <link rel="stylesheet" href="{$basePath}plugins/markitup/set/style.css">
+<!--        <link rel="stylesheet" href="{$basePath}plugins/markitup/style.css">
+        <link rel="stylesheet" href="{$basePath}plugins/markitup/set/style.css">-->
 
         <link rel="stylesheet" href="{$basePath}/css/main.css">
 
         <link rel="stylesheet" href="{$basePath}/css/style.css">
-        <link rel="stylesheet" href="{$basePath}/css/tickets.css">
 
         <!--autocomplete-->
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
+        <link rel="stylesheet" href="{$basePath}/css/jquery-ui.css"/>
 
-        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>	        
-        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <!--        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>	        
+                <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>-->
+        <script src="{$basePath}/js/jquery-2.1.4.min.js"></script>	        
+        <script src="{$basePath}/js/jquery-ui.js"></script>
 
         <!--JS pre nette validaciu formularov-->
         <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
         <script src="{$basePath}/js/materialize.min.js"></script>
 
         <script src="{$basePath}/plugins/jquery.cookie.js"></script>
-        <script src="{$basePath}/plugins/markitup/jquery.markitup.js"></script>
-        <script src="{$basePath}/plugins/markitup/set/set.js"></script>        
+<!--        <script src="{$basePath}/plugins/markitup/jquery.markitup.js"></script>
+        <script src="{$basePath}/plugins/markitup/set/set.js"></script>        -->
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -63,7 +64,7 @@
             </script>
         {/foreach}                
         {include content}
-        
+
         <footer class="page-footer light-blue lighten-1">
             <div class="container">
                 <div class="row">
@@ -86,8 +87,8 @@
             </div>
         </footer>
 
-        <link href='//nicool.rocks/stuff/tickets/tickets.css' rel='stylesheet'>
-        <script type="text/javascript" src="//nicool.rocks/stuff/tickets/tickets.js"></script>
+        <!--<link href='//nicool.rocks/stuff/tickets/tickets.css' rel='stylesheet'>-->
+        <!--<script type="text/javascript" src="//nicool.rocks/stuff/tickets/tickets.js"></script>-->
 
         <script n:if="$user->loggedIn" src="{$basePath}/js/admin-menu.js"></script>        
         <script src="{$basePath}/js/nette.ajax.js"></script>        
