@@ -2,25 +2,104 @@
 
 {block content}
 
-<div class="row">
-    {if $posts}
-        <div class="col s6">
-            <h2>Clanky</h2>
-            <ul>
-                {foreach $posts as $post}
-                    <li><a n:href=":Post:show $post->address" >{$post->title}</a></li>
+<main>        
+    <div class="section blue lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col m10 l8 offset-m1 offset-l2">
+                    <h1>Kôš</h1>
+                    <p> Tu sa nachádzajú všetky odstránené položky</p>                   
+                </div>
+            </div>                
+        </div>                
+    </div>
+    <div class="blue lighten-2">&nbsp;</div>
+
+    <div class="container padding-vertical-2">
+        <div class="row section">
+            <div class="col s12 m10 l8 offset-m1 offset-l2">  
+                {if $posts}
+                    <div class="col s12 l6">
+                        <h2>Články</h2>
+                        <ul>
+                            {foreach $posts as $post}
+                                <li><a n:href=":Post:show $post->address" >{$post->title}</a></li>
+                                {/foreach}
+                        </ul>
+                    </div>
+                {/if}
+                {if $post_ctgs}
+                    <div class="col s12 l6">
+                        <h2>Kategórie</h2>
+                        <ul>
+                            {foreach $post_ctgs as $post_ctg}
+                                <li><a n:href=":Post:category $post_ctg->address" >{$post_ctg->title}</a></li>
+                                {/foreach}
+                        </ul>
+                    </div>
+                {/if}
+            </div> 
+        </div> 
+        <div class="divider"></div>
+        <div class="row section">
+            {if $comments}
+                <div class="col s12">
+                    <h2 class="center-align">Komentáre</h2>
+                    {foreach $comments as $com}
+                        <div class="col s12 m6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="right">
+                                        <span>{$com->date|date:'%d.%m.%Y'}</span>
+                                    </div>
+                                    <span class="card-title grey-text text-darken-4">
+                                        {if $com->user_id}
+                                            {$author[$com->user_id]['display_name']}
+                                        {else}
+                                            {$com->name}
+                                        {/if}
+                                    </span> 
+                                    <p>
+                                        {if $com->user_id}
+                                            <a href="mailto:{$author[$com->user_id]['email']}" class="cyan-text">{$author[$com->user_id]['email']}</a>
+                                        {else}
+                                            <a href="mailto:{$com->email}" class="cyan-text">{$com->email}</a>
+                                        {/if}
+                                    </p>
+                                    <p>{$com->text}</p>
+                                </div>
+                            </div>
+                        </div>                
                     {/foreach}
-            </ul>
-        </div>
-    {/if}
-    {if $post_ctgs}
-        <div class="col s6">
-            <h2>Kategorie</h2>
-            <ul>
-                {foreach $post_ctgs as $post_ctg}
-                    <li><a n:href=":Post:category $post_ctg->address" >{$post_ctg->title}</a></li>
+                </div>
+            {/if}
+        </div> 
+        <div class="divider"></div>
+        <div class="row section">
+            {if $controls}
+                <div class="col s12">
+                    <h2 class="center-align">Komponenty</h2>
+                    {foreach $controls as $control}
+                        <div class="col s12 m6">
+                            <div class="card">                                
+                                <div class="card-content">
+                                    <div class="right">
+                                        <span>{$control->component_name}</span>
+                                    </div>
+                                    <span class="card-title">{if $control->title}{$control->title}{else}Bez názvu{/if}</span>
+                                    <p class="black-text">
+                                        {if $control->description}
+                                            {$control->description}
+                                        {else}
+                                            Bez popisu
+                                        {/if}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     {/foreach}
-            </ul>
-        </div>
-    {/if}
-</div>
+                </div>
+            {/if}
+        </div> 
+    </div>
+</main>
