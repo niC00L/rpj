@@ -14,7 +14,7 @@ class BannerControl extends \App\AdminModule\Components\baseControl {
             'alt' => 'Alt obrázka',
             'description' => 'Popis obrázka',
         );
-        $db->table('banners')->insert($values);
+        $db->table('ctrl_banner')->insert($values);
     }
     
     public function getIds($id) {
