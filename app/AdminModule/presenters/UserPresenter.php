@@ -88,8 +88,7 @@ class UserPresenter extends AdminPresenter {
         $form->addPassword('new2', 'Nové heslo znovu', 20)
                 ->addConditionOn($form['new'], Form::VALID)
                 ->addRule(Form::FILLED, 'Heslo znovu')
-                ->addRule(Form::EQUAL, 'Hesla sa nezhodujú.', $form['new']);
-        
+                ->addRule(Form::EQUAL, 'Hesla sa nezhodujú.', $form['new']);        
         
         $form->addSubmit('submit', 'Zmeniť')
                 ->setAttribute('class', 'btn');
@@ -103,7 +102,7 @@ class UserPresenter extends AdminPresenter {
         $old = $this->database->table('users')->where('id', $id)->fetch()->password;
         $verify = \Nette\Security\Passwords::verify($values['old'], $old);
         if ($verify) {
-            $this->database->table('users')->update(array('password' => $values['new']));
+            $this->database->table('users')->where('id', $id)->update(array('password' => \Nette\Security\Passwords::hash($values['new'])));
             $this->flashMessage('Heslo bolo zmenené');
             $this->redirect('this');
         }
