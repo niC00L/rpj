@@ -55,7 +55,8 @@ class MenuPresenter extends AdminPresenter {
                 'Homepage_contact' => 'Kontakt',
                 'Post_show' => 'Článok',
                 'Post_category' => 'Kategória článkov',
-                'Sign' => 'Prihlásenie/Odhlásenie'
+                'Sign' => 'Prihlásenie/Odhlásenie',
+                'external' => 'Extérny odkaz',
             );
 
             $form = new Form;
@@ -70,6 +71,7 @@ class MenuPresenter extends AdminPresenter {
             $form->addSelect('address', '', $this->address)
                     ->setAttribute('class', 'browser-default')
                     ->setPrompt('Vyberte');
+            $form->addText('ext_address', 'Adresa');
             $form->addText('title', 'Titulok:')
                     ->setRequired();
             $form->addText('class', 'Class:');
