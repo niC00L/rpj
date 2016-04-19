@@ -15,7 +15,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
 
     public function render($template = 'multiplierFormDefault') {
         $this->template->setFile(__DIR__ . '/' . $template . '.latte');
-        $this->template->defaults = $this->defaults;                
+        $this->template->defaults = $this->defaults;
         $this->template->render();
     }
 
@@ -26,7 +26,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
         $this->defaults = $defaults;
         if ($defaults) {
             foreach ($defaults as $default) {
-                $this['multiplierForm-'.$default['id']]->setDefaults($default);
+                $this['multiplierForm-' . $default['id']]->setDefaults($default);
             }
         }
     }
@@ -34,7 +34,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
     protected function createComponentMultiplierForm() {
         return new Multiplier(function ($itemId) {
             //      vyberu sa polia pre formular
-        $fields = $this->database->query('EXPLAIN ' . $this->table);
+            $fields = $this->database->query('EXPLAIN ' . $this->table);
             $form = new Form;
             foreach ($fields as $f) {
                 if ($f['Field'] != 'password' && $f['Field'] != 'token' && $f['Field'] != 'role' && $f['Field'] != 'username') {
@@ -42,7 +42,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
                         $form->addTextArea($f['Field'], $f['Field'])
                                 ->setAttribute('class', 'materialize-textarea ' . $f['Field'])
                                 ->setAttribute('placeholder', $f['Field']);
-                    } elseif (\Nette\Utils\Strings::endsWith($f['Field'], 'image' ) || \Nette\Utils\Strings::startsWith($f['Field'], 'image')) {
+                    } elseif (\Nette\Utils\Strings::endsWith($f['Field'], 'image') || \Nette\Utils\Strings::startsWith($f['Field'], 'image')) {
                         $form->addUpload($f['Field']);
                     } elseif (Strings::startsWith($f['Type'], 'varchar')) {
                         $form->addText($f['Field'], $f['Field'])
@@ -55,6 +55,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
                     }
                 }
             }
+            $form->addHidden('id');
 
             $form->addSubmit('send', 'Uložit')
                     ->setAttribute('class', 'btn');
@@ -69,7 +70,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
 //	Vyradi checkboxy z values aby sa nezapisovali do tabulky post
         foreach ($values as $key => $value) {
 
-            if (Strings::endsWith($key, 'image')) {
+            if (Strings::endsWith($key, 'image')||Strings::startsWith($key, 'image')) {
                 if (strlen($values[$key]) > 1) {
                     $image = $values[$key];
                     $values[$key] = $image->name;
@@ -81,9 +82,13 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
             }
         }
 
-        if ($this->id) {
+        if ($values['id']) {
 //	zapisanie/pridanie obsahu stranky
-            $this->database->table($this->table)->where($this->type.'_id',$this->id)->update($values);
+            $this->database->table($this->table)->where($this->type . '_id', $this->id)->where('id', $values['id'])->update($values);
+        }
+        else {
+            $values[$this->type.'_id'] = $this->id;
+            $this->database->table($this->table)->insert($values);
         }
 
         $this->presenter->flashMessage('Úspešne publikované.', 'success');

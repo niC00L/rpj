@@ -9,3 +9,24 @@
         {/foreach}
     {/form}
 {/foreach}
+<a class="waves-effect waves-light btn modal-trigger" href="#add-item"><i class="fa fa-plus"></i>&nbsp; Pridať položku</a>
+<!-- Modal Structure -->
+<div id="add-item" class="modal bottom-sheet">
+    <div class="modal-content">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m10 l8 offset-m1 offset-l2">
+                    <h4>Pridanie položky</h4>
+                    {form multiplierForm-0}
+                        {foreach $form->getControls() as $control}        
+                            <div class="input-field">
+                                {input $control}
+                                {label $control/}
+                            </div>
+                        {/foreach}
+                    {/form}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  

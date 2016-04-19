@@ -1,0 +1,69 @@
+{block content}
+{foreach $defaults as $d}
+    <div class="row card">
+        <div class="card-content">
+            {form multiplierForm-$d->id}
+                <div class="form-invisible col s12 m6 l4">
+                    <div class='edit-img' onclick="$('#frm-multiplierForm-multiplierForm-{$d['id']}-image_name').click()">
+                        <div class="uploadImg valign-wrapper">
+                            <span class="center-align valign">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                        </div>                  
+                        <img class='responsive-img' id="banner-{$d['id']}" src='{$basePath}/images/ctrl_banner/{$d['banner_id']}/{$d['image_name']}'>
+                    </div>
+                </div>
+                <div class="col s12 m6 l8">  
+                    <div class="row">
+                        <div class="input-field col s12 m12 l6">
+                            {input title}
+                            {label title/}
+                        </div>
+                        <div class="input-field col s12 m12 l6">
+                            {input alt}
+                            {label alt/}
+                        </div>
+                        <div class="input-field col s12 m12 l12">
+                            {input description}
+                            {label description/}
+                        </div>
+                        {input image_name}
+                        {input send}
+                    </div>
+                </div>
+            {/form}
+        </div>
+    </div>
+{/foreach}
+<a class="waves-effect waves-light btn modal-trigger" href="#add-item"><i class="fa fa-plus"></i>&nbsp; Pridať položku</a>
+<!-- Modal Structure -->
+<div id="add-item" class="modal bottom-sheet">
+    <div class="modal-content">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m10 l8 offset-m1 offset-l2">
+                    <h4>Pridanie položky</h4>
+                    {form multiplierForm-0}
+                        {foreach $form->getControls() as $control}        
+                            <div class="input-field">
+                                {input $control}
+                                {label $control/}
+                            </div>
+                        {/foreach}
+                    {/form}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<script type="text/javascript" >
+    $(function () {
+        $('[name = "image_name"]').hide();
+    {foreach $defaults as $d}
+        $("#frm-multiplierForm-multiplierForm-{$d['id']}-image_name").change(function () {
+            readURL(this, '#banner-{$d['id']}', 0);
+        });
+    {/foreach}
+    });
+</script>
