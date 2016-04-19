@@ -26,7 +26,7 @@ class BannerControl extends \App\AdminModule\Components\baseControl {
     public function renderDefault($id) {  
         $this->template->id = $id;
         $template = $this->getIds($id);
-        $this->template->images = $images = $this->database->table('banners')->where('banner_id', $id)->fetchAll();
+        $this->template->images = $images = $this->database->table('ctrl_banner')->where('banner_id', $id)->fetchAll();
         $this->template->setFile(__DIR__ . '/' . $template . '.latte');
         $this->template->render();
     }
