@@ -10,12 +10,16 @@ use Nette,
 
 class AdminPresenter extends \App\Presenters\BasePresenter {
 
+    public $userData;
+    
     public function startup() {
         parent::startup();
         if (!$this->getUser()->isLoggedIn()) {
             $this->flashMessage('Na prístup k tejto stránke sa musíte prihlásiť');
             $this->redirect(':Sign:in');
         }
+        $this->userData = $this->database->table('users')->where('id', $this->getUser()->getId())->fetch();
+        $this->template->userData = $this->userData;
     }
 
     public function renderDefault() {
