@@ -25,7 +25,11 @@
                     {if $user->isAllowed('profile', 'view')}
                         <a n:href="Admin:User:profile $author['id']">
                         {/if}
-                        <span class="circle author-pic" style="background-image:url({$basePath}/images/users/{$author['id']}/{$author['profile_image']})" ></span>
+                        {if $author['profile_image']}
+                            <span class="circle author-pic" style="background-image:url({$basePath}/images/users/{$author['id']}/{$author['profile_image']})" ></span>
+                        {else}
+                            <span class="circle author-pic" style="background-image:url({$basePath}/images/default/profile.jpg)" ></span>
+                        {/if}
                         <strong class="grey-text text-darken-4">{$author['display_name']}</strong>
                         {if $user->isAllowed('profile', 'view')}
                         </a>

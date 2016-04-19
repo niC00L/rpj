@@ -46,7 +46,7 @@ class PostPresenter extends BasePresenter {
         $this->defaults = $post->toArray();
         $this->id = $post['id'];
 
-        if ($post->status != 1 && !$this->user->loggedIn) {
+        if ($post->status != 1 && !$this->user->isAllowed('post', 'edit')) {
             $this->flashMessage('Prispevok bol odstraneny', 'danger');
             $this->redirect('Homepage:');
         } else {
@@ -70,7 +70,7 @@ class PostPresenter extends BasePresenter {
         $this->defaults = $category->toArray();
         $this->id = $category['id'];
 
-        if ($category->status != 1 && !$this->user->loggedIn) {
+        if ($category->status != 1 && !$this->user->isAllowed('post', 'edit')) {
             $this->flashMessage('Kategoria bola odstranena', 'danger');
             $this->redirect('Homepage:');
         } else {

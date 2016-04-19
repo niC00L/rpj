@@ -25,7 +25,11 @@
                     {if $user->isAllowed('profile', 'view')}
                         <a n:href="Admin:User:profile $author['id']">
                         {/if}
-                        <span class="circle author-pic" style="background-image:url({$basePath}/images/users/{$author['id']}/{$author['profile_image']})" ></span>
+                        {if $author['profile_image']}
+                            <span class="circle author-pic" style="background-image:url({$basePath}/images/users/{$author['id']}/{$author['profile_image']})" ></span>
+                        {else}
+                            <span class="circle author-pic" style="background-image:url({$basePath}/images/default/profile.jpg)" ></span>
+                        {/if}
                         <strong class="grey-text text-darken-4">{$author['display_name']}</strong>
                         {if $user->isAllowed('profile', 'view')}
                         </a>
@@ -40,27 +44,27 @@
         <div class="container padding-vertical-1"> 
             {control PostHeader}
             <div class="row">
-            {if $user->loggedIn && $user->isAllowed('post', 'edit')}
-                {control editForm 'editPost'}
+                {if $user->loggedIn && $user->isAllowed('post', 'edit')}
+                    {control editForm 'editPost'}
 
-                {if $post->status != 0}                    
-                    {control deleteForm}
+                    {if $post->status != 0}                    
+                        {control deleteForm}
+                    {else}
+                        <blockquote>Tento článok sa nachádza v koši.
+                            {control renewForm} {*control deleteForeverForm*}
+                        </blockquote>
+                    {/if} 
                 {else}
-                    <blockquote>Tento článok sa nachádza v koši.
-                        {control renewForm} {*control deleteForeverForm*}
-                    </blockquote>
-                {/if} 
-            {else}
-                <h1 class="title"> {$post->title} </h1>
-                <p> {$post->text} </p>	    
-            {/if}                        
+                    <h1 class="title"> {$post->title} </h1>
+                    <p> {$post->text} </p>	    
+                {/if}                        
 
-            {if $comments['post'] == 1}
-                {control comments:show $post->id, 'post'}
-            {/if}            
+                {if $comments['post'] == 1}
+                    {control comments:show $post->id, 'post'}
+                {/if}            
+            </div>
+            {control PostFooter}
         </div>
-        {control PostFooter}
-    </div>
 </main>
 
 <script type="text/javascript" >
