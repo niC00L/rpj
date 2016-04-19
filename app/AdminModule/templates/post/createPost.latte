@@ -1,4 +1,47 @@
 {block content}
-<h1>Nový příspěvek</h1>
+<main>    
+    <div class="form-invisible">
+        <div class="parallax-container" style="height:55vmin;">
+            <div class='edit-img' onclick="$('#frm-editForm-editForm-title_image').click()">
+                <div class="parallax"> 
+                    <div class="uploadImg valign-wrapper">
+                        <span class="center-align valign">
+                            <i class="fa fa-upload"></i>
+                        </span>
+                    </div>                  
+                    <img class='responsive-img' id="titlePic" src='{$basePath}/images/default/background.jpg'>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="author row grey lighten-3">
+        <div class="container">                
+            <span>
+                <a n:href="User:profile $userData['id']">
+                    {if $userData['profile_image']}
+                        <span class="circle author-pic" style="background-image:url({$basePath}/images/users/{$user->getId()}/{$userData['profile_image']})" ></span>
+                    {else}
+                        <span class="circle author-pic" style="background-image:url({$basePath}/images/default/profile.jpg)" ></span>
+                    {/if}
+                    <strong class="grey-text text-darken-4">{$userData['display_name']}</strong>
+                </a>
+            </span>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+        </div>
+    </div>
+    <div class="container padding-vertical-1">   
+        <div class="row">
+            {control editForm 'editPost'}
+        </div>
+</main>
 
-{control editForm}
+<script type="text/javascript" >
+    $(function () {
+        $("#frm-editForm-editForm-title_image").change(function () {
+            readURL(this, '#titlePic', 0);
+        });
+        //        $("textarea").markItUp(mySettings);
+    });
+</script>

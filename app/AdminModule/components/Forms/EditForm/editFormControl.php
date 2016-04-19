@@ -46,8 +46,7 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                 } elseif (Strings::startsWith($f['Type'], 'varchar')) {
                     $form->addText($f['Field'], $f['Field'])
                             ->setAttribute('class', $f['Field'])
-                            ->setAttribute('placeholder', $f['Field'])
-                            ->setRequired();
+                            ->setAttribute('placeholder', $f['Field']);
                 } elseif ($f['Field'] == 'template') {
                     $templates = $this->database->table('site_templates')->where('type', $this->table)->fetchPairs('id', 'title');
                     $t = $form->addSelect($f['Field'], $f['Field'], $templates);
@@ -62,8 +61,10 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                     $i = $form->addCheckbox('category_' . $ctg['id'], $ctg['title']);
                 }
 //	pouzitym sa prida hodnota true
-                foreach ($ctgs_in as $ctg_in) {
-                    $i = $form->setValues(['category_' . $ctg_in->ctg_id => true]);
+                if ($this->id) {
+                    foreach ($ctgs_in as $ctg_in) {
+                        $i = $form->setValues(['category_' . $ctg_in->ctg_id => true]);
+                    }
                 }
             }
         }
@@ -100,31 +101,40 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                 }
             }
         }
-
+        if (!$values['address']) {
+            $values['address'] = \Nette\Utils\Strings::webalize($values['title']);
+        }
         if ($this->id) {
 //	zapisanie/pridanie obsahu stranky
-            $this->database->table($this->table)->get($this->id)->update($values);
+            $up = $this->database->table($this->table)->where('id', $this->id)->update($values);
+        } else {
+            $up = $this->database->table($this->table)->insert($values);
         }
 
 //	zapisanie clankov v kategoriach do spolocnej tabulky
         if ($this->table == 'post') {
-            $this->database->table('post_ctg_sort')->where('post_id', $this->id)->delete();
+            if ($this->id) {
+                $this->database->table('post_ctg_sort')->where('post_id', $this->id)->delete();
+            }
 
             foreach ($ctg_sort as $ctg_id) {
                 $this->database->table('post_ctg_sort')->insert(array(
-                    'post_id' => $this->id,
+                    'post_id' => $up['id'],
                     'ctg_id' => $ctg_id
                 ));
             }
         }
 
-        $this->presenter->flashMessage('Uspesne publikovane.', 'success');
+        $this->presenter->flashMessage('Úspešne publikované.', 'success');
 //        if($values['address']) {
 //            $this->presenter->redirect('this', ['address' => $values['address']]);
 //        }
 //        else {
-        $this->presenter->redirect('this');
-//        }
+        if (\Nette\Utils\Strings::startsWith($this->table, 'post') && !$this->id) {
+            $this->presenter->redirect(':Admin:Post:default');
+        } else {
+            $this->presenter->redirect('this');
+        }
     }
 
 }
