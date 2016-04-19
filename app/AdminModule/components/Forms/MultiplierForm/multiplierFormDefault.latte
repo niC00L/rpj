@@ -1,0 +1,11 @@
+{block content}
+{foreach $defaults as $d}
+    {form multiplierForm-$d->id}
+        {foreach $form->getControls() as $control}        
+            <div class="input-field">
+                {input $control}
+                {label $control/}
+            </div>
+        {/foreach}
+    {/form}
+{/foreach}
