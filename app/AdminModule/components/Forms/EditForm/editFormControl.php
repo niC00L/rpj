@@ -115,11 +115,13 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
         if ($this->table == 'post') {
             if ($this->id) {
                 $this->database->table('post_ctg_sort')->where('post_id', $this->id)->delete();
+                $p = $this->id;
+            } else {
+                $p = $up['id'];
             }
-
             foreach ($ctg_sort as $ctg_id) {
                 $this->database->table('post_ctg_sort')->insert(array(
-                    'post_id' => $up['id'],
+                    'post_id' => $p,
                     'ctg_id' => $ctg_id
                 ));
             }
