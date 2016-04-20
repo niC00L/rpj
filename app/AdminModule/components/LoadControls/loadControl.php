@@ -57,7 +57,7 @@ class loadControl extends \Nette\Application\UI\Control {
 
         $templates = array();
         foreach ($controls as $c => $a) {
-            $templates[$c] = $this->database->table('site_templates')->where('type', $c)->fetchPairs('id', 'title');
+            $templates[$c] = $this->database->table('site_templates')->where('type', $c)->where('status', 1)->fetchPairs('id', 'title');
         }
 
         $form->addSelect('component_name', 'Vyberte komponentu', $controls)

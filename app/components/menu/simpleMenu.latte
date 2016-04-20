@@ -1,0 +1,38 @@
+{block content}
+<ul>						
+    {foreach $links as $link}
+        {if $link->status == 1}
+            {if $link->type == 'external'}                                
+                <li><a class="{$link->class}" href="{if \Nette\Utils\Strings::startsWith($link->ext_address, 'http://')}{$link->ext_address}{else}http://{$link->ext_address}{/if}" target="blank">{$link->title}</a></li>
+                {elseif $link->type == 'Post'}
+                <li><a  class="{$link->class}"href="{plink ':'.$link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
+
+            {elseif $link->type == 'Sign'}
+                {if $user->loggedIn}
+                    <li><a class="{$link->class}" href="{plink :Sign:out}">Odhlásit</a></li>
+                    {else}
+                    <li><a class="{$link->class}" href="{plink :Sign:in}">Prihlásit</a></li>
+                    {/if}
+                {else}
+                <li><a class="{$link->class}" href="{plink ':'.$link->type.':'.$link->action }">{$link->title}</a></li>                                
+                {/if}
+            {elseif $link->status == 2}
+                {if $user->loggedIn}
+                    {if $link->type == 'external'}                                
+                    <li><a class="{$link->class}" href="{if \Nette\Utils\Strings::startsWith($link->ext_address, 'http://')}{$link->ext_address}{else}http://{$link->ext_address}{/if}" target="blank">{$link->title}</a></li>
+                    {elseif $link->type == 'Post'}
+                    <li><a  class="{$link->class}"href="{plink ':'.$link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
+
+                {elseif $link->type == 'Sign'}
+                    {if $user->loggedIn}
+                        <li><a class="{$link->class}" href="{plink :Sign:out}">Odhlásit</a></li>
+                        {else}
+                        <li><a class="{$link->class}" href="{plink :Sign:in}">Prihlásit</a></li>
+                        {/if}
+                    {else}
+                    <li><a class="{$link->class}" href="{plink ':'.$link->type.':'.$link->action }">{$link->title}</a></li>                                
+                    {/if}
+                {/if}
+            {/if}
+        {/foreach}
+</ul>                                

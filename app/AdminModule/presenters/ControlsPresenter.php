@@ -19,7 +19,9 @@ class ControlsPresenter extends AdminPresenter {
     }
     
     static function getControls($db, $status) {
+        $main = $db->table('controls')->where('position', 'layout-menu')->fetch();
         $controls = $db->table('controls')->where('status', $status)->where('editable', 1)->fetchAll();
+        array_push($controls, $main);
         $links = array();
         foreach ($controls as $item) {
             if (!in_array($item['position'], $links)) {
