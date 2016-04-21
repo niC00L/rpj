@@ -31,19 +31,25 @@
     <div class="card grey lighten-4">
         <div class="card-content grey-text text-darken-4">
             <span class="card-title teal-text">Pridať komentár</span>
-            {form addCommentForm}
-                {foreach $form->getControls() as $control}
-                    {if $control->getName()!='submit'}
-                        <div class="input-field">
-                            {input $control}
-                        {label $control}{$control->caption}{/label}
+            {form addCommentForm}             
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        {input name}
+                        {label name/}
                     </div>
-                {/if}
-            {/foreach}
-            {input submit}
-        {/form}
+                    <div class="input-field col s12 m6">
+                        {input email}
+                        {label email/}
+                    </div>
+                </div>
+                <div class="input-field">
+                    {input text}
+                    {label text/}
+                </div>
+                {input submit}
+            {/form}
+        </div>
     </div>
-</div>
 {else}
     <strong>Pre pridávanie kmentárov sa musíte prihlásiť</strong>
 {/if}

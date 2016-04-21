@@ -81,11 +81,17 @@
                     <h2 class="center-align">Komponenty</h2>
                     {foreach $controls as $control}
                         <div class="col s12 m6">
-                            <div class="card">                                
+                            <div class="card">
                                 <div class="card-content">
-                                    <div class="right">
-                                        <span>{$control->component_name}</span>
-                                    </div>
+                                    {if $control['component_name'] == 'banner'}
+                                        <div class="right">
+                                            <h5><a href="{plink Gallery:banner $control['id']}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></h5>
+                                        </div>
+                                    {elseif $control['component_name'] == 'menu'}
+                                        <div class="right">
+                                            <h5><a href="{plink Menu:editMenu $control['id']}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></h5>
+                                        </div>
+                                    {/if}
                                     <span class="card-title">{if $control->title}{$control->title}{else}Bez názvu{/if}</span>
                                     <p class="black-text">
                                         {if $control->description}
@@ -94,6 +100,10 @@
                                             Bez popisu
                                         {/if}
                                     </p>
+                                </div>
+                                <div class="card-action">
+                                    <span>{$control->component_name}</span>
+
                                 </div>
                             </div>
                         </div>
