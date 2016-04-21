@@ -59,7 +59,7 @@
 
 <script type="text/javascript" >
     $(function () {
-        $('[name = "image_name"]').hide();
+        $('[name = "image_name"]:not(#frm-multiplierForm-multiplierForm-0-image_name)').hide();
     {foreach $defaults as $d}
         $("#frm-multiplierForm-multiplierForm-{$d['id']}-image_name").change(function () {
             readURL(this, '#banner-{$d['id']}', 0);

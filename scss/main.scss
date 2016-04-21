@@ -8,6 +8,11 @@ Main SCSS template for webpage
 /*$white = hsla(100, 100, 100, 1);*/
 @import 'materialize/components/_prefixer.scss';
 
+/*ENDORA HACK*/
+.oznamy {
+    display: none;
+}
+
 /*HELPER CLASSES*/
 .padding-vertical-1 {
     padding-top: 1rem;

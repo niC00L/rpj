@@ -25,6 +25,7 @@ class BinPresenter extends AdminPresenter {
         $comments = $this->template->comments = $this->database->table('comments')->where('status', 0)->fetchAll();
         $this->template->author = $author = $this->database->table('users')->fetchAll();
         $controls = $this->template->controls = \App\AdminModule\Presenters\ControlsPresenter::getControls($this->database, 0)[0];
+        $controls = $this->template->links = \App\AdminModule\Presenters\ControlsPresenter::getControls($this->database, 0)[1];
     }
 
     public function createComponentBinRenew() {

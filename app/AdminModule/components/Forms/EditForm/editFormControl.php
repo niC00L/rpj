@@ -90,7 +90,7 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                 unset($values[$key]);
             }
 
-            if (Strings::endsWith($key, 'image')) {
+            if (Strings::endsWith($key, 'image') || Strings::startsWith($key, 'image'))  {
                 if (strlen($values[$key]) > 1) {
                     $image = $values[$key];
                     $values[$key] = $image->name;
