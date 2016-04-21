@@ -74,7 +74,7 @@ class UserPresenter extends AdminPresenter {
         $user = $this->database->table('users')->where('id', $id)->fetch();
         $user = $user->toArray();
         $this->template->profile = $user;
-        $this['editForm']->setForms($id, 'users', $user);
+        $this['editForm']->setForms($id, 'users', $user, array('role', 'username', 'password', 'token'));
     }
 
     public function createComponentChangePasswordForm() {

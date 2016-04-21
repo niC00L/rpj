@@ -9,15 +9,19 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
 
     public $table;
     public $id;
+    public $defaults;
+    public $ignore;
 
     public function render($template = 'editFormDefault') {
         $this->template->setFile(__DIR__ . '/' . $template . '.latte');
         $this->template->render();
     }
 
-    public function setForms($id, $table, $defaults) {
+    public function setForms($id, $table, $defaults, $ignore = array()) {
         $this->id = $id;
         $this->table = $table;
+        $this->defaults = $defaults;
+        $this->ignore = $ignore;
         if ($defaults) {
             $this['editForm']->setDefaults($defaults);
         }
@@ -36,7 +40,7 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
 
         $form = new Form;
         foreach ($fields as $f) {
-            if ($f['Field'] != 'password' && $f['Field'] != 'token' && $f['Field'] != 'role' && $f['Field'] != 'username') {
+            if (!in_array($f['Field'], $this->ignore)) {
                 if (\Nette\Utils\Strings::endsWith($f['Type'], 'text')) {
                     $form->addTextArea($f['Field'], $f['Field'])
                             ->setAttribute('class', 'materialize-textarea ' . $f['Field'])
@@ -48,7 +52,11 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                             ->setAttribute('class', $f['Field'])
                             ->setAttribute('placeholder', $f['Field']);
                 } elseif ($f['Field'] == 'template') {
-                    $templates = $this->database->table('site_templates')->where('type', $this->table)->fetchPairs('id', 'title');
+                    $tmps = $this->table;
+                    if($this->table == 'controls' && $this->defaults) {
+                        $tmps = $this->defaults['component_name'];
+                    }
+                    $templates = $this->database->table('site_templates')->where('type', $tmps)->where('status', 1)->fetchPairs('id', 'title');
                     $t = $form->addSelect($f['Field'], $f['Field'], $templates);
                 }
             }
