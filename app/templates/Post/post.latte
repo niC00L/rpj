@@ -69,8 +69,10 @@
                 <p> {$post->text} </p>	    
             {/if}                        
 
-            {if $post['gallery_id']}
-                {control gallery:show $post['gallery_id']}
+            {if !$post['gallery_id']}
+                {control gallery:add}
+            {else}
+                {control gallery:default $post['gallery_id']}
             {/if}
 
             {if $comments['post'] == 1}

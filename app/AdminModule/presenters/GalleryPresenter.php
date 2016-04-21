@@ -32,8 +32,19 @@ class GalleryPresenter extends AdminPresenter {
         $this->template->banner = $banner = $this->database->table('controls')->where('id', $id)->fetch();
         $imgs = $this->template->imgs = $this->database->table('ctrl_banner')->where('banner_id', $id)->fetchAll();
         $this['multiplierForm']->setForms('banner', $id, 'ctrl_banner', $imgs);
-        $this['deleteForm']->setForms($id, 'ctrl_banner');
-        $this['renewForm']->setForms($id, 'ctrl_banner');
+        $this['deleteForm']->setForms($id, 'controls');
+        $this['renewForm']->setForms($id, 'controls');
+        $this['editForm']->setForms($banner['id'], 'controls', $banner, array('component_name', 'namespace', 'position'));
+    }
+    
+    public function actionGallery($id) {
+        $this->template->id = $id;
+        $this->template->gallery = $gallery = $this->database->table('controls')->where('id', $id)->fetch();
+        $imgs = $this->template->imgs = $this->database->table('ctrl_gallery')->where('gallery_id', $id)->fetchAll();
+        $this['multiplierForm']->setForms('gallery', $id, 'ctrl_gallery', $imgs);
+        $this['deleteForm']->setForms($id, 'controls');
+        $this['renewForm']->setForms($id, 'controls');
+        $this['editForm']->setForms($gallery['id'], 'controls', $gallery, array('component_name', 'namespace', 'position'));
     }
 
     public function actionAdd($id) {

@@ -1,0 +1,27 @@
+<div class="row">
+    {if count($images) > 0}
+        <!--<h4>Galéria k článku</h4>-->
+        {foreach $images as $i}                               
+            <div class="col s6 m4 l3">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="materialboxed responsive-img" data-caption="{$i['description']}" src="{$basePath}/images/ctrl_gallery/{$id}/{$i['image_name']}" alt="{$i['alt']}">                
+                        <span class="card-title">{$i['title']}</span>                    
+                    </div>
+                </div>
+            </div>            
+        {/foreach}
+    {/if}
+    {if $user->isAllowed('gallery', 'edit')}
+        <div class="col s6 m4 l3">
+            <div class="card">
+                <div class="card-content">
+                    <a href="{plink Admin:Gallery:Gallery $id}" class="card-title">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Upraviť galériu
+                    </a>
+                </div>
+            </div>
+        </div>
+    {/if}                
+</div>
+
