@@ -29,6 +29,7 @@ class GalleryPresenter extends AdminPresenter {
     
     public function actionBanner($id) {
         $this->template->id = $id;
+        $this->template->banner = $banner = $this->database->table('controls')->where('id', $id)->fetch();
         $imgs = $this->template->imgs = $this->database->table('ctrl_banner')->where('banner_id', $id)->fetchAll();
         $this['multiplierForm']->setForms('banner', $id, 'ctrl_banner', $imgs);
         $this['deleteForm']->setForms($id, 'ctrl_banner');

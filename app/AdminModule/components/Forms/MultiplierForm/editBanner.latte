@@ -28,10 +28,14 @@
                             {label description/}
                         </div>
                         {input image_name}
-                        {input send}
+                        {input send}{form multiplierDelete-$d->id}
+                            {input id}
+                            {input send}
+                        {/form}
                     </div>
                 </div>
             {/form}
+
         </div>
     </div>
 {/foreach}

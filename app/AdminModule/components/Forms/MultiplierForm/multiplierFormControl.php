@@ -27,6 +27,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
         if ($defaults) {
             foreach ($defaults as $default) {
                 $this['multiplierForm-' . $default['id']]->setDefaults($default);
+                $this['multiplierDelete-' . $default['id']]->setDefaults($default);
             }
         }
     }
@@ -56,12 +57,9 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
                 }
             }
             $form->addHidden('id');
-
             $form->addSubmit('send', 'Uložit')
                     ->setAttribute('class', 'btn');
-
             $form->onSuccess[] = array($this, 'multiplierFormSucceeded');
-
             return $form;
         });
     }
@@ -99,5 +97,19 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
         $this->presenter->redirect('this');
 //        }
     }
-
+    protected function createComponentMultiplierDelete() {
+         return new Multiplier(function ($itemId) {            
+            $form = new Form;            
+            $form->addHidden('id');
+            $form->addSubmit('send', 'Zmazať')
+                    ->setAttribute('class', 'btn');
+            $form->onSuccess[] = array($this, 'multiplierDeleteSucceeded');
+            return $form;
+        });
+    }
+    
+    public function multiplierDeleteSucceeded($form, $values) {
+        $this->database->table($this->table)->where('id', $values['id'])->delete();
+        $this->redirect('this');
+    }
 }

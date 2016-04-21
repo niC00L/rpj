@@ -8,19 +8,26 @@
                     <h1>Úprava banneru</h1>
                     <p> 
                         Tu môžte upravovať obsah banneru.
-                        {if }{/if}
-                    </p>                   
-                </div>
-            </div>                
-        </div>                
-    </div>
-    <div class="blue lighten-2">&nbsp;</div>
+                        {if $banner->status == 0}
+                        <blockquote>
+                            Tento banner je odstránený
 
-    <div class="container padding-vertical-2">
-        <div class="row">
-            <div class="col m10 l8 offset-m1 offset-l2">
-                {control multiplierForm 'editBanner'}
+                            {control renewForm}
+                        </blockquote>
+                    {/if}
+                {if $banner->status == 1}{control deleteForm}{/if}
+                </p>                   
             </div>
+        </div>                
+    </div>                
+</div>
+<div class="blue lighten-2">&nbsp;</div>
+
+<div class="container padding-vertical-2">
+    <div class="row">
+        <div class="col m10 l8 offset-m1 offset-l2">
+            {control multiplierForm 'editBanner'}
         </div>
     </div>
+</div>
 </main>
