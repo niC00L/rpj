@@ -37,9 +37,18 @@ form th {
     text-align: left !important;
 }
 
-
 body {
     font-size: 12px;
+}
+
+.controls {
+    .control-wrapper {
+        position: relative;
+        
+        form {
+            display: inline-block;
+        }
+    }
 }
 
 .form-invisible {

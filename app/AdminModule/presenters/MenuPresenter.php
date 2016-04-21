@@ -12,16 +12,15 @@ class MenuPresenter extends AdminPresenter {
 
     public function startup() {
         parent::startup();
-        
+
         if ($this->getUser()->getRoles()[0] == 'banned') {
             $this->flashMessage('Máte ban');
             $this->redirect('Admin:default');
-        }
-        elseif (!$this->getUser()->isAllowed('components', 'edit')) {
+        } elseif (!$this->getUser()->isAllowed('components', 'edit')) {
             $this->flashMessage('Nemáte prístup k tejto stránke');
             $this->redirect('Admin:default');
         }
-        
+
 //        premenne pre templaty
         $posts = $this->template->posts = $this->database->table('post')->where('status ? OR status ?', 1, 2)->fetchPairs('address', 'title');
         $post_ctgs = $this->template->post_ctgs = $this->database->table('post_ctg')->where('status ? OR status ?', 1, 2)->fetchPairs('address', 'title');
@@ -30,10 +29,16 @@ class MenuPresenter extends AdminPresenter {
         $this->address = array_merge($posts, $post_ctgs);
     }
 
+    public function setForms($type, $id, $table, $defaults) {
+        
+    }
+
     public function actionEditMenu($id) {
-        $menu = $this->template->menu = $this->database->table('ctrl_menu')->order('order')->where('menu_id', $id)->fetchAll();
+        $this->template->id = $id;
+        $menuI = $this->template->menuItems = $this->database->table('ctrl_menu')->order('order')->where('menu_id', $id)->fetchAll();
+        $this->template->menu = $menu = $this->database->table('controls')->where('id', $id)->fetch();
         $menuItems = array();
-        foreach ($menu as $values) {
+        foreach ($menuI as $values) {
             $menuItem = $values->toArray();
             if ($menuItem['action']) {
                 $menuItem['type'] = $menuItem['type'] . '_' . $menuItem['action'];
@@ -41,11 +46,18 @@ class MenuPresenter extends AdminPresenter {
             }
             $menuItems[] = $menuItem;
         }
-        array_push($menuItems, array('id'=>0, 'menu_id' => $id));
-        foreach ($menuItems as $formValue) {            
+        array_push($menuItems, array('id' => 0, 'menu_id' => $id));
+        foreach ($menuItems as $formValue) {
             $this['menuForm'][$formValue['id']]->setDefaults($formValue);
             $this['menuFormDelete'][$formValue['id']]->setDefaults($formValue);
         }
+        $this['deleteForm']->setForms($id, 'controls');
+        $this['renewForm']->setForms($id, 'controls');
+        $ignore = array('component_name', 'namespace', 'position');
+        if($menu['position'] == 'layout-menu') {
+            array_push($ignore, 'template');
+        }
+        $this['editForm']->setForms($menu['id'], 'controls', $menu, $ignore);
     }
 
     protected function createComponentMenuForm() {
@@ -106,7 +118,7 @@ class MenuPresenter extends AdminPresenter {
         }
 
         if ($form->getName() == 0) {
-            $this->database->table('ctrl_menu')->insert($values);            
+            $this->database->table('ctrl_menu')->insert($values);
         } else {
             $this->database->table('ctrl_menu')->where('id', $id)->update($values);
         }

@@ -1,58 +1,42 @@
 {block content}
 <main>
+
     <div class="section blue lighten-5">
         <div class="container">
             <div class="row">
                 <div class="col m10 l8 offset-m1 offset-l2">
-                    <h1>Obsah menu</h1>
+                    <h1>Úprava menu</h1>
                     <p> 
                         Tu môžte upravovať obsah menu.
-                    </p>                   
-                </div>
-            </div>                
+                        {control editForm}
+                        {if $menu->status == 0}
+                        <blockquote>
+                            Toto menu je odstránené
+                            {control renewForm}
+                        </blockquote>
+                    {/if}
+                {if $menu->status == 2}{control deleteForm}{/if}
+                </p>                   
+            </div>
         </div>                
-    </div>
-    <div class="blue lighten-2">&nbsp;</div>
+    </div>                
+</div>
+<div class="blue lighten-2">&nbsp;</div>
 
-    <div class="container padding-vertical-2">
-        <div class="row">
-            <div class="col m10 l8 offset-m1 offset-l2">
-                <ul class="collapsible" data-collapsible="accordion">
-                    {foreach $menu as $item}
-                        <li>
-                            <div class="collapsible-header">{$item->title}<div class="right">
-                                    {form menuFormDelete-$item->id}
-                                        {input id}{input delete}
-                                    {/form}</div><div class="clearfix"></div>
-                            </div>
-                            <div class="collapsible-body">
-                                <div class="container">
-                                    {form menuForm-$item->id}                    
-                                        {foreach $form->getControls() as $control}
-                                            <div class="row">
-                                                <div class="input-field">
-                                                    {input $control}
-                                                {label $control->getName()}{/label}
-                                            </div>
-                                        </div>
-                                    {/foreach}
-                                {/form}
-                            </div>
+<div class="container padding-vertical-2">
+    <div class="row">
+        <div class="col m10 l8 offset-m1 offset-l2">
+            <ul class="collapsible" data-collapsible="accordion">
+                {foreach $menuItems as $item}
+                    <li>
+                        <div class="collapsible-header">{$item->title}<div class="right">
+                                {form menuFormDelete-$item->id}
+                                    {input id}{input delete}
+                                {/form}</div><div class="clearfix"></div>
                         </div>
-                    </li>
-                {/foreach}
-            </ul>        
-
-            <a class="waves-effect waves-light btn modal-trigger" href="#add-item"><i class="fa fa-plus"></i>&nbsp; Pridať položku</a>
-
-            <!-- Modal Structure -->
-            <div id="add-item" class="modal bottom-sheet">
-                <div class="modal-content">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col s12 m10 l8 offset-m1 offset-l2">
-                                <h4>Pridanie položky</h4>
-                                {form menuForm-0}  
+                        <div class="collapsible-body">
+                            <div class="container">
+                                {form menuForm-$item->id}                    
                                     {foreach $form->getControls() as $control}
                                         <div class="row">
                                             <div class="input-field">
@@ -64,10 +48,35 @@
                             {/form}
                         </div>
                     </div>
+                </li>
+            {/foreach}
+        </ul>        
+
+        <a class="waves-effect waves-light btn modal-trigger" href="#add-item"><i class="fa fa-plus"></i>&nbsp; Pridať položku</a>
+
+        <!-- Modal Structure -->
+        <div id="add-item" class="modal bottom-sheet">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m10 l8 offset-m1 offset-l2">
+                            <h4>Pridanie položky</h4>
+                            {form menuForm-0}  
+                                {foreach $form->getControls() as $control}
+                                    <div class="row">
+                                        <div class="input-field">
+                                            {input $control}
+                                        {label $control->getName()}{/label}
+                                    </div>
+                                </div>
+                            {/foreach}
+                        {/form}
+                    </div>
                 </div>
             </div>
-        </div>            
-    </div>
+        </div>
+    </div>            
+</div>
 </div>
 </div>
 </main>
