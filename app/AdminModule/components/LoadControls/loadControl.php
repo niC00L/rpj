@@ -60,9 +60,11 @@ class loadControl extends \Nette\Application\UI\Control {
             $templates[$c] = $this->database->table('site_templates')->where('type', $c)->where('status', 1)->fetchPairs('id', 'title');
         }
 
-        $form->addSelect('component_name', 'Vyberte komponentu', $controls)
+        $form->addSelect('component_name', '', $controls)
+                ->setAttribute('class', 'browser-default')
                 ->setRequired('Musíte vybrať komponentu');
-        $form->addSelect('template', 'Vyberte šablónu', $templates)
+        $form->addSelect('template', '', $templates)
+                ->setAttribute('class', 'browser-default')
                 ->setRequired('Musíte vybrať šablónu');
         $form->addText('title', 'Titulok');
         $form->addTextArea('description', 'Popis')
@@ -100,7 +102,7 @@ class loadControl extends \Nette\Application\UI\Control {
             $form = new Form;
             $form->addHidden('id', $id);
             $form->addSubmit('delete', 'Zmazať komponentu')
-                    ->setAttribute('class', 'btn');
+                    ->setAttribute('class', 'btn control-action');
 
             $form->onSuccess[] = array($this, 'deleteControlSuc');
             return $form;

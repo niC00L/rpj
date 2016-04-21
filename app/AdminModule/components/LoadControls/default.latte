@@ -1,39 +1,65 @@
 {block content}
-{foreach $controls as $control}
-    <div class="row">
-        {if $user->isAllowed('components', 'edit')}
-            {control deleteControl-$control->id}
-        {/if}
-        {control $control['component_name']:default $control['id']}
-    </div>
-{/foreach}
+<div class="controls">
+    {foreach $controls as $control}
+        <div class="row control-wrapper">
+            {if $user->isAllowed('components', 'edit')}
+                <!--<div class='right'>-->                
+                {if $control['component_name'] == 'banner'}
+                    <a class="btn control-action" href="{plink Admin:Gallery:banner $control['id']}">Upraviť komponentu</a>
+                {elseif $control['component_name'] == 'menu'}
+                    <a class="btn control-action" href="{plink Admin:Menu:editMenu $control['id']}">Upraviť komponentu</a>
+                {/if}
+                {form deleteControl-$control->id}
+                    {input id}
+                    {input delete}
+                {/form}
+                <!--</div>-->
+            {/if}                                
+            {control $control['component_name']:default $control['id']}
+        </div>
+    {/foreach}
 
-{if $user->isAllowed('components', 'edit')}
-    <a class="waves-effect waves-light btn modal-trigger" href="#addControl">Pridať komponentu</a>
+    {if $user->isAllowed('components', 'edit')}
+        <a class="modal-trigger" href="#addControl"><span class='cyan-text text-darken-4'><i class="fa fa-plus" aria-hidden="true"></i> Pridať komponentu</span></a>
 
-    <div id="addControl" class="modal bottom-sheet">
-        <div class="modal-content">
-            <div class="container">
-                <div class="row">
-                    <div class="col s12 m10 l8 offset-m1 offset-l2">
-                        <h4>Pridanie komponenty</h4>
-                        {form addControlForm}
-                            {foreach $form->getControls() as $item}
-                                {if $item->getName() == 'position'}
-                                    <input n:name="position" value="{$position}">
-                                {else}
-                                    <div class="input-field">
-                                        {input $item}
-                                    {label $item->getName()}{/label}
-                                </div>
-                            {/if}
-                        {/foreach}
-                    {/form}
+        <div id="addControl" class="modal bottom-sheet">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m10 l8 offset-m1 offset-l2">
+                            <h4>Pridanie komponenty</h4>
+                            {form addControlForm}
+                                {foreach $form->getControls() as $item}
+                                    {if $item->getName() == 'position'}
+                                        <input n:name="position" value="{$position}">
+                                    {else}
+                                        <div class="input-field">
+                                            {input $item}
+                                        {label $item->getName()}{/label}
+                                    </div>
+                                {/if}
+                            {/foreach}
+                        {/form}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {/if}
+</div>
+
+<script>
+    $(function () {
+        var control = $('[name=component_name]').val();
+        $('[name=template]').find('optgroup').hide();
+        $('[name=template]').find('optgroup[label=' + control + ']').show();
+
+        $('[name=component_name]').change(function () {
+            var control = $(this).val();
+            $('[name=template]').find('optgroup').hide();
+            $('[name=template]').find('optgroup[label=' + control + ']').show();
+        });
+    });
+</script>
 
 
