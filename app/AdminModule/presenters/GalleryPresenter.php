@@ -10,6 +10,7 @@ class GalleryPresenter extends AdminPresenter {
     private $gallery_id;
     
     public function startup() {
+        parent::startup();
         if ($this->getUser()->getRoles()[0] == 'banned') {
             $this->flashMessage('Máte ban');
             $this->redirect('Admin:default');
@@ -18,9 +19,20 @@ class GalleryPresenter extends AdminPresenter {
             $this->redirect('Admin:default');
         }
     }
+    
+    public function setForms($type, $id, $table, $defaults) {
+    }
 
-    public function renderDefault() {
-        $this->template->imgs = $this->database->table('imgs')->fetchAll();
+    public function actionDefault($id) {
+        $this->template->imgs = $this->database->table('imgs')->where('gallery_id', $id)->fetchAll();
+    }
+    
+    public function actionBanner($id) {
+        $this->template->id = $id;
+        $imgs = $this->template->imgs = $this->database->table('ctrl_banner')->where('banner_id', $id)->fetchAll();
+        $this['multiplierForm']->setForms('banner', $id, 'ctrl_banner', $imgs);
+        $this['deleteForm']->setForms($id, 'ctrl_banner');
+        $this['renewForm']->setForms($id, 'ctrl_banner');
     }
 
     public function actionAdd($id) {
@@ -30,16 +42,14 @@ class GalleryPresenter extends AdminPresenter {
     public function createComponentAddForm() {
         $form = new Form;
 
-        $form->addUpload('image_name', 'Obrazok:')
-                ->setAttribute('class', 'form-control');
-        $form->addText('title', 'Title:')
-                ->setAttribute('class', 'form-control');
+        $form->addUpload('image_name');
+        $form->addText('title', 'Title:');
         $form->addTextarea('description', 'Popis:')
-                ->setAttribute('class', 'form-control');
+                ->setAttribute('class', 'materialize-textarea');
         $form->addText('alt', 'Alt:')
-                ->setAttribute('class', 'form-control');
+                ->setRequired('Toto pole je povinné');
         $form->addSubmit('send', 'Ulozit')
-                ->setAttribute('class', 'btn btn-primary');
+                ->setAttribute('class', 'btn');
 
         $form->onSuccess[] = array($this, 'addFormSuc');
         return $form;
