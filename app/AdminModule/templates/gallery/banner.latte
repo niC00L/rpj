@@ -8,14 +8,14 @@
                     <h1>Úprava banneru</h1>
                     <p> 
                         Tu môžte upravovať obsah banneru.
+                        {control editForm}
                         {if $banner->status == 0}
                         <blockquote>
                             Tento banner je odstránený
-
                             {control renewForm}
                         </blockquote>
                     {/if}
-                {if $banner->status == 1}{control deleteForm}{/if}
+                {if $banner->status == 2}{control deleteForm}{/if}
                 </p>                   
             </div>
         </div>                

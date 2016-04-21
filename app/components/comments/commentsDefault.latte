@@ -31,17 +31,19 @@
     <div class="card grey lighten-4">
         <div class="card-content grey-text text-darken-4">
             <span class="card-title teal-text">Pridať komentár</span>
-            {form addCommentForm}             
-                <div class="row">
-                    <div class="input-field col s12 m6">
-                        {input name}
-                        {label name/}
+            {form addCommentForm}  
+                {if !$user->isLoggedIn()}
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            {input name}
+                            {label name/}
+                        </div>
+                        <div class="input-field col s12 m6">
+                            {input email}
+                            {label email/}
+                        </div>
                     </div>
-                    <div class="input-field col s12 m6">
-                        {input email}
-                        {label email/}
-                    </div>
-                </div>
+                {/if}
                 <div class="input-field">
                     {input text}
                     {label text/}

@@ -9,7 +9,7 @@ class BannerControl extends \App\AdminModule\Components\baseControl {
     
     static function defaultValue($db, $id) {
         $values = array(
-            'control_id' => $id,
+            'banner_id' => $id,
             'title' => 'Titulok',
             'alt' => 'Alt obrázka',
             'description' => 'Popis obrázka',
@@ -32,7 +32,6 @@ class BannerControl extends \App\AdminModule\Components\baseControl {
     }
     
     public function renderEdit($id) {
-        
     }
 
     public function createComponentAddImageForm() {        
