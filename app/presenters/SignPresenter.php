@@ -65,7 +65,7 @@ class SignPresenter extends BasePresenter {
             } else {
                 $this->redirect(':Admin:default');
             }
-            $this->flashMessage('Boli ste uspesne prihlaseny.');
+            $this->flashMessage('Boli ste úspešne prihlásený.');
         } catch (\Nette\Security\AuthenticationException $e) {
             $this->flashMessage($e->getMessage());
         }
@@ -108,15 +108,8 @@ class SignPresenter extends BasePresenter {
         $this->userManager->add($name, $password);
         $add_user = $this->database->table('users')->where('username', $name)->update($values);
         if ($add_user) {
-            $this->flashMessage('Successfully registered! You can sign in now');
+            $this->flashMessage('Boli ste úspešne registrovaný! Teraz sa môžte prihlásiť');
             $this->redirect('Sign:in');
-        }
-    }
-    
-    public function renderIn(){
-        if ($this->user->isLoggedIn()){
-            $this->flashMessage('You are already logged in');
-            $this->redirect('Admin:Admin:default');
         }
     }
     
@@ -124,14 +117,14 @@ class SignPresenter extends BasePresenter {
         $this->template->users = $this->database->table('users')->fetchAll();
         #$this->template->mails = $this->database->table('users')->select('email')->fetchAll();
         if ($this->user->isLoggedIn()){
-            $this->flashMessage('You are already logged in');
+            $this->flashMessage('Ste prihlásený');
             $this->redirect('Admin:Admin:default');
         }
     }
     
     public function actionOut() {
         $this->getUser()->logout();
-        $this->flashMessage('You have been signed out.');
+        $this->flashMessage('Boli ste odhlásený');
         if ($this->mySession->backlink) {
             $this->restoreRequest($this->mySession->backlink);
         } else {

@@ -64,7 +64,7 @@ class CommentsControl extends \App\AdminModule\Components\baseControl {
         }
         $this->database->table('comments')->insert($values);
 
-        $this->presenter->flashMessage('Komentar pridany.', 'success');
+        $this->presenter->flashMessage('Komentár pridaný.', 'success');
         $this->presenter->redirect('this');
     }
 

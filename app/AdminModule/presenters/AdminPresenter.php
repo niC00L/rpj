@@ -77,7 +77,7 @@ class AdminPresenter extends \App\Presenters\BasePresenter {
     public function menuFormDeleteSucceeded($form, $values) {
         $this->database->table('global_settings')->where('id', $values['id'])->update($values);
 
-        $this->flashMessage('Polozka upravena.', 'success');
+        $this->flashMessage('Položka upravená.', 'success');
         $this->redirect('Admin:global');
     }
 

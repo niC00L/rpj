@@ -40,7 +40,7 @@ class renewFormControl extends \App\AdminModule\Components\baseControl {
             $in_menu->update(array('status' => 0));
         }
 
-        $this->presenter->flashMessage('Prispevok obnoveny.', 'success');
+        $this->presenter->flashMessage('Príspevok obnovený.', 'success');
         $this->presenter->redirect('this', ['address' => $address]);
     }    
 }

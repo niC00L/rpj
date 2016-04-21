@@ -111,7 +111,7 @@ class MenuPresenter extends AdminPresenter {
             $this->database->table('ctrl_menu')->where('id', $id)->update($values);
         }
 
-        $this->flashMessage('Uspesne publikovane.', 'success');
+        $this->flashMessage('Úspešne publikované', 'success');
         $this->redirect('this');
     }
 
@@ -119,7 +119,7 @@ class MenuPresenter extends AdminPresenter {
         $id = $values['id'];
         $this->database->table('ctrl_menu')->where('id', $id)->delete();
 
-        $this->flashMessage('Polozka odstranena.', 'success');
+        $this->flashMessage('Položka odstránená', 'success');
         $this->redirect('this');
     }
 

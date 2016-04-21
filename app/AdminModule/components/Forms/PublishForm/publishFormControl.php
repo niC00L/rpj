@@ -40,7 +40,7 @@ class publishFormControl extends \App\AdminModule\Components\baseControl {
             $in_menu->update(array('status' => 0));
         }
 
-        $this->presenter->flashMessage('Prispevok publikovaný.', 'success');
+        $this->presenter->flashMessage('Príspevok publikovaný.', 'success');
         $this->presenter->redirect('this', ['address' => $address]);
     }    
 }

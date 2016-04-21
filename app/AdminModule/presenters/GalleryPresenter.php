@@ -80,7 +80,7 @@ class GalleryPresenter extends AdminPresenter {
             'img_id' => $image['id']
         ));
         
-        $this->flashMessage('Uspesne pridane');
+        $this->flashMessage('Úspešne pridané');
         $this->redirect('Gallery:add');
     }
 }

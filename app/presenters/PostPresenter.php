@@ -46,7 +46,7 @@ class PostPresenter extends BasePresenter {
         $this->id = $post['id'];
 
         if ($post->status != 1 && !$this->user->isAllowed('post', 'edit')) {
-            $this->flashMessage('Prispevok bol odstraneny', 'danger');
+            $this->flashMessage('Príspevok bol odstranený', 'danger');
             $this->redirect('Homepage:');
         } else {
             $this['editForm']->setForms($this->id, $this->table, $this->defaults);
@@ -71,7 +71,7 @@ class PostPresenter extends BasePresenter {
         $this->id = $category['id'];
 
         if ($category->status != 1 && !$this->user->isAllowed('post', 'edit')) {
-            $this->flashMessage('Kategoria bola odstranena', 'danger');
+            $this->flashMessage('Kategória bola odstránená', 'danger');
             $this->redirect('Homepage:');
         } else {
             $this['editForm']->setForms($this->id, $this->table, $this->defaults);

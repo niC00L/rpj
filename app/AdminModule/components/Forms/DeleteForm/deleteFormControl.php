@@ -36,7 +36,7 @@ class deleteFormControl extends \App\AdminModule\Components\baseControl {
         }
         $this->database->table($this->table)->where('id', $this->id)->update(array('status' => 0));        
 
-        $this->presenter->flashMessage('Prispevok odstraneny.', 'success');
+        $this->presenter->flashMessage('Príspevok odstránený.', 'success');
         $this->presenter->redirect('this');
     }
 

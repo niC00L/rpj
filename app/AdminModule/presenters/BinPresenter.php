@@ -58,7 +58,7 @@ class BinPresenter extends AdminPresenter {
 
         $this->database->table('post')->where('id', $id)->update($values);
 
-        $this->flashMessage('Prispevok obnoveny.', 'success');
+        $this->flashMessage('Príspevok obnovený.', 'success');
         $this->redirect('Homepage:');
     }
 
@@ -67,7 +67,7 @@ class BinPresenter extends AdminPresenter {
 
         $this->database->table('post')->where('id', $id)->delete();
 
-        $this->flashMessage('Prispevok odstraneny.', 'success');
+        $this->flashMessage('Príspevok odstranený.', 'success');
         $this->redirect('Homepage:');
     }
 
