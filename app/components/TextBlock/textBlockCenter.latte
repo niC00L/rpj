@@ -1,0 +1,20 @@
+{* Latte template *}
+
+{block content}
+<div class="col s12 m6 l6 offset-m3 offset-l3">
+    {if $user->isAllowed('components', 'edit')}
+        <div class="form-invisible">
+            {form editForm}
+                {foreach $form->getControls() as $item}
+                    <div class="input-field {$item->getName()}">
+                        {input $item}
+                        {label $item/}
+                    </div>
+                {/foreach}                
+            {/form}
+        </div>
+    {else}
+        <h3 class="center-align">{$text['title']}</h3>
+        {$text['text']}
+    {/if}
+</div>

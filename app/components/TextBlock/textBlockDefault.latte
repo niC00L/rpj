@@ -4,7 +4,14 @@
 
 {if $user->isAllowed('components', 'edit')}
     <div class="form-invisible">
-        {control editForm}
+        {form editForm}
+            {foreach $form->getControls() as $item}
+                <div class="input-field {$item->getName()}">
+                    {input $item}
+                    {label $item/}
+                </div>
+            {/foreach}                
+        {/form}
     </div>
 {else}
     <h3>{$text['title']}</h3>
