@@ -10,14 +10,34 @@
 
     <!-- Modal Structure -->
     <div id="otherSettings" class="modal bottom-sheet">
-        <div class="modal-content">
-            {foreach $form->getControls() as $control}        
-                {if $control->getName() == 'address' || $control->getName() == 'description' || $control->getName() == 'template'}
-                    {input $control}
-                {/if}
-            {/foreach}
-        </div>
-        <div class="modal-footer">
+        <div class="modal-content container"> 
+            <div class="input-field">
+                {input address}
+                {label address}Adresa{/label}            
+            </div>
+
+            <div class="input-field">                
+                {input description}
+                {label description}Popis{/label}
+            </div>
+
+            <div class="input-field">                
+                {input template}
+                {label template}Šablóna{/label}
+            </div>
+
+            <div class="card grey lighten-3">
+                <div class="card-content white-text">
+                    <span class="card-title grey-text text-darken-4">Kategórie</span>
+                    <ul>
+                        {foreach $form->getControls() as $control}        
+                            {if (Nette\Utils\Strings::startsWith($control->getName(),'category_'))}                    
+                                <li>{input $control}</li>
+                                {/if}
+                            {/foreach} 
+                    </ul>
+                </div>
+            </div>
             {input send}
         </div>
     </div>

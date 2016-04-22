@@ -40,6 +40,9 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
 
         $form = new Form;
         foreach ($fields as $f) {
+            if ($f['Field'] == 'author') {
+                $form->addHidden('author');
+            }
             if (!in_array($f['Field'], $this->ignore)) {
                 if (\Nette\Utils\Strings::endsWith($f['Type'], 'text')) {
                     $form->addTextArea($f['Field'], $f['Field'])
@@ -108,8 +111,12 @@ class editFormControl extends \App\AdminModule\Components\baseControl {
                     unset($values[$key]);
                 }
             }
+            
+            if ($key == 'author') {
+                $values['author'] = $this->presenter->getUser()->getId();
+            }
         }
-        if (!$values['address']) {
+        if (\Nette\Utils\Strings::startsWith($this->table, 'post') && !$values['address']) {
             $values['address'] = \Nette\Utils\Strings::webalize($values['title']);
         }
         if ($this->id) {

@@ -48,16 +48,17 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
                     } elseif (Strings::startsWith($f['Type'], 'varchar')) {
                         $form->addText($f['Field'], $f['Field'])
                                 ->setAttribute('class', $f['Field'])
-                                ->setAttribute('placeholder', $f['Field'])
-                                ->setRequired();
+                                ->setAttribute('placeholder', $f['Field']);
                     } elseif ($f['Field'] == 'template') {
                         $templates = $this->database->table('site_templates')->where('type', $this->table)->fetchPairs('id', 'title');
-                        $t = $form->addSelect($f['Field'], $f['Field'], $templates);
+                        if (count($templates) > 0) {
+                            $t = $form->addSelect($f['Field'], $f['Field'], $templates);
+                        }
                     }
                 }
             }
             $form->addHidden('id');
-            $form->addSubmit('send', 'Uložit')
+            $form->addSubmit('submit', 'Uložit')
                     ->setAttribute('class', 'btn');
             $form->onSuccess[] = array($this, 'multiplierFormSucceeded');
             return $form;
@@ -68,7 +69,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
 //	Vyradi checkboxy z values aby sa nezapisovali do tabulky post
         foreach ($values as $key => $value) {
 
-            if (Strings::endsWith($key, 'image')||Strings::startsWith($key, 'image')) {
+            if (Strings::endsWith($key, 'image') || Strings::startsWith($key, 'image')) {
                 if (strlen($values[$key]) > 1) {
                     $image = $values[$key];
                     $values[$key] = $image->name;
@@ -83,9 +84,8 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
         if ($values['id']) {
 //	zapisanie/pridanie obsahu stranky
             $this->database->table($this->table)->where($this->type . '_id', $this->id)->where('id', $values['id'])->update($values);
-        }
-        else {
-            $values[$this->type.'_id'] = $this->id;
+        } else {
+            $values[$this->type . '_id'] = $this->id;
             $this->database->table($this->table)->insert($values);
         }
 
@@ -97,9 +97,10 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
         $this->presenter->redirect('this');
 //        }
     }
+
     protected function createComponentMultiplierDelete() {
-         return new Multiplier(function ($itemId) {            
-            $form = new Form;            
+        return new Multiplier(function ($itemId) {
+            $form = new Form;
             $form->addHidden('id');
             $form->addSubmit('send', 'Zmazať')
                     ->setAttribute('class', 'btn');
@@ -107,9 +108,11 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
             return $form;
         });
     }
-    
+
     public function multiplierDeleteSucceeded($form, $values) {
         $this->database->table($this->table)->where('id', $values['id'])->delete();
-        $this->redirect('this');
+        $this->presenter->flashMessage('Úspešne zmazané');
+        $this->presenter->redirect('this');
     }
+
 }

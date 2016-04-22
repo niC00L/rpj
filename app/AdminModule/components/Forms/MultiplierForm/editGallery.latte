@@ -1,20 +1,20 @@
 {block content}
 {foreach $defaults as $d}
     <div class="row card">
-        <div class="card-content">
-            {form multiplierForm-$d->id}
-                <div class="form-invisible col s12 m6 l4">
-                    <div class='edit-img' onclick="$('#frm-multiplierForm-multiplierForm-{$d['id']}-image_name').click()">
-                        <div class="uploadImg valign-wrapper">
-                            <span class="center-align valign">
-                                <i class="fa fa-upload"></i>
-                            </span>
-                        </div>                  
-                        <img class='responsive-img' id="gallery-{$d['id']}" src='{$basePath}/images/ctrl_gallery/{$d['gallery_id']}/{$d['image_name']}'>
-                    </div>
+        <div class="card-content">            
+            <div class="form-invisible col s12 m6 l4">
+                <div class='edit-img' onclick="$('#frm-multiplierForm-multiplierForm-{$d['id']}-image_name').click()">
+                    <div class="uploadImg valign-wrapper">
+                        <span class="center-align valign">
+                            <i class="fa fa-upload"></i>
+                        </span>
+                    </div>                  
+                    <img class='responsive-img' id="gallery-{$d['id']}" src='{$basePath}/images/ctrl_gallery/{$d['gallery_id']}/{$d['image_name']}'>
                 </div>
-                <div class="col s12 m6 l8">  
-                    <div class="row">
+            </div>
+            <div class="col s12 m6 l8">  
+                <div class="row">
+                    {form multiplierForm-$d->id}
                         <div class="input-field col s12 m12 l6">
                             {input title}
                             {label title/}
@@ -28,14 +28,18 @@
                             {label description/}
                         </div>
                         {input image_name}
-                        {input send}{form multiplierDelete-$d->id}
+                        <div class="right">
+                            {input submit}
+                        </div>
+                    {/form}
+                    <div class="left">
+                        {form multiplierDelete-$d->id}
                             {input id}
                             {input send}
                         {/form}
                     </div>
                 </div>
-            {/form}
-
+            </div>            
         </div>
     </div>
 {/foreach}
