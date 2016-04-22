@@ -23,23 +23,23 @@ class PostPresenter extends BasePresenter {
             'post' => $globals['comment_post'],
             'ctg' => $globals['comment_ctg']
         );
-        
+
         $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'post-show-header'), 'PostHeader');
         $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'post-show-footer'), 'PostFooter');
-        
+
         $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'post-category-header'), 'CategoryHeader');
         $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'post-category-footer'), 'CategoryFooter');
     }
-    
+
     public function actionShow($address) {
         $this->table = 'post';
 
         $post = $this->template->post = $this->database->table('post')->where('address', $address)->fetch();
         $author = $this->template->author = $this->database->table('users')->where('id', $post['author'])->fetch();
-        
+
         $template = $this->database->table('site_templates')->where('site_templates.id', $post['template'])->fetch()->file_name;
         $this->setView($template);
-        
+
         $this->template->comments = $this->comments;
 
         $this->defaults = $post->toArray();
@@ -53,7 +53,7 @@ class PostPresenter extends BasePresenter {
             $this['deleteForm']->setForms($this->id, $this->table);
             $this['renewForm']->setForms($this->id, $this->table);
             $this['comments']->setForms($this->id, $this->table);
-            $this['gallery']->setForms(array('post_id'=>$post['id']));
+            $this['gallery']->setForms(array('post_id' => $post['id']));
         }
     }
 
@@ -64,7 +64,7 @@ class PostPresenter extends BasePresenter {
 
         $template = $this->database->table('site_templates')->where('site_templates.id', $category['template'])->fetch()->file_name;
         $this->setView($template);
-        
+
         $this->template->comments = $this->comments;
 
         $this->defaults = $category->toArray();

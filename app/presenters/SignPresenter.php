@@ -113,6 +113,12 @@ class SignPresenter extends BasePresenter {
         }
     }
     
+    public function renderIn(){
+        if ($this->user->isLoggedIn()){
+            $this->redirect('Admin:Admin:default');
+        }
+    }
+    
     public function renderRegister(){
         $this->template->users = $this->database->table('users')->fetchAll();
         #$this->template->mails = $this->database->table('users')->select('email')->fetchAll();

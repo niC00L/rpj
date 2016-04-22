@@ -31,7 +31,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
         $this->mySession = $this->session->getSection("mySession");
         $this->template->global = $this->global->getGlobal();
 
-        $components = $this->database->table('controls')->where('status', 1)->fetchAll();
+        $components = $this->database->table('controls')->where('status', 2)->fetchAll();
         $added = array();
         foreach ($components as $com) {
             if (!in_array($com['component_name'], $added)) {

@@ -48,7 +48,8 @@ class UserPresenter extends AdminPresenter {
             );
             $form = new Form;
             $form->addHidden('id');
-            $form->addSelect('role', 'Role', $roles);
+            $form->addSelect('role', 'Role', $roles)
+                    ->setAttribute('class','browser-default');
             $form->addSubmit('edit', 'Upraviť')
                     ->setAttribute('class', 'btn');
 
@@ -62,6 +63,8 @@ class UserPresenter extends AdminPresenter {
         unset($values['id']);
 
         $this->database->table('users')->where('id', $id)->update($values);
+        $this->flashMessage('Úspešne upravené');
+        $this->redirect('this');
     }
 
     public function actionProfile($id) {

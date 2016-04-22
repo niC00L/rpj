@@ -9,6 +9,7 @@ class HomepagePresenter extends BasePresenter {
 
     public function actionDefault() {
         $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'homepage-default-content'), 'HomepageContent');
+        $this->addComponent(new \App\AdminModule\Components\LoadControls\loadControl($this->database, $this->global, 'homepage-default-header'), 'HomepageHeader');
         $this->template->pages = $this->database->table('post')
                 ->order('create_date DESC');
     }
