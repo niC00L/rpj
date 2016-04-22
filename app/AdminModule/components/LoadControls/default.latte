@@ -3,26 +3,26 @@
     {foreach $controls as $control}
         <div class="row control-wrapper">
             {if $user->isAllowed('components', 'edit')}
-                <!--<div class='right'>-->                
-                {if $control['component_name'] == 'banner'}
-                    <a class="btn control-action" href="{plink Admin:Gallery:banner $control['id']}">Upraviť komponentu</a>
-                {elseif $control['component_name'] == 'menu'}
-                    <a class="btn control-action" href="{plink Admin:Menu:editMenu $control['id']}">Upraviť komponentu</a>
-                {/if}
-                {form deleteControl-$control->id}
-                    {input id}
-                    {input delete}
-                {/form}
-                <!--</div>-->
+                <div class='inline-form'>                
+                    {if $control['component_name'] == 'banner'}
+                        <a class="btn control-action" href="{plink :Admin:Gallery:banner $control['id']}">Upraviť komponentu</a>
+                    {elseif $control['component_name'] == 'menu'}
+                        <a class="btn control-action" href="{plink :Admin:Menu:editMenu $control['id']}">Upraviť komponentu</a>
+                    {/if}
+                    {form deleteControl-$control->id}
+                        {input id}
+                        {input delete}
+                    {/form}
+                </div>
             {/if}                                
             {control $control['component_name']:default $control['id']}
         </div>
     {/foreach}
 
     {if $user->isAllowed('components', 'edit')}
-        <a class="modal-trigger" href="#addControl"><span class='cyan-text text-darken-4'><i class="fa fa-plus" aria-hidden="true"></i> Pridať komponentu</span></a>
+        <a class="modal-trigger" href="#addControl-{$position}"><span class='cyan-text text-darken-4'><i class="fa fa-plus" aria-hidden="true"></i> Pridať komponentu</span></a>
 
-        <div id="addControl" class="modal bottom-sheet">
+        <div id="addControl-{$position}" class="modal bottom-sheet">
             <div class="modal-content">
                 <div class="container">
                     <div class="row">

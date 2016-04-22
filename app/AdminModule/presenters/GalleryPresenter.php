@@ -44,7 +44,7 @@ class GalleryPresenter extends AdminPresenter {
         $this['multiplierForm']->setForms('gallery', $id, 'ctrl_gallery', $imgs);
         $this['deleteForm']->setForms($id, 'controls');
         $this['renewForm']->setForms($id, 'controls');
-        $this['editForm']->setForms($gallery['id'], 'controls', $gallery, array('component_name', 'namespace', 'position'));
+        $this['editForm']->setForms($gallery['id'], 'controls', $gallery, array('component_name', 'namespace', 'position', 'template'));
     }
 
     public function actionAdd($id) {

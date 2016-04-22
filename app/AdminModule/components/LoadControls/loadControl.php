@@ -17,7 +17,7 @@ class loadControl extends \Nette\Application\UI\Control {
         $this->global = $global;
         $this->position = $position;
 
-        $components = $this->database->table('controls')->where('status', 2)->where('position', $position)->fetchAll();
+        $components = $this->database->table('controls')->where('status', 1)->where('position', $position)->fetchAll();
         $added = array();
         foreach ($components as $com) {
             if (!in_array($com['component_name'], $added)) {
@@ -28,7 +28,7 @@ class loadControl extends \Nette\Application\UI\Control {
     }
 
     public function loadControls($position) {
-        $components = $this->database->table('controls')->where('status', 2)->where('position', $this->position)->fetchAll();
+        $components = $this->database->table('controls')->where('status', 1)->where('position', $this->position)->fetchAll();
 //        $added = array();
 //        foreach ($components as $com) {
 //            if (!in_array($com['component_name'], $added)) {
@@ -86,7 +86,7 @@ class loadControl extends \Nette\Application\UI\Control {
             'search' => '\App\Components\Search\SearchControl',
         );
         $values['namespace'] = $namespace[$values['component_name']];
-        $values['status'] = 2;
+        $values['status'] = 1;
         $values['editable'] = 1;
         $added = $this->database->table('controls')->insert($values);
         if ($values['component_name'] != 'search') {

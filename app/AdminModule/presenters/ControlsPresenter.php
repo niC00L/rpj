@@ -46,8 +46,8 @@ class ControlsPresenter extends AdminPresenter {
     }
 
     public function actionDefault() {
-        $controls = $this::getControls($this->database, 2)[0];
-        $links = $this::getControls($this->database, 2)[1];
+        $controls = $this::getControls($this->database, 1)[0];
+        $links = $this::getControls($this->database, 1)[1];
         $this->template->controls = $controls;
         $this->template->links = $links;
     }
