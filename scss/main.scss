@@ -41,25 +41,27 @@ body {
     font-size: 12px;
 }
 
-.controls {
-    .control-wrapper {
-        position: relative;
-        
+
+.control-wrapper {
+    position: relative;
+
+    .inline-form {
         form {
-            display: inline-block;
-        }
+            display: inline-block;   
+        }            
     }
 }
 
+
 .form-invisible {
     /*form {*/
-        label {
-            display: none;
-        }
-        input[type='text'], textarea {
-            border: none;
-            margin-bottom: 0;
-        } 
+    label {
+        display: none;
+    }
+    input[type='text'], textarea {
+        border: none;
+        margin-bottom: 0;
+    } 
     /*}*/
 
     /*CUSTOM STYLES FOR PROFILE PAGE*/
