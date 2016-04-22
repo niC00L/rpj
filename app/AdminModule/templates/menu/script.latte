@@ -12,8 +12,9 @@
         {foreach $post_ctgs as $address => $title} {$address} : {$title} {if !$iterator->isLast()}, {/if} {/foreach}
             }
         };
-
+                
         $("form").each(function(){
+            var ext = $('.ext_address');
             var select = $(this).find("[name=address]");
             var hide = $(this).find("[name=address]").parent();
             var ab = $(this).find("[name=type]").val();
@@ -21,12 +22,19 @@
             if(a == -1 || !ab) {
                 hide.hide();
             };
+            ext.hide()
         
             $(this).find("[name=type]").change(function () {
                 var source = $(this).val();      
                 var a = source.search("_");
+                if (source == 'external') {
+                    ext.show();
+                }
+                else {
+                    ext.hide();
+                }
                 
-                if(a != -1) {
+                if(a != -1 && source != "Homepage_contact") {
                     hide.show();
                     select.empty();
                     $.each(address[source], function (value, title) {  

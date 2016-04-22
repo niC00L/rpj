@@ -15,7 +15,7 @@
                             {control renewForm}
                         </blockquote>
                     {/if}
-                {if $menu->status == 2}{control deleteForm}{/if}
+                {if $menu->status == 1}{control deleteForm}{/if}
                 </p>                   
             </div>
         </div>                
@@ -39,7 +39,7 @@
                                 {form menuForm-$item->id}                    
                                     {foreach $form->getControls() as $control}
                                         <div class="row">
-                                            <div class="input-field">
+                                            <div class="input-field {$control->getName()}">
                                                 {input $control}
                                             {label $control->getName()}{/label}
                                         </div>
@@ -64,7 +64,7 @@
                             {form menuForm-0}  
                                 {foreach $form->getControls() as $control}
                                     <div class="row">
-                                        <div class="input-field">
+                                        <div class="input-field {$control->getName()}">
                                             {input $control}
                                         {label $control->getName()}{/label}
                                     </div>

@@ -25,17 +25,20 @@
                                     {$user->username}
                                 </td>
                                 {form usersEditor-$user->id}
-                                    <td>
-                                        <div class="input-field">
-                                            {input role}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {input edit}                        
-                                    </td>
-                                {/form}
-                            </tr>
-                        {/foreach}
+                            <ul class="errors" n:if="$form->hasErrors()">
+                                <li n:foreach="$form->errors as $error">{$error}</li>
+                            </ul>
+                            <td>
+                                <div class="input-field">
+                                    {input role}
+                                </div>
+                            </td>
+                            <td>
+                                {input edit}                        
+                            </td>
+                        {/form}
+                        </tr>
+                    {/foreach}
                     </tbody>
                 </table>
             </div>
