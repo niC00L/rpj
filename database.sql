@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `controls` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
--- Dumping data for table rpj.controls: ~16 rows (approximately)
+-- Dumping data for table rpj.controls: ~17 rows (approximately)
 /*!40000 ALTER TABLE `controls` DISABLE KEYS */;
 INSERT INTO `controls` (`id`, `component_name`, `namespace`, `position`, `title`, `description`, `status`, `editable`, `template`) VALUES
 	(1, 'menu', '\\App\\Components\\Menu\\MenuControl', 'layout-menu', 'Hlavné menu', 'Hlavné menu na vrchu stránky', 2, 1, 5),
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `ctrl_menu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='tabulka pre control menu';
 
--- Dumping data for table rpj.ctrl_menu: ~6 rows (approximately)
+-- Dumping data for table rpj.ctrl_menu: ~8 rows (approximately)
 /*!40000 ALTER TABLE `ctrl_menu` DISABLE KEYS */;
 INSERT INTO `ctrl_menu` (`id`, `order`, `menu_id`, `type`, `action`, `address`, `ext_address`, `title`, `class`, `status`) VALUES
 	(1, 1, 1, 'Homepage', NULL, NULL, NULL, 'Domov', '', 1),
