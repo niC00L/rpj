@@ -5,16 +5,16 @@
     {if $user->isAllowed('components', 'edit')}
         <div class="form-invisible">
             {form editForm}
-                {foreach $form->getControls() as $item}
-                    <div class="input-field {$item->getName()}">
-                        {input $item}
-                        {label $item/}
-                    </div>
-                {/foreach}                
+				<div class="tinymce">
+				</div>
+				<div class="mced hide">
+					{input text}
+				</div>
+                {input submit}               
             {/form}
         </div>
     {else}
         <h3 class="center-align">{$text['title']}</h3>
-        {$text['text']}
+        {$text['text']|noescape}
     {/if}
 </div>

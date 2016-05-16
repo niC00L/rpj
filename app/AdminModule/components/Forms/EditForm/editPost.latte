@@ -2,32 +2,29 @@
 
 {form editForm}
     <div class="form-invisible">
-        {foreach $form->getControls() as $control}        
-            {if $control->getName() != 'address' && $control->getName() != 'description' && $control->getName() != 'template'}
-                {input $control}
-            {/if}
-        {/foreach}        
-        <a class="waves-effect waves-light btn modal-trigger" href="#otherSettings">Ďalšie nastavenia</a>
+		<div class="input-field">
+			{input title}
+			{label title}Titulok{/label}
+		</div>
+		<div class="tinymce">					
+		</div>
+		<div class="mced hide">
+			{input text}
+		</div>
+        {input send} <a class="waves-effect waves-light btn modal-trigger" href="#otherSettings">Ďalšie nastavenia</a>
     </div>
 
     <!-- Modal Structure -->
     <div id="otherSettings" class="modal bottom-sheet">
         <div class="modal-content container"> 
-            <div class="input-field">
-                {input address}
-                {label address}Adresa{/label}            
-            </div>
-
-            <div class="input-field">                
-                {input description}
-                {label description}Popis{/label}
-            </div>
-
-            <div class="input-field">                
-                {input template}
-                {label template}Šablóna{/label}
-            </div>
-
+			{foreach $form->getControls() as $control}        
+				{if $control->getName() != 'title' && $control->getName() != 'text'}
+					<div class="input-field">
+						{input $control}
+						{*label $control /*}
+					</div>
+				{/if}
+			{/foreach}  
             <div class="card grey lighten-3">
                 <div class="card-content white-text">
                     <span class="card-title grey-text text-darken-4">Kategórie</span>

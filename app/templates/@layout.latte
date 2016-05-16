@@ -112,6 +112,8 @@
         <script n:if="$user->loggedIn" src="{$basePath}/js/admin-menu.js"></script>        
         <script src="{$basePath}/js/nette.ajax.js"></script>        
         <script src="{$basePath}/js/main.js"></script>
+        <script src="{$basePath}/plugins/tinymce/tinymce.min.js"></script>
+        <script src="{$basePath}/plugins/tinymce/jquery.tinymce.min.js"></script>
 
         {ifset #scripts}
             {include scripts}

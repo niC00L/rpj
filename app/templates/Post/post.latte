@@ -81,7 +81,7 @@
                 {/if} 
             {else}
                 <h1 n:block="title" class="title {$global['main_text_color']}"> {$post->title} </h1>
-                <p> {$post->text} </p>	    
+                <p> {$post->text|noescape} </p>	    
             {/if}                        
 
             {if !$post['gallery_id']}
