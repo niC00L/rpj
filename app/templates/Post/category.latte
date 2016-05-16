@@ -1,3 +1,14 @@
+{block meta}
+<meta name="description" content="{$category->description}">
+<meta name="keywords" content="{$category->keywords}">
+<meta name="author" content="{$author['display_name']}">
+{/block}
+
+{block og-meta}
+<meta property="og:url" content="{? echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";}"/>
+<meta property="og:description" content="{$category->description}"/>
+<meta property="og:updated_time" content="{$category->last_edit|date:'%d.%m.%Y'}"/>
+{/block}
 {block content}
 <main>    
     <div class="section blue lighten-5">
@@ -15,14 +26,14 @@
                             {control renewForm}
                         {/if} 
                     {else}
-                        <h1 class="{$global['main_text_color']}"> {$category->title} </h1>
+                        <h1 n:block="title" class="{$global['main_text_color']}"> {$category->title} </h1>
                         <p> {$category->description} </p>
                     {/if}                    
                 </div>
             </div>                
         </div>                
     </div>
-    <div class="blue lighten-2">&nbsp;</div>
+    <div class="{$global['main_color']} lighten-2">&nbsp;</div>
 
     <div class="container padding-vertical-2">
         {control CategoryHeader}

@@ -58,8 +58,9 @@ class PostPresenter extends BasePresenter {
     }
 
     public function actionCategory($address) {
-        $this->table = 'post_ctg';
+        $this->table = 'post_ctg';		
         $category = $this->template->category = $this->database->table('post_ctg')->where('address', $address)->fetch();
+		$author = $this->template->author = $this->database->table('users')->where('id', $category['author'])->fetch();
         $posts = $this->template->posts = $this->database->table('post')->where(':post_ctg_sort.ctg_id', $category['id'])->fetchAll();
 
         $template = $this->database->table('site_templates')->where('site_templates.id', $category['template'])->fetch()->file_name;

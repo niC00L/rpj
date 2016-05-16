@@ -1,3 +1,18 @@
+{block meta}
+<meta name="description" content="{$post->description}">
+<meta name="keywords" content="{$post->keywords}">
+<meta name="author" content="{$author['display_name']}">
+{/block}
+
+{block og-meta}
+<meta property="og:url" content="{? echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";}"/>
+<meta property="og:description" content="{$post->description}"/>
+{if $post['title_image']}
+	<meta property="og:image" content="{$basePath}/images/post/{$post['id']}/{$post['title_image']}"/>
+{/if}
+<meta property="og:updated_time" content="{$post->last_edit|date:'%d.%m.%Y'}"/>
+{/block}
+
 {block content}
 <main>    
     <div class="form-invisible">
@@ -65,7 +80,7 @@
                     </blockquote>
                 {/if} 
             {else}
-                <h1 class="title {$global['main_text_color']}"> {$post->title} </h1>
+                <h1 n:block="title" class="title {$global['main_text_color']}"> {$post->title} </h1>
                 <p> {$post->text} </p>	    
             {/if}                        
 
@@ -84,10 +99,10 @@
 </main>
 
 <script type="text/javascript" >
-    $(function () {
-        $("#frm-editForm-editForm-title_image").change(function () {
-            readURL(this, '#titlePic', 0);
-        });
-        //        $("textarea").markItUp(mySettings);
-    });
+	$(function () {
+		$("#frm-editForm-editForm-title_image").change(function () {
+			readURL(this, '#titlePic', 0);
+		});
+		//        $("textarea").markItUp(mySettings);
+	});
 </script>

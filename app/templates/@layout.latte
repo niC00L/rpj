@@ -6,10 +6,29 @@
 <!DOCTYPE html>
 <html>
     <head>
+		<!--Meta-->
         <meta charset="utf-8">
         <title>{ifset title}{include title|striptags} | {/ifset}{$global['site_title']}</title>		
-        <link rel="shortcut icon" href="{$basePath}/favicon.ico">		
 
+		<meta property="og:title" content="{ifset title}{include title|striptags} | {/ifset}{$global['site_title']}"/>
+		<meta property="og:site_name" content="{$global['site_title']}"/>
+		<meta property="og:type" content="{$global['type']}"/>
+
+		{ifset meta}
+			{include meta}
+		{else}
+			<meta name="description" content="{$global['meta_description']}">
+			<meta name="keywords" content="{$global['meta_keywords']}">		
+		{/ifset}
+
+		{ifset og-meta}
+			{include og-meta}
+		{else}
+			<meta property="og:url" content="{? echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";}"/>
+			<meta property="og:description" content="{$global['meta_description']}"/>
+		{/ifset}
+
+		<link rel="shortcut icon" href="{$basePath}/favicon.ico">		
         <!--Styles-->
         <link rel="stylesheet" href="{$basePath}/css/materialize.css">
         <link rel="stylesheet" href="{$basePath}/font/font-awesome-450/css/font-awesome.min.css">
@@ -58,9 +77,9 @@
 
         {foreach $flashes as $flash}
             <script>
-                $(function () {
-                    Materialize.toast({$flash->message}, 4000)
-                });
+				$(function () {
+					Materialize.toast({$flash->message}, 4000)
+				});
             </script>
         {/foreach}                
         {include content}
