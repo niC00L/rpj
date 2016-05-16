@@ -1,12 +1,16 @@
 {block content}
 
 {form editForm}
-    <div class="form-invisible">
-        {foreach $form->getControls() as $control}        
-            {if $control->getName() != 'address' && $control->getName() != 'template'}
-                {input $control}
-            {/if}
-        {/foreach}        
+    <div class="form-invisible"> 
+		<div class="input-field {$global['main_text_color']}">                
+			{input title}
+			{label title}Titulok{/label}
+		</div>
+		<div class="input-field">  
+			{input description}
+			{label description}Popis{/label}
+		</div>
+		{input send}
         <a class="waves-effect waves-light btn modal-trigger" href="#otherSettings">Ďalšie nastavenia</a>
     </div>
 
@@ -22,6 +26,11 @@
                 {input template}
                 {label template}Šablóna{/label}
             </div>
+
+            <div class="input-field">                
+                {input keywords}
+                {label keywords}Meta kľúčové slová{/label}
+            </div>            
             {input send}
         </div>
     </div>
