@@ -23,12 +23,13 @@ class MenuControl extends \App\AdminModule\Components\baseControl {
     }
 
     public function renderDefault($id) {
+		
         $this->template->id = $id;
         $template = $this->getIds($id)[0];
         $this->template->menu = $this->getIds($id)[1];
         $this->template->links = $this->database->table('ctrl_menu')->where('menu_id', $id)->order('order')->fetchAll();
         $this->template->setFile(__DIR__ . '/' . $template . '.latte');
-        $this->template->render();
+        $this->renderTemplate();
     }
 
 }

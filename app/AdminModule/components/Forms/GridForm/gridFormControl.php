@@ -24,7 +24,7 @@ class gridFormControl extends \Nextras\Datagrid\Datagrid {
     
     public function render($template = 'gridFormDefault') {
         $this->template->setFile(__DIR__ . '/' . $template . '.latte');
-        $this->template->render();
+        $this->renderTemplate();
     }
 
     public function setForms($table, $columns, $filter) {

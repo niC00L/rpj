@@ -17,7 +17,7 @@ class loadControl extends \Nette\Application\UI\Control {
         $this->global = $global;
         $this->position = $position;
 
-        $components = $this->database->table('controls')->where('status', 1)->where('position', $position)->fetchAll();
+        $components = $this->database->table('controls')->where('status', 1)->order('order')->where('position', $position)->fetchAll();
         $added = array();
         foreach ($components as $com) {
             if (!in_array($com['component_name'], $added)) {
@@ -28,7 +28,7 @@ class loadControl extends \Nette\Application\UI\Control {
     }
 
     public function loadControls($position) {
-        $components = $this->database->table('controls')->where('status', 1)->where('position', $this->position)->fetchAll();
+        $components = $this->database->table('controls')->where('status', 1)->order('order')->where('position', $this->position)->fetchAll();
 //        $added = array();
 //        foreach ($components as $com) {
 //            if (!in_array($com['component_name'], $added)) {
@@ -43,7 +43,8 @@ class loadControl extends \Nette\Application\UI\Control {
         $this->template->controls = $controls = $this->loadControls($this->position);
         $this->template->position = $this->position;
         $this->template->setFile(__DIR__ . '/default.latte');
-        $this->template->render();
+        $this->template->global = $this->global->getGlobal();
+		$this->template->render();
     }
 
     public function createComponentAddControlForm() {
@@ -60,13 +61,15 @@ class loadControl extends \Nette\Application\UI\Control {
             $templates[$c] = $this->database->table('site_templates')->where('type', $c)->where('status', 1)->fetchPairs('id', 'title');
         }
 
-        $form->addSelect('component_name', '', $controls)
+        $form->addSelect('component_name', 'Komponenta', $controls)
                 ->setAttribute('class', 'browser-default')
                 ->setRequired('Musíte vybrať komponentu');
-        $form->addSelect('template', '', $templates)
+        $form->addSelect('template', 'Šablóna', $templates)
                 ->setAttribute('class', 'browser-default')
                 ->setRequired('Musíte vybrať šablónu');
-        $form->addText('title', 'Titulok');
+		$form->addText('order', 'Poradie')
+				->addRule(Form::INTEGER, 'Poradie musí byť číslo');
+        $form->addText('title', 'Titulok');        
         $form->addTextArea('description', 'Popis')
                 ->setAttribute('class', 'materialize-textarea');
         $form->addHidden('position', 'Position');

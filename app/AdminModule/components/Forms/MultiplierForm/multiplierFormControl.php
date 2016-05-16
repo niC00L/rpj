@@ -16,7 +16,7 @@ class multiplierFormControl extends \App\AdminModule\Components\baseControl {
     public function render($template = 'multiplierFormDefault') {
         $this->template->setFile(__DIR__ . '/' . $template . '.latte');
         $this->template->defaults = $this->defaults;
-        $this->template->render();
+        $this->renderTemplate();
     }
 
     public function setForms($type, $id, $table, $defaults) {
