@@ -75,7 +75,8 @@ class MenuPresenter extends AdminPresenter {
             $form->addHidden('id', 'Id:');
             $form->addHidden('menu_id', 'MenuId:');
             $form->addText('order', 'Poradie:')
-                    ->setRequired();
+					->addRule(Form::INTEGER, 'Poradie musí byť číslo');
+//                    ->setRequired();
             $form->addSelect('type', '', $type)
                     ->setPrompt('Zvoľte typ')
                     ->setAttribute('class', 'browser-default')

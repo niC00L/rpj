@@ -1,6 +1,9 @@
 {block content}
 {form editForm}
-    {foreach $form->getControls() as $control}        
-        {input $control}
+    {foreach $form->getControls() as $control} 
+		<div class="input-field">
+			{input $control}
+			{label $control/}
+		</div>
     {/foreach}
 {/form}

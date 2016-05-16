@@ -189,6 +189,14 @@ label:after {width: 100px;}
     }
 }
 
+.side-nav li {
+	padding: 0;
+	a {
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+}
+
 /*ADMIN SIDE NAVIGATION*/
 @media only screen and (min-width: 993px){
     header, main {
