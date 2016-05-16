@@ -13,7 +13,12 @@ class baseControl extends \Nette\Application\UI\Control {
     public function __construct(\Nette\Database\Context $database, \App\Model\GlobalSettings $global) {
         parent::__construct();
         $this->database = $database;
-        $this->global = $global;
-    }
+        $this->global = $global;				
+	}
+	
+	public function renderTemplate(){
+		$this->template->global = $this->global->getGlobal();
+		$this->template->render();
+	}
     
 }

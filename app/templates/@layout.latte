@@ -65,7 +65,7 @@
         {/foreach}                
         {include content}
 
-        <footer class="page-footer light-blue lighten-1">
+        <footer class="page-footer {$global['main_color']} {$global['secondary_text_color']}">
             <div class="container">
                 <div class="row hide">
                     <div class="col l6 s12">
@@ -82,7 +82,7 @@
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                    <a class="white-text" href="http://nicool.rocks/">© niC00L 2016</a>
+                    <a class="{$global['secondary_text_color']}" href="{$global['site_url']}">&copy; {$global['copyright']}</a>
                 </div>
             </div>
         </footer>

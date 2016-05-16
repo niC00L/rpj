@@ -1,6 +1,6 @@
 {block content}
 <header>
-    <nav class="light-blue lighten-1 top-nav">
+    <nav class="{$global['main_color']} {$global['secondary_text_color']}top-nav">
         <div class="container">
             <div class="nav-wrapper">
                 <a class="brand-logo" href="{plink :Homepage:}">niC00L</a>
@@ -45,38 +45,38 @@
                             {/if}
                         {/foreach}
                 </ul>                                
-                <ul id="slide-out" class="side-nav">						
+                <ul id="slide-out" class="side-nav {$global['main_color']} {$global['secondary_text_color']}">						
                     {foreach $links as $link}
                         {if $link->status == 1}
                             {if $link->type == 'external'}                                
-                                <li><a class="{$link->class}" href="{if \Nette\Utils\Strings::startsWith($link->ext_address, 'http://')}{$link->ext_address}{else}http://{$link->ext_address}{/if}" target="blank">{$link->title}</a></li>
+                                <li><a class="{$link->class}{$global['secondary_text_color']}" href="{if \Nette\Utils\Strings::startsWith($link->ext_address, 'http://')}{$link->ext_address}{else}http://{$link->ext_address}{/if}" target="blank">{$link->title}</a></li>
                                 {elseif $link->type == 'Post'}
-                                <li><a  class="{$link->class}"href="{plink ':'.$link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
+                                <li><a  class="{$link->class}{$global['secondary_text_color']}"href="{plink ':'.$link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
 
                             {elseif $link->type == 'Sign'}
                                 {if $user->loggedIn}
-                                    <li><a class="{$link->class}" href="{plink :Sign:out}">Odhlásit</a></li>
+                                    <li><a class="{$link->class}{$global['secondary_text_color']}" href="{plink :Sign:out}">Odhlásit</a></li>
                                     {else}
-                                    <li><a class="{$link->class}" href="{plink :Sign:in}">Prihlásit</a></li>
+                                    <li><a class="{$link->class}{$global['secondary_text_color']}" href="{plink :Sign:in}">Prihlásit</a></li>
                                     {/if}
                                 {else}
-                                <li><a class="{$link->class}" href="{plink ':'.$link->type.':'.$link->action }">{$link->title}</a></li>                                
+                                <li><a class="{$link->class}{$global['secondary_text_color']}" href="{plink ':'.$link->type.':'.$link->action }">{$link->title}</a></li>                                
                                 {/if}
                             {elseif $link->status == 2}
                                 {if $user->loggedIn}
                                     {if $link->type == 'external'}                                
-                                    <li><a class="{$link->class}" href="{if \Nette\Utils\Strings::startsWith($link->ext_address, 'http://')}{$link->ext_address}{else}http://{$link->ext_address}{/if}" target="blank">{$link->title}</a></li>
+                                    <li><a class="{$link->class}{$global['secondary_text_color']}" href="{if \Nette\Utils\Strings::startsWith($link->ext_address, 'http://')}{$link->ext_address}{else}http://{$link->ext_address}{/if}" target="blank">{$link->title}</a></li>
                                     {elseif $link->type == 'Post'}
-                                    <li><a  class="{$link->class}"href="{plink ':'.$link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
+                                    <li><a  class="{$link->class}{$global['secondary_text_color']}" href="{plink ':'.$link->type.':'.$link->action $link->address}">{$link->title}</a></li>					
 
                                 {elseif $link->type == 'Sign'}
                                     {if $user->loggedIn}
-                                        <li><a class="{$link->class}" href="{plink :Sign:out}">Odhlásit</a></li>
+                                        <li><a class="{$link->class} {$global['secondary_text_color']}" href="{plink :Sign:out}">Odhlásit</a></li>
                                         {else}
-                                        <li><a class="{$link->class}" href="{plink :Sign:in}">Prihlásit</a></li>
+                                        <li><a class="{$link->class}{$global['secondary_text_color']}" href="{plink :Sign:in}">Prihlásit</a></li>
                                         {/if}
                                     {else}
-                                    <li><a class="{$link->class}" href="{plink ':'.$link->type.':'.$link->action }">{$link->title}</a></li>                                
+                                    <li><a class="{$link->class}{$global['secondary_text_color']}" href="{plink ':'.$link->type.':'.$link->action }">{$link->title}</a></li>                                
                                     {/if}
                                 {/if}
                             {/if}
