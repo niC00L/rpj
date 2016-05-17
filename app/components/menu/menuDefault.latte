@@ -88,8 +88,7 @@
         </div>
     </nav>
     {if $user->loggedIn && $user->getRoles()[0] != 'banned'}
-        {var $role = $user->getRoles()[0]}
-        {include 'Admin/'.$role.'.latte'}
+        {include 'admin.latte'}
     {/if}
 
 </header>

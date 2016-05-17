@@ -1,0 +1,16 @@
+<ul id="admin-nav" class="side-nav {$global['main_color']} {$global['secondary_text_color']}">                 
+    <li class="user editor"><a class="{$global['secondary_text_color']}" href="{plink :Admin:Admin:}">Administrácia</a></li> 
+		{if $user->isAllowed('post', 'edit')}
+		<li class="editor"><a class="{$global['secondary_text_color']}" href="{plink :Admin:Admin:content}">Správa obsahu</a></li>        
+		{/if}
+		{if $user->isAllowed('global', 'edit')}
+		<li><a class="{$global['secondary_text_color']}" href="{plink :Admin:Admin:global}">Globálne nastavenia</a></li>
+		{/if}
+		{if $user->isAllowed('users', 'edit')}
+		<li><a class="{$global['secondary_text_color']}" href="{plink :Admin:User:default}">Používatelia</a></li>
+		{/if}
+    <li class="user editor"><a class="{$global['secondary_text_color']}" href="{plink :Admin:User:profile $user->getId()}">Profil</a></li>
+		{if $user->isAllowed('post', 'edit')}
+		<li class="editor"><a class="{$global['secondary_text_color']}" href="{plink :Admin:Bin:default}">Kôš</a></li>
+		{/if}
+</ul>   
