@@ -1,19 +1,24 @@
 {* Latte template *}
 
 {block content}
-
 {if $user->isAllowed('components', 'edit')}
-    <div class="form-invisible">
-        {form editForm}
-            {foreach $form->getControls() as $item}
-                <div class="input-field {$item->getName()}">
-                    {input $item}
-                    {label $item/}
-                </div>
-            {/foreach}                
-        {/form}
-    </div>
+	<div class="form-invisible">
+		{form editForm}				
+			<h3><div class="input-field">
+					{input title}
+					{label title} Titulok{/label}
+				</div>
+			</h3>
+			<div class="tinymce">
+			</div>
+			<div class="mced hide">
+				{input text}
+				{label text} Text{/label}
+			</div>
+			{input submit}               
+		{/form}
+	</div>
 {else}
-    <h3>{$text['title']}</h3>
-    {$text['text']}
+	<h3 class="center-align">{$text['title']}</h3>
+	{$text['text']|noescape}
 {/if}

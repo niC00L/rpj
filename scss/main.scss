@@ -52,6 +52,15 @@ body {
     }
 }
 
+.tinymce {
+	border-bottom: 0px solid #26a69a;
+	transition: all .10s ease;
+	margin-bottom: .5rem;
+	&:focus {
+		outline: none;
+		border-bottom: 2px solid #26a69a;
+	}
+}
 
 .form-invisible {
     /*form {*/
@@ -63,6 +72,16 @@ body {
         margin-bottom: 0;
     } 
     /*}*/
+
+	h3 {
+		[name=title] {        
+			height: auto;
+			margin: 2.1rem 0 1.68rem 0;
+			font-size: 2.92rem;
+			line-height: 110%;
+			text-align: center;
+		}
+    }
 
     /*CUSTOM STYLES FOR PROFILE PAGE*/
     input[name='profile_image'], input[name='background_image'], input[name='title_image'] {

@@ -6,7 +6,8 @@
 			{input title}
 			{label title}Titulok{/label}
 		</div>
-		<div class="tinymce">					
+		<div class="tinymce">
+			Text článku
 		</div>
 		<div class="mced hide">
 			{input text}
@@ -18,7 +19,7 @@
     <div id="otherSettings" class="modal bottom-sheet">
         <div class="modal-content container"> 
 			{foreach $form->getControls() as $control}        
-				{if $control->getName() != 'title' && $control->getName() != 'text'}
+				{if $control->getName() != 'title' && $control->getName() != 'text' && !Nette\Utils\Strings::endsWith($control->getName(), 'image') && !Nette\Utils\Strings::startsWith($control->getName(),'category_')}
 					<div class="input-field">
 						{input $control}
 						{*label $control /*}
@@ -30,7 +31,7 @@
                     <span class="card-title grey-text text-darken-4">Kategórie</span>
                     <ul>
                         {foreach $form->getControls() as $control}        
-                            {if (Nette\Utils\Strings::startsWith($control->getName(),'category_'))}                    
+                            {if (Nette\Utils\Strings::startsWith($control->getName(),'category_'))}
                                 <li>{input $control}</li>
                                 {/if}
                             {/foreach} 

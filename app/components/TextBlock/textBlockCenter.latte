@@ -4,11 +4,17 @@
 <div class="col s12 m6 l6 offset-m3 offset-l3">
     {if $user->isAllowed('components', 'edit')}
         <div class="form-invisible">
-            {form editForm}
+            {form editForm}				
+				<h3><div class="input-field">
+						{input title}
+						{label title} Titulok{/label}
+					</div>
+				</h3>
 				<div class="tinymce">
 				</div>
 				<div class="mced hide">
 					{input text}
+					{label text} Text{/label}
 				</div>
                 {input submit}               
             {/form}

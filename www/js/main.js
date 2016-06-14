@@ -39,7 +39,9 @@ $(function () {
 	var tinyMce = $('.tinymce');
 	if (tinyMce) {
 		var orText = $('.mced textarea').text();
-		tinyMce.html(orText);
+		if (orText) {
+			tinyMce.html(orText);
+		}
 		$('body').click(function () {
 			var editedText = tinyMce.html()
 			$('.mced textarea').text(editedText);
